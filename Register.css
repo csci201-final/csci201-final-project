@@ -1,0 +1,29 @@
+@charset "UTF-8";
+.col-md-12{
+	background-color:rgb(91,109,124);
+	height: 70px;
+}
+
+.login-button{
+	margin-top:5%;
+	border:none;
+	background-color:rgb(255,255,255);
+}
+.card{
+	position: relative;
+	top:5%;
+	background-color:rgb(91,109,124);
+}
+.fb-login-button{
+	z-index:5;
+}
+#my-signin2{
+	margin-top:1%;
+}
+
+.btn-md{
+	position: absolute;
+	left: 85%;
+	top:4%;
+	float:left;
+}
