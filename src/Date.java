@@ -3,10 +3,10 @@ public class Date {
 	final int YEAR = 2019;
 	
 	enum WEEKDAY{
-		MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY;
+		Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday;
 	}
 	enum MONTH{
-		JANURARY(1), FEBRUARY(2), MARCH(3), APRIL(4), MAY(5), JUNE(6), JULY(7), AUGUST(8), SEPTEMBER(9), OCTOBER(10), NOVEMBER(11), DECEMBER(12);
+		Janurary(1), February(2), March(3), April(4), May(5), June(6), July(7), August(8), September(9), October(10), November(11), December(12);
 		
 		private int numVal;
 		MONTH(int numVal){
@@ -55,24 +55,42 @@ public class Date {
 		this.day = day;
 		
 	}
+	
+	//--------------------GET YEAR--------------------
 	public int getYEAR() {
 		return YEAR;
 	}
+	
+	//--------------------GET WEEKDAY--------------------
 	public String getWeekday() {
 		return weekday.toString();
 	}
+	
+	//--------------------GET MONTH AS STRING--------------------
 	public String getMonth_String() {
 		return month.toString();
 	} 
+	
+	//--------------------GET MONTH AS INTEGER--------------------
 	public int getMonth_Integer() {
 		return month.getNumVal();
 	}
-	public String toWeekdayFormat() {
-		String to_return = this.weekday.toString() + " the " + this.day + this.day.getSuffix();
+
+	//--------------------GET DATE w/ FORMAT MONTH+DAY+YEAR as INTEGER (1/1/2019)--------------------
+	public String month_day_year_Numerical() {
+		String to_return = this.month.getNumVal() + "/" + this.day.getNumVal() + "/" + YEAR;
 		return to_return;
 	}
-	public String toNumericalFormat() {
-		String to_return = this.month.getNumVal() + "/" + this.day.getNumVal() + "/" + YEAR;
+	
+	//--------------------GET DATE w/ FORMAT MONTH+DAY as INTEGER (1/1)--------------------
+	public String month_day_Numerical() {
+		String to_return = this.month.getNumVal() + "/" + this.day.getNumVal();
+		return to_return;
+	}
+	
+	//--------------------GET DATE w/ FORMAT MONTH+DAY as STRING (Janurary 1st)--------------------
+	public String month_day_String() {
+		String to_return = this.month.toString()+ " " + this.day.getNumVal() + this.day.getSuffix();
 		return to_return;
 	}
 }
