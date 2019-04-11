@@ -1,5 +1,7 @@
+import java.util.Date;
 
-public class Date {
+public class EventDate {
+	static Date today = new Date();
 	final int YEAR = 2019;
 	
 	enum WEEKDAY{
@@ -44,16 +46,46 @@ public class Date {
 	MONTH month;
 	DAY day;
 	
-	public Date() {
+	public EventDate() {
 		weekday = null;
 		month = null;
 		day = null;
 	}
-	public Date(WEEKDAY weekday, MONTH month, DAY day) {
+	public EventDate(WEEKDAY weekday, MONTH month, DAY day) {
 		this.weekday = weekday;
 		this.month = month;
 		this.day = day;
 		
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventDate other = (EventDate) obj;
+		if (YEAR != other.YEAR)
+			return false;
+		if (day != other.day)
+			return false;
+		if (month != other.month)
+			return false;
+		if (weekday != other.weekday)
+			return false;
+		return true;
+	}
+	
+	public boolean equals(Date d) {
+		if(!d.toString().substring(0,3).equalsIgnoreCase(this.weekday.toString().substring(0,3)))
+			return false;
+		if(!d.toString().substring(4,7).equalsIgnoreCase(this.month.toString().substring(0,3)))
+			return false;
+		if((!d.toString().substring(8,10).equalsIgnoreCase("0" + this.day.numVal) && (!d.toString().equalsIgnoreCase("" + this.day.numVal))))
+			return false;
+		return true;
 	}
 	
 	//--------------------GET YEAR--------------------
