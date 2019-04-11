@@ -1,3 +1,4 @@
+package EventPackage;
 import java.util.Vector;
 
 public class Profile {

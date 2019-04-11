@@ -1,3 +1,4 @@
+package EventPackage;
 
 public class Time {
 	enum TIMEFRAME{

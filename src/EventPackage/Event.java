@@ -1,9 +1,9 @@
-import java.util.Date;
+package EventPackage;
 import java.util.Vector;
 
 public class Event {
 	
-	Date date;
+	EventDate date;
 	Time time;
 	String name;
 	String location; 
@@ -13,7 +13,7 @@ public class Event {
 	Vector<String> tags;
 	
 	
-	public Event(Date date, Time time, String name, String location, Profile host, Vector<Profile> attendees, int star, Vector<String> tags) {
+	public Event(EventDate date, Time time, String name, String location, Profile host, Vector<Profile> attendees, int star, Vector<String> tags) {
 		super();
 		this.date = date;
 		this.time = time;
@@ -25,10 +25,10 @@ public class Event {
 		this.tags = tags;
 	}
 
-	public Date getDate() {
+	public EventDate getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(EventDate date) {
 		this.date = date;
 	}
 	public Time getTime() {
