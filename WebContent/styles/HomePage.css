@@ -7,8 +7,22 @@ body {
 }
 
 .col-md-6 {
-	background-color: rgb(91, 109, 124);
-	height: 70px;
+	background-color: rgb(51, 51, 51);
+	height: 80px;
+}
+
+.col-md-7 {
+	display: inline-block;
+}
+
+#logo {
+	margin-left: 25px;
+	margin-top: 10px;
+}
+
+#header {
+	color: white;
+	font-size: 15pt;
 }
 
 h2 {
@@ -17,24 +31,31 @@ h2 {
 	text-shadow: 1px 1px 1px #000000;
 }
 
-.logoutbutton {
-	margin-left: 75%;
-	margin-top: -9.5%;
+h1 {
+	font-family: BebasNeue;
+	font-size: 44pt;
 }
-.logoutbutton:hover,.userbutton:hover{
-	background-color:transparent;
-	border:none;
+
+
+.userbutton,
+.logoutbutton,
+.loginbutton,
+.registerbutton {
+    color: white !important; 
+    font-size: 13pt !important;
+    margin-top: 24px;
 }
-.userbutton {
-	margin-top: 5%;
+
+.userbutton,
+.loginbutton {
 	margin-left: 55%;
 }
 
 .col-md-5 {
-	margin-left:225%	!important;
-	margin-top:-30%	!important;
 	color: white;
 	white-space: nowrap;
+	margin-left: 150% !important;
+	margin-top: -30%	!important;
 }
 .calendarview,.listview,.mapview{
 	font-size: 2.0rem;
@@ -44,14 +65,20 @@ h2 {
 	border-radius: 100% 100% 100% 100%;
 }
 .row1{
-	margin-left:-40%;
-	margin-top:45%;
+	margin-left:-51% !important;
+	margin-top:35%;
 }
+
+.filler {
+	margin-left: 45% !important;
+	margin-top: 43% !important;
+}
+
 .profilePic img {
 	margin-top:12%;
-	margin-left:40%	!important;
-	width:42%	!important;
-	height: 42% !important;
+	margin-left:26%	!important;
+	width:80px	!important;
+	height: 80px !important;
 	-webkit-border-radius: 50%;
 	-moz-border-radius: 50%;
 	border-radius: 50%;
@@ -59,12 +86,12 @@ h2 {
 }
 .profilename {
 	white-space: nowrap;
-	color: #5a7391;
+	color: #F0EBF4;
 	font-size: 20px;
 	font-weight: 600;
 	margin-top:3%;
 	margin-bottom: 0px;
-	margin-left: 38%;
+	margin-left: 18%;
 }
 .events-all {
 	position: absolute;
@@ -75,7 +102,7 @@ h2 {
 	height: 50%	!important;
 	top:45%;
 	border-radius:10px;
-	overflow:scroll;
+	overflow: auto;
 }
 .events-all table{
 	/* position: absolute	!important; */
@@ -87,6 +114,7 @@ h2 {
 	width:95%	!important;
 	
 }
+
 .events-all th{
 	padding: 0px 5px;
 	font-size: 1.5rem	!important;
@@ -113,44 +141,80 @@ h2 {
 }
 .sortbycat{
 	position: absolute;
-	top:60%;
-	left:5%;
+	top:55.5%;
+	left:6.4%;
 	color: white;
-	font-size:18px;
-	text-decoration:underline;
+	font-size:19pt;
+	font-family: 'BebasNeue';
 }
 .cat{
 	position:absolute;
-	top:65%;
-	left:3%;
+	top:60%;
+	left:4%;
 	color:white;
-	font-size:15px;
+	font-size:18px;
 }
+
 .backgroundcat{
 	position:absolute;
 	top:55%;
 	background-color:gray;
-	width:10%;
-	height:25%;
+	width:140px;
+	height:20%;
 	border-radius:10px;
 	left:3.5%;
 	z-index:-1;
 }
+.notificationbg {
+	position:absolute;
+	top:35.3%;
+	background-color:gray;
+	width:250px;
+	height:382px;
+	border-radius:10px;
+	left:80%;
+	z-index:-1;
+}
+
+.notifytitle {
+	position: absolute;
+	color: white;
+	font-size:22pt;
+	font-family: 'BebasNeue';
+	left: 23%;
+	top: 3%;
+}
 .form-control{
 	position:absolute	!important;
 	top: 35%	!important;
-	left:65%	!important;
+	left:63%	!important;
 	width:20%;
+	height: 30px;
 }
 .searchglass{
 	position:absolute	!important;
-	top:34.7%	!important;
-	left:82%	!important;
+	top:54%	!important;
+	left:297%	!important;
+	height: 35px !important;
+}
+
+#search {
+	width: 225px;
+	height: 40px;
+	margin-left: 184%;
+	margin-top: 50px;
 }
 .glyphicon-remove,.glyphicon-check,.glyphicon-star-empty{
 	color:white	!important;
 	font-size:1.5rem;
+	text-align: center !important;
 }
+
+.cattag {
+	font-family: 'Poppins' !important;
+	color: white !important;
+}
+
 .interestedbutton:hover,.attendingbutton:hover,.notattendingbutton:hover{
 	background-color:transparent;
 	border:none;
@@ -158,4 +222,8 @@ h2 {
 .breaker{
 	height:15%	!important;
 	background-color:black	!important;
+}
+
+.cat.btn {
+	color: white !important;
 }

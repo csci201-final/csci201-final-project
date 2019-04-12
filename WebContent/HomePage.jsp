@@ -1,58 +1,87 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
+
+<%
+	try {
+		Boolean newSession = (boolean) session.getAttribute("loggedin");
+	} catch (NullPointerException npe) {
+		session.setAttribute("loggedin",false);
+	}
+%>
+
+
 <head>
-<link href="https://fonts.googleapis.com/css?family=Poppins"
-	rel="stylesheet">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<meta charset="UTF-8">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<meta charset="UTF-8">
-<title>Home</title>
-<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins"
+		rel="stylesheet">
+	<link
+		href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+		rel="stylesheet" id="bootstrap-css">
+	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
 </head>
 <body>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-6">
-				<h2>Party Planning People</h2>
+				<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
 				<div class="banner"></div>
 			</div>
-			<div class="col-md-6">
-				<p>
-					<button type="button" class="btn btn-default btn-lg userbutton">
-						<span class="glyphicon glyphicon-user"></span> My Account
-					</button>
-				</p>
-				<p>
-					<button type="button" class="btn btn-default btn-lg logoutbutton">
-						<span class="glyphicon glyphicon-log-out"></span> Log Out
-					</button>
-				</p>
+			<div class="col-md-6" id="header">
+				<%
+				if ((boolean)session.getAttribute("loggedin")) {
+				%>
+				<button type="button" class="btn btn-default btn-lg userbutton">
+					<span class="glyphicon glyphicon-user"></span> My Account
+				</button>
+				<button type="button" class="btn btn-default btn-lg logoutbutton">
+					<span class="glyphicon glyphicon-log-out"></span> Log Out
+				</button>
+				<%
+				} else {				
+				%>
+				<button type="button" class="btn btn-default btn-lg loginbutton">
+					<span class="glyphicon glyphicon-log-in"></span> Sign In
+				</button>
+				<button type="button" class="btn btn-default btn-lg registerbutton">
+					<span class="glyphicon glyphicon-user"></span> Register
+				</button>
+				<% } %>
 			</div>
 			<div class="row">
 				<div class="col-md-7">
+					<% if ((boolean)session.getAttribute("loggedin")) { %>
 					<div class="profilePic">
-						<img src="jeffrey_miller.jpg">
+						<img src="images/profile-pics/jeffrey_miller.jpg">
 					</div>
 					<div class="userinfo">
 						<div class="profilename">Jeffrey Miller</div>
 					</div>
+					<% } else { %>
+					<div class="filler"></div>
+					<% } %>
 					<div class="col-md-5">
 						<h1>Upcoming Events</h1>
 					</div>
+					<input type="text" class="form-control" id="search"
+							aria-describedby="search"
+							placeholder="Search Event by Name or Tags">
+					<button type="button" class="btn btn-default btn-lg searchglass">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
 				</div>
 				<div class="row1">
 					<div class="col-md-3">
@@ -90,7 +119,7 @@
 											<table>
 												<tr>
 													<th>Past Splash</th>
-													<th>Event Rating<%for (int i=0;i<5;i++){ %>
+													<th>Host Rating<%for (int i=0;i<5;i++){ %>
 														<span class="glyphicon glyphicon-star"></span>
 														<%} %>
 													</th>
@@ -98,11 +127,11 @@
 												</tr>
 												<tr>
 													<th>USC Scope</th>
-													<th>Users Attending:</th>
+													<th>Attending:</th>
 												</tr>
 												<tr>
 													<th>935 W. 30th St</th>
-													<th>Users Interested:</th>
+													<th>Interested:</th>
 													<th>
 														<button type="button"
 															class="btn btn-default btn-lg expand">
@@ -112,7 +141,7 @@
 												</tr>
 												<tr>
 													<th>April 9, 2019</th>
-													<th>User Not Attending:</th>
+													<th>Not Attending:</th>
 												</tr>
 												<tr>
 													<th>8:00 pm to 2:00 am</th>
@@ -132,23 +161,25 @@
 					<div class="sortbycat">Filters</div>
 					<div class="cat">
 						<button type="button" class="btn btn-default btn-lg interestedbutton">
-						<span class="glyphicon glyphicon-star-empty"> Interested </span>
-					</button><br> 
-					<button type="button" class="btn btn-default btn-lg attendingbutton">
-						<span class="glyphicon glyphicon-check"> Attending</span>
-					</button> <br> 
-					<button type="button" class="btn btn-default btn-lg notattendingbutton">
-						<span class="glyphicon glyphicon-remove"> 
-						Not Attending</span>
-					</button>
+						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
+						</button><br> 
+						<button type="button" class="btn btn-default btn-lg attendingbutton">
+							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
+						</button> <br> 
+						<button type="button" class="btn btn-default btn-lg notattendingbutton">
+							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
+						</button>
 					</div>
 					<div class="backgroundcat"></div>
-					<input type="text" class="form-control" id="search"
-						aria-describedby="search"
-						placeholder="Search Event by Name or Tags">
-					<button type="button" class="btn btn-default btn-lg searchglass">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
+					<%
+					if ((boolean)session.getAttribute("loggedin")) {
+					%>
+					<div class="notificationbg">
+						<div class="notifications">
+							<div class="notifytitle">Notifications</div>
+						</div>
+					</div>
+					<% } %>
 				</div>
 			</div>
 		</div>

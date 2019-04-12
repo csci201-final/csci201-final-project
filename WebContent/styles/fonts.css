@@ -39,3 +39,23 @@
        url('fonts/Lato-100/lato-v15-latin-100.ttf') format('truetype'), /* Safari, Android, iOS */
        url('fonts/Lato-100/lato-v15-latin-100.svg#Lato') format('svg'); /* Legacy iOS */
 }
+
+/* Bebas neue */
+@font-face {
+	font-family: 'BebasNeue';
+	font-style: normal;
+	src: url('fonts/bebas_neue/BebasNeue-Regular.eot'), /* IE9 Compat Modes */
+		url('fonts/bebas_neue/BebasNeue-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+		url('fonts/bebas_neue/BebasNeue-Regular.woff2') format('woff2'), /* Super Modern Browsers */
+		url('fonts/bebas_neue/BebasNeue-Regular.woff') format('woff'), /* Modern Browsers */
+		url('fonts/bebas_neue/BebasNeue-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
+}
+
+/* Brandon Grotesque */
+@font-face {
+	font-family: 'Brandon';
+	font-style: normal;
+	src: url('fonts/brandon/BrandonGrotesque-Regular.eot'), /* IE9 Compat Modes */
+	url('fonts/brandon/BrandonGrotesque-Regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	url('fonts/brandon/BrandonGrotesque-Regular.woff') format('woff'), /* Modern Browsers */
+	url('fonts/brandon/BrandonGrotesque-Regular.ttf') format('truetype'); /* Safari, Android, iOS */
