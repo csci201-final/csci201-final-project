@@ -20,7 +20,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <title>Profile Page</title>
-<link rel="stylesheet" type="text/css" href="ProfilePage.css">
+<link rel="stylesheet" type="text/css" href="styles/ProfilePage.css">
 
 </head>
 <script>

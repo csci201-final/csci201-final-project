@@ -23,7 +23,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 <title>Register</title>
-<link rel="stylesheet" type="text/css" href="Register.css">
+<link rel="stylesheet" type="text/css" href="styles/Register.css">
 
 </head>
 <body>

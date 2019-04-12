@@ -22,7 +22,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 <title>Login</title>
-<link rel="stylesheet" type="text/css" href="Login.css">
+<link rel="stylesheet" type="text/css" href="styles/Login.css">
 </head>
 <body>
 	<!-- <div id=header></div>

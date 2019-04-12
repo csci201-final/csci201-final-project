@@ -21,7 +21,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 <title>Home</title>
-<link rel="stylesheet" type="text/css" href="HomePage.css">
+<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
 </head>
 <body>
 	<div class="container-fluid">
