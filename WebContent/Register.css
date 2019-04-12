@@ -7,7 +7,6 @@
 .login-button{
 	margin-top:5%;
 	border:none;
-	background-color:rgb(255,255,255);
 }
 .card{
 	position: relative;
@@ -26,4 +25,26 @@
 	left: 85%;
 	top:4%;
 	float:left;
+	font-size:1.25rem;
+	margin-top:-.15%;
+	margin-left:-.3%;
+	color:#212529;
+	background-color:transparent	!important;
+			border:none	!important;
+}
+body{
+	background-color: rgb(37, 62, 102) !important;
+	background-image: url("BlackVignette.png");	
+}
+h2 {
+	margin-top: 1.5%;
+	font-size: 22px	!important;
+	text-shadow: 1px 1px 1px #000000;
+	color:#212529;
+	margin-left: .05%;
+	margin-top:1.55%;
+}
+*{
+	font-family: 'Poppins', sans-serif;
+
 }

@@ -2,7 +2,25 @@
 #header{
 	background-color:rgb(91,109,124);
 	height: 70px;
+	
 }
+.col-md-12 {
+	background-color: rgb(91, 109, 124);
+	height: 70px;
+}
+input[type="password"], input[type="text"]{
+	width: 75%	!important;
+	margin-top:3%;
+}
+h2 {
+	margin-top: 1.5%;
+	font-size: 22px	!important;
+	text-shadow: 1px 1px 1px #000000;
+	color:#212529;
+	margin-left:1%;
+	margin-top:1.5%;
+}
+
 .card{
 	margin-top:10%;
 	margin-left:34%;
@@ -17,11 +35,37 @@ input[type="email"], input[type="password"]{
 }
 
 button[type="submit"]{
+	margin-top: 3%;
 	margin-left:40%;
 }
 
-.btn-md{
-	margin-top: -5%;
-	margin-left: 85%;
-	z-index:6;
+.homebutton{
+position: absolute;
+left: 85%;
+	top: 4%;
+	float: left;
+		background-color:transparent	!important;
+			border:none	!important;
+}
+.glyphicon-home{
+	width:30%;
+}
+.btn-lg{
+	font-size:1.25rem;
+	margin-top:-.15%;
+	margin-left:-.3%;
+	color:#212529
+}
+
+body {
+	background-color: rgb(37, 62, 102) !important;
+	background-image: url("BlackVignette.png");	
+}
+*{
+			font-family: 'Poppins', sans-serif;
+	
+}
+.card{
+	background-color: rgb(81, 87,96,.8);
+	color:white;
 }

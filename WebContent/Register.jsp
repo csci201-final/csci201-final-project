@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="Register.css">
+<link href="https://fonts.googleapis.com/css?family=Poppins"
+	rel="stylesheet">
 
 <!-- Required meta tags -->
 <meta charset="utf-8">
@@ -22,6 +23,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 <title>Register</title>
+<link rel="stylesheet" type="text/css" href="Register.css">
+
 </head>
 <body>
 
