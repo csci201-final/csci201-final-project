@@ -44,7 +44,7 @@ public class DatabaseQuery {
 		ResultSet rs = null;
 		try {
 			conn = DatabaseConn.getConnection();
-			ps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
+			ps = conn.prepareStatement("SELECT userID FROM User WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			if (rs.next()) {
@@ -70,7 +70,7 @@ public class DatabaseQuery {
 		ResultSet rs = null;
 		try {
 			conn = DatabaseConn.getConnection();
-			ps = conn.prepareStatement("SELECT * FROM Event WHERE name=?");
+			ps = conn.prepareStatement("SELECT eventID FROM Event WHERE name=?");
 			ps.setString(1, eventname);
 			rs = ps.executeQuery();
 			if (rs.next()) {
