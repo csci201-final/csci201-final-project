@@ -7,43 +7,18 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"> 
+		<title>Event Creation</title>
+		<style type="text/css"> 
+			html{ margin: 0; height: 100%; overflow: hidden; }
+			iframe{ position: absolute; left:0; right:0; bottom:0; top:0; border:0; } 
+		</style> 
+	</head> 
 	
-		<% 
-			HttpSession mySession = request.getSession();
-			String username = (String) mySession.getAttribute("username");	
-		%>
-		
-		<title>New Event</title>
-		<link rel="stylesheet" href="new-event.css">
-		<script>
-		
-		</script>
-		
-
-	</head>
-	<body>
-		<div id="title">
-			<h1> Create an Event</h1>
-		</div>
-		
-		<br>
-		
-		<div id="form">
-			<form name="newEventForm" method="GET">
-				<p> Event Name </p> <br>
-				<input id="eventName" type="text" name="eventName"> <br>
-				<p> Event Location </p> <br>
-				<input id="eventLocation" type="text" name="eventLocation"> <br>
-				<p> Event Date </p> <br>
-				<input id="eventDate" type="text" name="eventDate"> <br>
-				<p> Event Time </p> <br>
-				<input id="eventTime" type="text" name="eventTime"> <br>
-				<p> Event Tags </p> <br>
-				<input id="eventTags" type="text" name="eventTags"> <br>
-			</form>
-		</div>
-		
-		
-		
+	<body> 
+		<iframe id="typeform-full" width="100%" height="100%" frameborder="0" src="https://csci201final.typeform.com/to/BHFT3h"></iframe> 
+		<script type="text/javascript" src="https://embed.typeform.com/embed.js"></script>
 	</body>
+	
 </html>
+
