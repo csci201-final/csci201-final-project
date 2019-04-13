@@ -220,4 +220,50 @@ public class DatabaseQuery {
 		}
 		return currentEvents;
 	}
+	
+	public static Vector<Event> getUserEvents(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Event> userEvents = new Vector<Event>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Event WHERE userID=?");
+			ps.setInt(1, getUserID(username));
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int eventID = rs.getInt("eventID");
+				int hostID = rs.getInt("host");
+				SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+				SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+				Timestamp begin = rs.getTimestamp("timeBegin");
+				Timestamp end = rs.getTimestamp("timeEnd");
+				String beginTime = time.format(begin);
+				String endTime = time.format(end);
+				String day = date.format(begin);
+				String name = rs.getString("name");
+				String place = rs.getString("place");
+				String details = rs.getString("details");
+				String affiliation = rs.getString("affiliation");
+				String tags = rs.getString("tags");
+				Vector<Integer> interested = getInterested(eventID);
+				Vector<Integer> attending = getAttending(eventID);
+				Vector<Integer> notAttending = getNotAttending(eventID);
+				
+				Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+				userEvents.add(e);
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return userEvents;
+	}
 }

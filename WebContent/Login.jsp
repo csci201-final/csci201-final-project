@@ -25,20 +25,15 @@
 <link rel="stylesheet" type="text/css" href="styles/Login.css">
 </head>
 <body>
-	<!-- <div id=header></div>
-	<div id="titler">Party Planning People</div> -->
-	
-
-		<div class="row">
-			<div class="col-md-12">
-				<h2>Party Planning People</h2>
-				<div class="banner"></div>
-
-			</div>
-
-		</div>
-	
-	
+	<div class="col-md-6">
+		<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
+		<div class="banner"></div>
+	</div>
+	<form action="HomePage.jsp" class="headerforms">
+		<button type="submit" class="btn btn-default btn-lg homebutton">
+			<span class="glyphicon glyphicon-home"></span> Home
+		</button>
+	</form>
 	<div class="container">
 		<div class="card rounded">
 			<form>
@@ -49,24 +44,15 @@
 					class="sr-only">Password</label> <input type="password"
 					id="password" class="form-control" placeholder="Password">
 				<div class="checkbox">
-					<label><input type="checkbox" name="remember">
-						Remember me</label>
+					<label id="remember">
+					<input type="checkbox" name="remember">
+					Remember me</label>
 				</div>
-				<div id="reg" onclick="goRegister()">Don't Have an Account? Create Account</div>
-				<button type="submit" class="btn btn-default">Submit</button>
+				<div id="reg">Don't Have an Account? <a href="register.jsp"><u>Create Account</u></a></div>
+				<input type="submit" class="btn btn-default submitbutton">
 			</form>
 		</div>
 		
 	</div>
-	<p>
-		<button type="button" class="btn btn-default btn-lg homebutton">
-			<span class="glyphicon glyphicon-home"></span> Home
-		</button>
-	</p>
 </body>
-<script>
-	function goRegister(){
-		window.location.replace("Register.jsp");
-	}
-</script>
 </html>

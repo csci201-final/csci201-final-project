@@ -1,27 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8" import="DatabasePackage.*, EventPackage.Event, java.util.Vector" %>
 <!DOCTYPE html>
 <html>
-<head>
-<link href="https://fonts.googleapis.com/css?family=Poppins"
-	rel="stylesheet">
-<link
-	href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-	rel="stylesheet" id="bootstrap-css">
-<script
-	src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-<meta charset="UTF-8">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<title>Profile Page</title>
-<link rel="stylesheet" type="text/css" href="styles/ProfilePage.css">
 
+<%
+	// remove this line once registration and login pages are linked
+	session.setAttribute("username", "ethan");
+
+
+	DatabaseManager.checkDatabase();
+	if (session.getAttribute("loggedin") == null){
+		session.setAttribute("loggedin",false);
+	}
+	if (((Boolean)session.getAttribute("loggedin"))) {
+		%> <jsp:forward page="Login.jsp" /> <%
+	}
+	if (session.getAttribute("userEvents") == null) {
+		session.setAttribute("userEvents", DatabaseQuery.getUserEvents((String)session.getAttribute("username")));
+	}
+	@SuppressWarnings("unchecked")
+	Vector<Event> userEvents = (Vector<Event>) session.getAttribute("userEvents");
+	int numEvents = userEvents.size();
+%>
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Poppins"
+		rel="stylesheet">
+	<link
+		href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+		rel="stylesheet" id="bootstrap-css">
+	<script
+		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<meta charset="UTF-8">
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<title>Profile Page</title>
+	<link rel="stylesheet" type="text/css" href="styles/ProfilePage.css">
 </head>
 <script>
 	$(document).ready(function() {

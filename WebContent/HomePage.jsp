@@ -49,21 +49,27 @@
 				<%
 				if ((boolean)session.getAttribute("loggedin")) {
 				%>
-				<button type="button" class="btn btn-default btn-lg userbutton">
-					<span class="glyphicon glyphicon-user"></span> My Account
-				</button>
-				<button type="button" class="btn btn-default btn-lg logoutbutton">
-					<span class="glyphicon glyphicon-log-out"></span> Log Out
-				</button>
-				<%
-				} else {				
-				%>
-				<button type="button" class="btn btn-default btn-lg loginbutton">
-					<span class="glyphicon glyphicon-log-in"></span> Sign In
-				</button>
-				<button type="button" class="btn btn-default btn-lg registerbutton">
-					<span class="glyphicon glyphicon-user"></span> Register
-				</button>
+				<form action="ProfilePage.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg userbutton">
+						<span class="glyphicon glyphicon-user"></span> My Account
+					</button>
+				</form>
+				<form action="Logout.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg logoutbutton">
+						<span class="glyphicon glyphicon-log-out"></span> Log Out
+					</button>
+				</form>
+				<% } else { %>
+				<form action="Login.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg loginbutton">
+						<span class="glyphicon glyphicon-log-in"></span> Sign In
+					</button>
+				</form>
+				<form action="register.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg registerbutton">
+						<span class="glyphicon glyphicon-user"></span> Register
+					</button>
+				</form>
 				<% } %>
 			</div>
 			<div class="row">

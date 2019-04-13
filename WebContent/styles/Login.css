@@ -1,16 +1,33 @@
 @charset "UTF-8";
-#header{
-	background-color:rgb(91,109,124);
-	height: 70px;
-	
+.col-md-6 {
+	background-color: rgb(51, 51, 51);
+	height: 80px;
+	width: 103em !important;
+	max-width: 100% !important;
 }
-.col-md-12 {
-	background-color: rgb(91, 109, 124);
-	height: 70px;
+h3 {
+	font-family: 'BebasNeue';
+	font-size: 28pt;
+	margin-left: 110px;
+	margin-bottom: 20px;
+}
+#logo {
+	margin-left: 25px;
+	margin-top: 10px;
 }
 input[type="password"], input[type="text"]{
 	width: 75%	!important;
 	margin-top:3%;
+	margin-left: 35px;
+}
+#remember {
+	margin-left: 35px !important;
+}
+#reg {
+	margin-left: 10px !important;
+}
+.submitbutton {
+	margin-right: 7px !important;
 }
 h2 {
 	margin-top: 1.5%;
@@ -22,11 +39,13 @@ h2 {
 }
 
 .card{
-	margin-top:10%;
+	margin-top:20%;
 	margin-left:34%;
 	width:30%;
 	padding: 15px 15px;
-	border-radius:10px;	
+	border-radius:20px !important;	
+	background-color: rgb(81, 87,96,.8);
+	color:white;
 }
 
 input[type="email"], input[type="password"]{
@@ -38,14 +57,19 @@ button[type="submit"]{
 	margin-top: 3%;
 	margin-left:40%;
 }
+input[type="submit"]{
+	margin-top: 3%;
+	margin-left:38%;
+}
 
 .homebutton{
-position: absolute;
-left: 85%;
-	top: 4%;
-	float: left;
-		background-color:transparent	!important;
-			border:none	!important;
+	position: absolute;
+	left: 45%;
+	background-color:transparent !important;
+	border:none	!important;
+	color: white !important; 
+    font-size: 13pt !important;
+    margin-top: 20px !important;
 }
 .glyphicon-home{
 	width:30%;
@@ -59,13 +83,9 @@ left: 85%;
 
 body {
 	background-color: rgb(37, 62, 102) !important;
-	background-image: url("BlackVignette.png");	
+	background-image: url("BlackVignette.png");
 }
 *{
 			font-family: 'Poppins', sans-serif;
 	
-}
-.card{
-	background-color: rgb(81, 87,96,.8);
-	color:white;
 }

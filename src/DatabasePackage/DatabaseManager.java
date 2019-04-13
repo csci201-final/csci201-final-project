@@ -51,7 +51,6 @@ public class DatabaseManager {
 							"email VARCHAR(45) NOT NULL, " +
 							"bio VARCHAR(5000) NOT NULL, " +
 							"picPath VARCHAR(200) NOT NULL, " +
-							"address VARCHAR(200) NOT NULL, " +
 							"hostRating FLOAT(3,2), " +
 							"pastEvents VARCHAR(1000), " +
 							"interestedEvents VARCHAR(1000));";

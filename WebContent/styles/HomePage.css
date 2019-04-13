@@ -51,6 +51,15 @@ h1 {
 	margin-left: 55%;
 }
 
+.logoutbutton,
+.registerbutton {
+	margin-left: 10px;
+}
+
+.headerforms {
+	display: inline;
+}
+
 .col-md-5 {
 	color: white;
 	white-space: nowrap;
@@ -66,7 +75,7 @@ h1 {
 }
 .row1{
 	margin-left:-51% !important;
-	margin-top:35%;
+	margin-top:45%;
 }
 
 .filler {
@@ -100,7 +109,7 @@ h1 {
 	border-bottom: .5px solid black;
 	background-color: rgb(173, 220, 232, .5);
 	height: 50%	!important;
-	top:45%;
+	top:40%;
 	border-radius:10px;
 	overflow: auto;
 }
@@ -154,7 +163,6 @@ h1 {
 	color:white;
 	font-size:18px;
 }
-
 .backgroundcat{
 	position:absolute;
 	top:55%;
@@ -199,7 +207,7 @@ h1 {
 }
 .searchglass{
 	position:absolute	!important;
-	top:54%	!important;
+	top:51%	!important;
 	left:297%	!important;
 	height: 35px !important;
 }
