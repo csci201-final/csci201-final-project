@@ -1,14 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" %>
+	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event" %>
 <!DOCTYPE html>
 <html>
 
 <%
-	try {
-		Boolean newSession = (boolean) session.getAttribute("loggedin");
-	} catch (NullPointerException npe) {
+	DatabaseManager.checkDatabase();
+	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
 	}
+	if (session.getAttribute("currentEvents") == null) {
+		session.setAttribute("currentEvents", DatabaseQuery.getCurrentEvents());
+	}
+	Vector<Event> curEvents = (Vector<Event>) session.getAttribute("currentEvents");
+	int numCurEvents = curEvents.size();
 %>
 
 
@@ -110,15 +114,16 @@
 				<div class=row2>
 					<div class="container">
 						<div class="events-all">
+							<% if (numCurEvents > 0) { %>
 							<table>
 								<tr>
 									<th>
 										<div class="solo-table">
-										<%for(int j=0;j<20;j++){ %>
+										<%for(Event e : curEvents){ %>
 											<span class="breaker"></span>
 											<table>
 												<tr>
-													<th>Past Splash</th>
+													<th><%= e.getName() %></th>
 													<th>Host Rating<%for (int i=0;i<5;i++){ %>
 														<span class="glyphicon glyphicon-star"></span>
 														<%} %>
@@ -126,12 +131,12 @@
 													<th></th>
 												</tr>
 												<tr>
-													<th>USC Scope</th>
-													<th>Attending:</th>
+													<th><%= e.getAffiliation() %></th>
+													<th>Attending: <%= e.getNumAttending() %></th>
 												</tr>
 												<tr>
-													<th>935 W. 30th St</th>
-													<th>Interested:</th>
+													<th><%= e.getLocation() %></th>
+													<th>Interested: <%= e.getNumInterested() %></th>
 													<th>
 														<button type="button"
 															class="btn btn-default btn-lg expand">
@@ -140,21 +145,25 @@
 													</th>
 												</tr>
 												<tr>
-													<th>April 9, 2019</th>
-													<th>Not Attending:</th>
+													<th><%= e.getDate() %></th>
+													<th>Not Attending: <%= e.getNumNotInterested() %></th>
 												</tr>
 												<tr>
-													<th>8:00 pm to 2:00 am</th>
-													<th>Tags:  #summer #pay #drinksprovided</th>
+													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+													<th>Tags:  <%= e.getTags() %></th>
 
 												</tr>
 													<%} %>
 											</table>
-										
 										</div>
 									</th>
 								</tr>
 							</table>
+							<% } else { %>
+							<div class="noEvents">
+								No events to display
+							</div>
+							<% } %>
 						</div>
 					</div>
 

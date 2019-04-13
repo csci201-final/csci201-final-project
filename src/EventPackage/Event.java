@@ -2,117 +2,91 @@ package EventPackage;
 import java.util.Vector;
 
 public class Event {
+	private int hostID;
+	private String date;
+	private String beginTime;
+	private String endTime;
+	private String eventName;
+	private String location;
+	private String tags;
+	private String affiliation;
+	private String details;
+	private Vector<Integer> attending;
+	private Vector<Integer> interested;
+	private Vector<Integer> notInterested;
 	
-	EventDate date;
-	Time time;
-	String name;
-	String location; 
-	Profile host;
-	int stars;
-	Vector<Profile> attendees;
-	Vector<String> tags;
 	
-	
-	public Event(EventDate date, Time time, String name, String location, Profile host, Vector<Profile> attendees, int star, Vector<String> tags) {
-		super();
+	public Event(int hostID, String date, String beginTime, String endTime, String eventName, String location,
+				String tags, String affiliation, String details, Vector<Integer> attending, Vector<Integer> interested, Vector<Integer> notInterested) {
+		this.hostID = hostID;
 		this.date = date;
-		this.time = time;
-		this.name = name;
+		this.beginTime = beginTime;
+		this.endTime = endTime;
 		this.location = location;
-		this.host = host;
-		this.attendees = attendees;
-		this.stars = stars;
 		this.tags = tags;
+		this.affiliation = affiliation;
+		this.attending = attending;
+		this.interested = interested;
+		this.notInterested = notInterested;
 	}
 
-	public EventDate getDate() {
+	public int getHostID() {
+		return hostID;
+	}
+	
+	public String getDate() {
 		return date;
 	}
-	public void setDate(EventDate date) {
-		this.date = date;
-	}
-	public Time getTime() {
-		return time;
-	}
-	public void setTime(Time time) {
-		this.time = time;
-	}
+	
 	public String getName() {
-		return name;
+		return eventName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	
+	public String getDetails() {
+		return details;
 	}
+	
+	public String getBegin() {
+		return beginTime;
+	}
+	
+	public String getEnd() {
+		return endTime;
+	}
+	
 	public String getLocation() {
 		return location;
 	}
-	public void setLocation(String location) {
-		this.location = location;
-	}
-	public Profile getHost() {
-		return host;
-	}
-	public void setHost(Profile host) {
-		this.host = host;
-	} 
-	public Vector<Profile> getAttendees() {
-		return attendees;
-	}
-	public void setAttendees(Vector<Profile> attendees) {
-		this.attendees = attendees;
-	}
-
-	public int getStars() {
-		return stars;
-	}
-
-	public void setStars(int stars) {
-		this.stars = stars;
-	}
-
-	public Vector<String> getTags() {
+	
+	public String getTags() {
 		return tags;
 	}
-
-	public void setTags(Vector<String> tags) {
-		this.tags = tags;
+	
+	public String getAffiliation() {
+		return affiliation;
 	}
 	
-	public void addAttendee(Profile toAdd) {
-		attendees.add(toAdd);
-	}
-	public void addAttendees(Vector<Profile> toAdd) {
-		attendees.addAll(toAdd);
-	}
-	public void removeAttendee(Profile toRemove) {
-		attendees.remove(toRemove);
-	}
-	public void removeAttendees(Vector<Profile> toRemove) {
-		attendees.removeAll(toRemove);
-	}
-	public boolean containsAttendee(Profile toCheck) {
-		return attendees.contains(toCheck);
-	}
-	public boolean containsAttendee(Vector<Profile> toCheck) {
-		return attendees.containsAll(toCheck);
-	}
-	public void addTag(String toAdd) {
-		tags.add(toAdd);
-	}
-	public void addTags(Vector<String> toAdd) {
-		tags.addAll(toAdd);
-	}
-	public void removeTag(String toRemove) {
-		tags.remove(toRemove);
-	}
-	public void removeTags(Vector<String> toRemove) {
-		tags.removeAll(toRemove);
-	}
-	public boolean containsTag(String toCheck) {
-		return tags.contains(toCheck);
-	}
-	public boolean containsTags(Vector<String> toCheck) {
-		return tags.containsAll(toCheck);
+	public Vector<Integer> getAttending() {
+		return attending;
 	}
 	
+	public int getNumAttending() {
+		return attending.size();
+	}
+	
+	public Vector<Integer> getInterested() {
+		return interested;
+	}
+	
+	public int getNumInterested() {
+		return interested.size();
+	}
+	
+	public Vector<Integer> getNotInterested() {
+		return notInterested;
+	}
+	
+	public int getNumNotInterested() {
+		return notInterested.size();
+	}
 }

@@ -40,18 +40,20 @@ public class DatabaseInsert {
 			}
 		}
 		
-		public static void insertEvent(String username, String eventname, String place, Timestamp time, String details, String tags) {
+		public static void insertEvent(String username, String eventname, String place, Timestamp timeBegin, Timestamp timeEnd, String details, String affiliation, String tags) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = DatabaseConn.getConnection();
-				ps = conn.prepareStatement("INSERT INTO Event (name,place,time,host,details,tags) VALUES(?,?,?,?,?,?)");
+				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation,tags) VALUES(?,?,?,?,?,?,?,?)");
 				ps.setString(1, eventname);
 				ps.setString(2, place);
-				ps.setTimestamp(3, time);
+				ps.setTimestamp(3, timeBegin);
+				ps.setTimestamp(4, timeEnd);
 				ps.setInt(4, DatabaseQuery.getUserID(username));
 				ps.setString(5, details);
-				ps.setString(6, tags);
+				ps.setString(6, affiliation);
+				ps.setString(7, tags);
 				ps.execute();
 			} catch (SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());
@@ -65,17 +67,46 @@ public class DatabaseInsert {
 			}
 		}
 		
-		public static void insertEvent(String username, String eventname, String place, Timestamp time, String details) {
+		public static void insertEvent(String username, String eventname, String place, Timestamp timeBegin, Timestamp timeEnd, String details, String tags) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = DatabaseConn.getConnection();
-				ps = conn.prepareStatement("INSERT INTO Event (name,place,time,host,details) VALUES(?,?,?,?,?)");
+				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation,tags) VALUES(?,?,?,?,?,?,?,?)");
 				ps.setString(1, eventname);
 				ps.setString(2, place);
-				ps.setTimestamp(3, time);
-				ps.setInt(4, DatabaseQuery.getUserID(username));
-				ps.setString(5, details);
+				ps.setTimestamp(3, timeBegin);
+				ps.setTimestamp(4, timeEnd);
+				ps.setInt(5, DatabaseQuery.getUserID(username));
+				ps.setString(6, details);
+				ps.setString(7, username);
+				ps.setString(8, tags);
+				ps.execute();
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			} finally {
+				try {
+					DatabaseConn.closeConnection(conn);
+					DatabaseManager.closeUtil(ps);
+				} catch (SQLException sqle) {
+					System.out.println("sqle: " + sqle.getMessage());
+				}
+			}
+		}
+		
+		public static void insertEvent(String username, String eventname, String place, Timestamp timeBegin, Timestamp timeEnd, String details) {
+			Connection conn = null;
+			PreparedStatement ps = null;
+			try {
+				conn = DatabaseConn.getConnection();
+				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation) VALUES(?,?,?,?,?,?,?)");
+				ps.setString(1, eventname);
+				ps.setString(2, place);
+				ps.setTimestamp(3, timeBegin);
+				ps.setTimestamp(4, timeEnd);
+				ps.setInt(5, DatabaseQuery.getUserID(username));
+				ps.setString(6, details);
+				ps.setString(7, username);
 				ps.execute();
 			} catch (SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());
@@ -113,6 +144,27 @@ public class DatabaseInsert {
 		}
 		
 		public static void insertInterested(String username, String eventname) {
+			Connection conn = null;
+			PreparedStatement ps = null;
+			try {
+				conn = DatabaseConn.getConnection();
+				ps = conn.prepareStatement("INSERT INTO Interested (eventID,userID) VALUES(?,?)");
+				ps.setInt(1, DatabaseQuery.getEventID(eventname));
+				ps.setInt(2, DatabaseQuery.getUserID(username));
+				ps.execute();
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			} finally {
+				try {
+					DatabaseConn.closeConnection(conn);
+					DatabaseManager.closeUtil(ps);
+				} catch (SQLException sqle) {
+					System.out.println("sqle: " + sqle.getMessage());
+				}
+			}
+		}
+		
+		public static void insertNotInterested(String username, String eventname) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {

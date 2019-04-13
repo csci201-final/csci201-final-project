@@ -1,28 +1,21 @@
 package DatabasePackage;
-import java.beans.PropertyVetoException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
-
-import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 public class DatabaseConn {
 	private static final String USER = "root";
-	private static final String PASSWORD = "password";
-    private static ComboPooledDataSource cpds = new ComboPooledDataSource();
- 
-    static {
-        try {
-            cpds.setDriverClass("com.mysql.cj.jdbc.Driver");
-            cpds.setJdbcUrl("jdbc:mysql://localhost:3306");
-            cpds.setUser(USER);
-            cpds.setPassword(PASSWORD);
-        } catch (PropertyVetoException pve) {
-            System.out.println("pve: " + pve.getMessage());
-        }
-    }
-     
+	private static final String PASSWORD = "Alexander888";
+	
     public static Connection getConnection() throws SQLException {
-        return cpds.getConnection();
+    	Connection connection = null;
+		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/PARTYPEOPLE", USER, PASSWORD);
+		} catch (ClassNotFoundException cnfe) {
+			System.out.println("cnfe: " + cnfe.getMessage());
+		} 
+		return connection;
     }
      
     public static void closeConnection(Connection conn) throws SQLException {

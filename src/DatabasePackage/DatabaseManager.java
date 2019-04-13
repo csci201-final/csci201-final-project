@@ -6,13 +6,19 @@ import java.sql.SQLException;
 
 public class DatabaseManager {
 	
-	public static boolean checkDatabaseExists() {
+	public static void checkDatabase() {
+		if (!checkDatabaseExists()) {
+			createDatabase();
+		}
+	}
+	
+	private static boolean checkDatabaseExists() {
 		boolean found = false;
 		Connection conn = null;
 		try {
 			conn = DatabaseConn.getConnection();
 			ResultSet databases = conn.getMetaData().getCatalogs();
-			String db = "PartyPeople";
+			String db = "PARTYPEOPLE";
 			while (databases.next()) {
 				if (databases.getString(1).equals(db)) {
 					found = true;
@@ -31,12 +37,12 @@ public class DatabaseManager {
 	}
 	
 	@SuppressWarnings("null")
-	public static void createDatabase() {
+	private static void createDatabase() {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		
-		String createDB = "CREATE DATABASE PartyPeople IF NOT EXISTS";
-		String useDB = "USE PartyPeople";
+		String createDB = "CREATE DATABASE PARTYPEOPLE IF NOT EXISTS";
+		String useDB = "USE PARTYPEOPLE";
 		
 		String userTable = "CREATE TABLE User(" +
 							"userID INT(11) PRIMARY KEY AUTO_INCREMENT, " +
@@ -54,18 +60,20 @@ public class DatabaseManager {
 							"eventID INT(11) PRIMARY KEY AUTO_INCREMENT, " +
 							"name VARCHAR(50) NOT NULL, " +
 							"place VARCHAR(200) NOT NULL, " +
-							"time DATETIME() NOT NULL, " +
+							"timeBegin DATETIME() NOT NULL, " +
+							"timeEnd DATETIME() NOT NULL, " +
 							"host INT(11) NOT NULL, " +
 							"details VARCHAR(5000) NOT NULL, " +
+							"affiliation VARCHAR(100), " + 
 							"eventRating FLOAT(3,2), " +
 							"attendees VARCHAR(1000), " +
 							"tags VARCHAR(1000), " +
 							"FOREIGN KEY fk1(host) REFERENCES UserInfo(userID));";
 		
-		String attendTable = "CREATE TABLE Attended(" +
+		String attendTable = "CREATE TABLE Attending(" +
 							"eventID INT(11) NOT NULL, " +
 							"userID INT(11) NOT NULL, " +
-							"rating INT(1) NOT NULL, " +
+							"rating INT(1), " +
 							"comments VARCHAR(1000), " +
 							"FOREIGN KEY fk2(eventID) REFERENCES Event(eventID), " +
 							"FOREIGN KEY fk3(userID) REFERENCES UserInfo(userID));";
@@ -75,6 +83,12 @@ public class DatabaseManager {
 							"userID INT(11) NOT NULL, " +
 							"FOREIGN KEY fk4(eventID) REFERENCES Event(eventID), " +
 							"FOREIGN KEY fk5(userID) REFERENCES UserInfo(userID));";
+		
+		String notInterestTable = "CREATE TABLE NotInterested(" +
+				"eventID INT(11) NOT NULL, " +
+				"userID INT(11) NOT NULL, " +
+				"FOREIGN KEY fk4(eventID) REFERENCES Event(eventID), " +
+				"FOREIGN KEY fk5(userID) REFERENCES UserInfo(userID));";
 		try {
 			conn = DatabaseConn.getConnection();
 			conn.setAutoCommit(false);
@@ -84,6 +98,7 @@ public class DatabaseManager {
 			ps.addBatch(eventTable);
 			ps.addBatch(attendTable);
 			ps.addBatch(interestTable);
+			ps.addBatch(notInterestTable);
 			ps.executeBatch();
 			conn.commit();
 			conn.setAutoCommit(true);

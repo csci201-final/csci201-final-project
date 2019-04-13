@@ -175,7 +175,13 @@ h1 {
 	left:80%;
 	z-index:-1;
 }
-
+.noEvents {
+	font-family: 'Lato-100';
+	font-size: 26pt;
+	top: 10px;
+	margin-left: 31.5%;
+	color: white;
+}
 .notifytitle {
 	position: absolute;
 	color: white;
