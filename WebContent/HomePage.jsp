@@ -65,7 +65,7 @@
 						<span class="glyphicon glyphicon-log-in"></span> Sign In
 					</button>
 				</form>
-				<form action="register.jsp" class="headerforms">
+				<form action="Register.jsp" class="headerforms">
 					<button type="submit" class="btn btn-default btn-lg registerbutton">
 						<span class="glyphicon glyphicon-user"></span> Register
 					</button>
@@ -188,7 +188,7 @@
 					</div>
 					<div class="backgroundcat"></div>
 					<%
-					if ((boolean)session.getAttribute("loggedin")) {
+					if ((boolean)session.getAttribute("loggedin")) {	
 					%>
 					<div class="notificationbg">
 						<div class="notifications">
