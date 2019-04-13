@@ -11,6 +11,7 @@
 	if (session.getAttribute("currentEvents") == null) {
 		session.setAttribute("currentEvents", DatabaseQuery.getCurrentEvents());
 	}
+	@SuppressWarnings("unchecked")
 	Vector<Event> curEvents = (Vector<Event>) session.getAttribute("currentEvents");
 	int numCurEvents = curEvents.size();
 %>

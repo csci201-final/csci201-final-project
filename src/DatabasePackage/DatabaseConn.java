@@ -7,11 +7,15 @@ public class DatabaseConn {
 	private static final String USER = "root";
 	private static final String PASSWORD = "Alexander888";
 	
-    public static Connection getConnection() throws SQLException {
+    public static Connection getConnection(String db) throws SQLException {
     	Connection connection = null;
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/PARTYPEOPLE", USER, PASSWORD);
+			String serverTime = "serverTimezone=PDT";
+			if (db != "") {
+				db = db + "?" + serverTime;
+			}
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/" + db, USER, PASSWORD);
 		} catch (ClassNotFoundException cnfe) {
 			System.out.println("cnfe: " + cnfe.getMessage());
 		} 

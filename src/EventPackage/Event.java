@@ -13,11 +13,11 @@ public class Event {
 	private String details;
 	private Vector<Integer> attending;
 	private Vector<Integer> interested;
-	private Vector<Integer> notInterested;
+	private Vector<Integer> notAttending;
 	
 	
 	public Event(int hostID, String date, String beginTime, String endTime, String eventName, String location,
-				String tags, String affiliation, String details, Vector<Integer> attending, Vector<Integer> interested, Vector<Integer> notInterested) {
+				String tags, String affiliation, String details, Vector<Integer> attending, Vector<Integer> interested, Vector<Integer> notAttending) {
 		this.hostID = hostID;
 		this.date = date;
 		this.beginTime = beginTime;
@@ -27,7 +27,7 @@ public class Event {
 		this.affiliation = affiliation;
 		this.attending = attending;
 		this.interested = interested;
-		this.notInterested = notInterested;
+		this.notAttending = notAttending;
 	}
 
 	public int getHostID() {
@@ -82,11 +82,11 @@ public class Event {
 		return interested.size();
 	}
 	
-	public Vector<Integer> getNotInterested() {
-		return notInterested;
+	public Vector<Integer> getNotAttending() {
+		return notAttending;
 	}
 	
 	public int getNumNotInterested() {
-		return notInterested.size();
+		return notAttending.size();
 	}
 }

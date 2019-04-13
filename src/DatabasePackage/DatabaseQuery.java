@@ -18,7 +18,7 @@ public class DatabaseQuery {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			conn = DatabaseConn.getConnection();
+			conn = DatabaseConn.getConnection("PartyPeople");
 			ps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
@@ -48,7 +48,7 @@ public class DatabaseQuery {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			conn = DatabaseConn.getConnection();
+			conn = DatabaseConn.getConnection("PartyPeople");
 			ps = conn.prepareStatement("SELECT userID FROM User WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
@@ -74,7 +74,7 @@ public class DatabaseQuery {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			conn = DatabaseConn.getConnection();
+			conn = DatabaseConn.getConnection("PartyPeople");
 			ps = conn.prepareStatement("SELECT eventID FROM Event WHERE name=?");
 			ps.setString(1, eventname);
 			rs = ps.executeQuery();
@@ -100,7 +100,7 @@ public class DatabaseQuery {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			conn = DatabaseConn.getConnection();
+			conn = DatabaseConn.getConnection("PartyPeople");
 			ps = conn.prepareStatement("SELECT userID FROM Interested WHERE eventID=?");
 			ps.setInt(1, eventID);
 			rs = ps.executeQuery();
@@ -126,7 +126,7 @@ public class DatabaseQuery {
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			conn = DatabaseConn.getConnection();
+			conn = DatabaseConn.getConnection("PartyPeople");
 			ps = conn.prepareStatement("SELECT userID FROM Attending WHERE eventID=?");
 			ps.setInt(1, eventID);
 			rs = ps.executeQuery();
@@ -146,18 +146,18 @@ public class DatabaseQuery {
 		return attending;
 	}
 	
-	public static Vector<Integer> getNotInterested(int eventID) {
-		Vector<Integer> notInterested = new Vector<Integer>();
+	public static Vector<Integer> getNotAttending(int eventID) {
+		Vector<Integer> notAttending = new Vector<Integer>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
-			conn = DatabaseConn.getConnection();
-			ps = conn.prepareStatement("SELECT userID FROM NotInterested WHERE eventID=?");
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT userID FROM NotAttending WHERE eventID=?");
 			ps.setInt(1, eventID);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				notInterested.add(rs.getInt("userID"));
+				notAttending.add(rs.getInt("userID"));
 			}
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
@@ -169,7 +169,7 @@ public class DatabaseQuery {
 				System.out.println("sqle: " + sqle.getMessage());
 			}
 		}
-		return notInterested;
+		return notAttending;
 	}
 	
 	public static Vector<Event> getCurrentEvents() {
@@ -178,7 +178,7 @@ public class DatabaseQuery {
 		ResultSet rs = null;
 		Vector<Event> currentEvents = new Vector<Event>();
 		try {
-			conn = DatabaseConn.getConnection();
+			conn = DatabaseConn.getConnection("PartyPeople");
 			ps = conn.prepareStatement("SELECT * FROM Event");
 			rs = ps.executeQuery();
 			
@@ -202,9 +202,9 @@ public class DatabaseQuery {
 					String tags = rs.getString("tags");
 					Vector<Integer> interested = getInterested(eventID);
 					Vector<Integer> attending = getAttending(eventID);
-					Vector<Integer> notInterested = getNotInterested(eventID);
+					Vector<Integer> notAttending = getNotAttending(eventID);
 					
-					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notInterested);
+					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 					currentEvents.add(e);
 				}
 			} 

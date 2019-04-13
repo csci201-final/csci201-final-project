@@ -19,7 +19,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO User (username,password,email,bio,picPath,address) VALUES(?,?,?,?,?,?)");
 				ps.setString(1, username);
 				ps.setString(2, password);
@@ -44,7 +44,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation,tags) VALUES(?,?,?,?,?,?,?,?)");
 				ps.setString(1, eventname);
 				ps.setString(2, place);
@@ -71,7 +71,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation,tags) VALUES(?,?,?,?,?,?,?,?)");
 				ps.setString(1, eventname);
 				ps.setString(2, place);
@@ -98,7 +98,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation) VALUES(?,?,?,?,?,?,?)");
 				ps.setString(1, eventname);
 				ps.setString(2, place);
@@ -124,7 +124,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Attended (eventID,userID,rating,comments) VALUES(?,?,?,?)");
 				ps.setInt(1, DatabaseQuery.getEventID(eventname));
 				ps.setInt(2, DatabaseQuery.getUserID(username));
@@ -147,7 +147,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Interested (eventID,userID) VALUES(?,?)");
 				ps.setInt(1, DatabaseQuery.getEventID(eventname));
 				ps.setInt(2, DatabaseQuery.getUserID(username));
@@ -168,7 +168,7 @@ public class DatabaseInsert {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
-				conn = DatabaseConn.getConnection();
+				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Interested (eventID,userID) VALUES(?,?)");
 				ps.setInt(1, DatabaseQuery.getEventID(eventname));
 				ps.setInt(2, DatabaseQuery.getUserID(username));
