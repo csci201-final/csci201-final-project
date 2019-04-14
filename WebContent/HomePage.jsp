@@ -20,31 +20,26 @@
 <head>
 	<script> 
 		function search(search_string){
-			if(search_string.equals('interested')){
-				if (<%=(session.getAttribute("loggedin")==null)%>){
-					window.location = "http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp";
-					return;
-				}
-				else{
-					curEvents = 
-				}
-			}
-			else if(search_string.equals('attending')){
-				if (<%=(session.getAttribute("loggedin")==null)%>){
-					window.location = "http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp";
-					return;
-				}
-			}
-			else if(search_string.equals('attended')){
-				if (<%=(session.getAttribute("loggedin")==null)%>){
-					window.location = "http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp";
-					return;
-				}
-			}
-			else{
-				curEvents = DatabaseQuery.searchEvents(search_string);
-			}
+			var xhttp = new XMLHttpRequest();
+			xhttp.open("POST", "Validate", true);
+			xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/");
 			
+			xhttp.onreadystatechange = function() {
+				document.getElementById("usernameMsg").innerHTML = this.responseText;
+			}
+			xhttp.send("field=username&username=" + document.myform.username.value);
+		}
+
+			<% curEvents = DatabaseQuery.searchEvents(search_string);%>
+		}
+		function getInterested(){
+			<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
+		}
+		function getAttending(){
+			<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
+		}
+		function getNotAttending(){
+			<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
 		}
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Poppins"
@@ -205,13 +200,13 @@
 
 					<div class="sortbycat">Filters</div>
 					<div class="cat">
-						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="search('interested')">
+						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="getInterested()">
 						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
 						</button><br> 
-						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="search('attending')">
+						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="getAttending()">
 							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
 						</button> <br> 
-						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="search('attended')">
+						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="getNotAttending()">
 							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
 						</button>
 					</div>

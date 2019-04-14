@@ -32,6 +32,74 @@ public class Event {
 		this.notAttending = notAttending;
 	}
 
+	public int getEventID() {
+		return eventID;
+	}
+
+	public void setEventID(int eventID) {
+		this.eventID = eventID;
+	}
+
+	public String getBeginTime() {
+		return beginTime;
+	}
+
+	public void setBeginTime(String beginTime) {
+		this.beginTime = beginTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getEventName() {
+		return eventName;
+	}
+
+	public void setEventName(String eventName) {
+		this.eventName = eventName;
+	}
+
+	public void setHostID(int hostID) {
+		this.hostID = hostID;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
+
+	public void setAffiliation(String affiliation) {
+		this.affiliation = affiliation;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public void setAttending(Vector<Integer> attending) {
+		this.attending = attending;
+	}
+
+	public void setInterested(Vector<Integer> interested) {
+		this.interested = interested;
+	}
+
+	public void setNotAttending(Vector<Integer> notAttending) {
+		this.notAttending = notAttending;
+	}
+
 	public int getHostID() {
 		return hostID;
 	}
