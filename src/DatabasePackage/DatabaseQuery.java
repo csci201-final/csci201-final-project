@@ -120,6 +120,32 @@ public class DatabaseQuery {
 		return interested;
 	}
 	
+	public static String getPicPath(String username) {
+		String path = "";
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT picPath FROM User WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				path = rs.getString("picPath");
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return path;
+	}
+	
 	public static Vector<Integer> getAttending(int eventID) {
 		Vector<Integer> attending = new Vector<Integer>();
 		Connection conn = null;

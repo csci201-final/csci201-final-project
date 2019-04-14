@@ -12,7 +12,7 @@
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
 	}
-	if (((Boolean)session.getAttribute("loggedin"))) {
+	if (!((Boolean)session.getAttribute("loggedin"))) {
 		%> <jsp:forward page="Login.jsp" /> <%
 	}
 	if (session.getAttribute("userEvents") == null) {

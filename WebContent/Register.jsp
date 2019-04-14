@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8" import="DatabasePackage.DatabaseManager" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,28 +29,31 @@
 
 </head>
 <body>
-
+	<% DatabaseManager.checkDatabase(); %>
 	<div class="container-fluid">
 		
 		<div class="row">
 			<div class="col-md-12">
-				<h2>Party Planning People</h2>
-				<div class="banner"></div>
-			
-			</div>
-
+				<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
+			<div class="banner"></div>
+		</div>
+		<form action="HomePage.jsp" class="headerforms">
+			<button type="submit" class="btn btn-default btn-lg homebutton">
+				<span class="glyphicon glyphicon-home"></span> Home
+			</button>
+		</form>
 		</div>
 		<div class="row justify-content-center">
 			<div class="col-md-6">
 				<div class="card bg-secondary mb-3">
-					<div class="card-header">Create an Account</div>
 					<div class="card-body">
-						<form>
+						<h3>Sign Up</h3>
+						<form method="post" action="RegisterUser" enctype="multipart/form-data">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="fname">Your First Name</label> <input type="text"
-											class="form-control" id="fname" aria-describedby="fname"
+											class="form-control" name="fname" id="fname" aria-describedby="fname"
 											placeholder="Enter First Name">
 									</div>
 								</div>
@@ -56,25 +61,40 @@
 								<div class="col-md-6">
 									<div class="form-group">
 										<label for="lname">Your Last Name</label> <input type="text"
-											class="form-control" id="lname" aria-describedby="lname"
+											class="form-control" name="lname" id="lname" aria-describedby="lname"
 											placeholder="Enter Last Name">
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="email">Your Email</label> <input type="email"
-									class="form-control" id="email" aria-describedby="email"
+									class="form-control" id="email" name="email" aria-describedby="email"
 									placeholder="Enter Email">
 							</div>
-							<div class="form-group">
-								<label for="password">Password</label> <input type="password"
-									class="form-control" id="password" aria-describedby="password"
-									placeholder="Enter Password">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="password">Password</label> <input type="password"
+											class="form-control" id="password" name="password" aria-describedby="password"
+											placeholder="Enter Password">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="Cpassword">Confirm Password</label> <input
+											type="password" class="form-control" id="Cpassword"
+											aria-describedby="Cpassword" name="Cpassword" placeholder="Confirm Password">
+									</div>
+								</div>
 							</div>
 							<div class="form-group">
-								<label for="Cpassword">Confirm Password</label> <input
-									type="password" class="form-control" id="Cpassword"
-									aria-describedby="Cpassword" placeholder="Confirm Password">
+								<label for="bio">Your Short Bio</label> <textarea rows="3"
+									class="form-control" id="bio" name="bio" aria-describedby="bio"
+									placeholder="Enter Bio"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="profilePic">Upload Profile Picture</label> <input type="file"
+									class="form-control" id="profilePic" name="profilePic" aria-describedby="profilePic" accept="image/*" >
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -117,7 +137,7 @@
 								</div>
 							</div>
 							<div class="form-group ">
-								<button type="button"
+								<button type="submit"
 									class="btn btn-primary btn-lg btn-block login-button">Register</button>
 							</div>
 						</form>
@@ -125,12 +145,6 @@
 				</div>
 			</div>
 		</div>
-
 	</div>
-	<p>
-	<button type="button" class="btn btn-default btn-md">
-          <span class="glyphicon glyphicon-home"></span> Home
-        </button>
-        </p>
 </body>
 </html>
