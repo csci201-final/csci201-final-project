@@ -5,28 +5,27 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 
 public class DatabaseInsert {
-		public static boolean registerUser(String username, String password, String email, String bio, String picPath, String address) {
+		public static boolean registerUser(String username, String password, String email, String bio, String picPath) {
 			// inserts user into database if user does not already exist
 			if (DatabaseQuery.getUserID(username) == -1) {
 				return false;
 			}
-			insertUser(username,password,email,bio,picPath,address);
+			insertUser(username,password,email,bio,picPath);
 			return true;
 		}
 	
 	
-		private static void insertUser(String username, String password, String email, String bio, String picPath, String address) {
+		private static void insertUser(String username, String password, String email, String bio, String picPath) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = DatabaseConn.getConnection("PartyPeople");
-				ps = conn.prepareStatement("INSERT INTO User (username,password,email,bio,picPath,address) VALUES(?,?,?,?,?,?)");
+				ps = conn.prepareStatement("INSERT INTO User (username,password,email,bio,picPath) VALUES(?,?,?,?,?)");
 				ps.setString(1, username);
 				ps.setString(2, password);
 				ps.setString(3, email);
 				ps.setString(4, bio);
 				ps.setString(5, picPath);
-				ps.setString(6, address);
 				ps.execute();
 			} catch (SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());

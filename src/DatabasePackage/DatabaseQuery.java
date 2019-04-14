@@ -334,4 +334,157 @@ public class DatabaseQuery {
 		}
 		return userEvents;
 	}
+	
+	@SuppressWarnings("resource")
+	public static Vector<Event> getUserInterested(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Event> userInterested = new Vector<Event>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Interested WHERE userID=?");
+			ps.setInt(1, getUserID(username));
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int eventID = rs.getInt("eventID");
+				ps = conn.prepareStatement("SELECT * FROM Event WHERE eventID=?");
+				ps.setInt(1, eventID);
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					int hostID = rs.getInt("host");
+					SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+					Timestamp begin = rs.getTimestamp("timeBegin");
+					Timestamp end = rs.getTimestamp("timeEnd");
+					String beginTime = time.format(begin);
+					String endTime = time.format(end);
+					String day = date.format(begin);
+					String name = rs.getString("name");
+					String place = rs.getString("place");
+					String details = rs.getString("details");
+					String affiliation = rs.getString("affiliation");
+					String tags = rs.getString("tags");
+					Vector<Integer> interested = getInterested(eventID);
+					Vector<Integer> attending = getAttending(eventID);
+					Vector<Integer> notAttending = getNotAttending(eventID);
+					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					userInterested.add(e);
+				}
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return userInterested;
+	}
+	
+	@SuppressWarnings("resource")
+	public static Vector<Event> getUserAttending(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Event> userAttending = new Vector<Event>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Attending WHERE userID=?");
+			ps.setInt(1, getUserID(username));
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int eventID = rs.getInt("eventID");
+				ps = conn.prepareStatement("SELECT * FROM Event WHERE eventID=?");
+				ps.setInt(1, eventID);
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					int hostID = rs.getInt("host");
+					SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+					Timestamp begin = rs.getTimestamp("timeBegin");
+					Timestamp end = rs.getTimestamp("timeEnd");
+					String beginTime = time.format(begin);
+					String endTime = time.format(end);
+					String day = date.format(begin);
+					String name = rs.getString("name");
+					String place = rs.getString("place");
+					String details = rs.getString("details");
+					String affiliation = rs.getString("affiliation");
+					String tags = rs.getString("tags");
+					Vector<Integer> interested = getInterested(eventID);
+					Vector<Integer> attending = getAttending(eventID);
+					Vector<Integer> notAttending = getNotAttending(eventID);
+					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					userAttending.add(e);
+				}
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return userAttending;
+	}
+	
+	@SuppressWarnings("resource")
+	public static Vector<Event> getUserNotAttending(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Event> userNotAttending = new Vector<Event>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM NotAttending WHERE userID=?");
+			ps.setInt(1, getUserID(username));
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				int eventID = rs.getInt("eventID");
+				ps = conn.prepareStatement("SELECT * FROM Event WHERE eventID=?");
+				ps.setInt(1, eventID);
+				rs = ps.executeQuery();
+				if (rs.next()) {
+					int hostID = rs.getInt("host");
+					SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+					Timestamp begin = rs.getTimestamp("timeBegin");
+					Timestamp end = rs.getTimestamp("timeEnd");
+					String beginTime = time.format(begin);
+					String endTime = time.format(end);
+					String day = date.format(begin);
+					String name = rs.getString("name");
+					String place = rs.getString("place");
+					String details = rs.getString("details");
+					String affiliation = rs.getString("affiliation");
+					String tags = rs.getString("tags");
+					Vector<Integer> interested = getInterested(eventID);
+					Vector<Integer> attending = getAttending(eventID);
+					Vector<Integer> notAttending = getNotAttending(eventID);
+					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					userNotAttending.add(e);
+				}
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return userNotAttending;
+	}
 }
