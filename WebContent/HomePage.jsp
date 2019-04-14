@@ -18,6 +18,35 @@
 
 
 <head>
+	<script> 
+		function search(search_string){
+			if(search_string.equals('interested')){
+				if (<%=(session.getAttribute("loggedin")==null)%>){
+					window.location = "http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp";
+					return;
+				}
+				else{
+					curEvents = 
+				}
+			}
+			else if(search_string.equals('attending')){
+				if (<%=(session.getAttribute("loggedin")==null)%>){
+					window.location = "http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp";
+					return;
+				}
+			}
+			else if(search_string.equals('attended')){
+				if (<%=(session.getAttribute("loggedin")==null)%>){
+					window.location = "http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp";
+					return;
+				}
+			}
+			else{
+				curEvents = DatabaseQuery.searchEvents(search_string);
+			}
+			
+		}
+	</script>
 	<link href="https://fonts.googleapis.com/css?family=Poppins"
 		rel="stylesheet">
 	<link
@@ -90,7 +119,7 @@
 					<input type="text" class="form-control" id="search"
 							aria-describedby="search"
 							placeholder="Search Event by Name or Tags">
-					<button type="button" class="btn btn-default btn-lg searchglass">
+					<button type="button" class="btn btn-default btn-lg searchglass" onclick="search()">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
 				</div>
@@ -176,13 +205,13 @@
 
 					<div class="sortbycat">Filters</div>
 					<div class="cat">
-						<button type="button" class="btn btn-default btn-lg interestedbutton">
+						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="search('interested')">
 						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
 						</button><br> 
-						<button type="button" class="btn btn-default btn-lg attendingbutton">
+						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="search('attending')">
 							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
 						</button> <br> 
-						<button type="button" class="btn btn-default btn-lg notattendingbutton">
+						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="search('attended')">
 							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
 						</button>
 					</div>

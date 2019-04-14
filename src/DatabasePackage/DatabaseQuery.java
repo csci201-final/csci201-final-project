@@ -221,6 +221,74 @@ public class DatabaseQuery {
 		return currentEvents;
 	}
 	
+	public static Vector<Event> searchEvents(String search_string) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Event> currentEvents = new Vector<Event>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Event");
+			rs = ps.executeQuery();
+			
+			Timestamp curTime = new Timestamp(System.currentTimeMillis());
+			
+			while (rs.next()) {
+				Timestamp begin = rs.getTimestamp("timeBegin");
+				if (begin.after(curTime)) {
+					int eventID = rs.getInt("eventID");
+					int hostID = rs.getInt("host");
+					SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+					Timestamp end = rs.getTimestamp("timeEnd");
+					String beginTime = time.format(begin);
+					String endTime = time.format(end);
+					String day = date.format(begin);
+					String name = rs.getString("name");
+					String place = rs.getString("place");
+					String details = rs.getString("details");
+					String affiliation = rs.getString("affiliation");
+					String tags = rs.getString("tags");
+					Vector<Integer> interested = getInterested(eventID);
+					Vector<Integer> attending = getAttending(eventID);
+					Vector<Integer> notAttending = getNotAttending(eventID);
+					
+					
+					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					if(beginTime.contains(search_string))
+						currentEvents.add(e);
+					else if(endTime.contains(search_string))
+						currentEvents.add(e);
+					else if(day.contains(search_string))
+						currentEvents.add(e);
+					else if(name.contains(search_string))
+						currentEvents.add(e);
+					else if(place.contains(search_string))
+						currentEvents.add(e);
+					else if(details.contains(search_string))
+						currentEvents.add(e);
+					else if(affiliation.contains(search_string))
+						currentEvents.add(e);
+					else if(tags.contains(search_string))
+						currentEvents.add(e);
+					else
+						return null;
+						
+				}
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return currentEvents;
+	}
+	
 	public static Vector<Event> getUserEvents(String username) {
 		Connection conn = null;
 		PreparedStatement ps = null;
