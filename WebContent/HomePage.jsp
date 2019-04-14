@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event" %>
+	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event, javax.servlet.http.HttpSession" %>
 <!DOCTYPE html>
 <html>
 
@@ -7,6 +7,9 @@
 	DatabaseManager.checkDatabase();
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
+	}
+	if (session.getAttribute("username") == null){
+		session.setAttribute("loggedin", false);
 	}
 	if (session.getAttribute("currentEvents") == null) {
 		session.setAttribute("currentEvents", DatabaseQuery.getCurrentEvents());
@@ -22,24 +25,78 @@
 		function search(search_string){
 			var xhttp = new XMLHttpRequest();
 			xhttp.open("POST", "Validate", true);
-			xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/");
+			xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/search=" + search_string);
 			
 			xhttp.onreadystatechange = function() {
-				document.getElementById("usernameMsg").innerHTML = this.responseText;
+				console.log("Working");
+				reloadData();
 			}
-			xhttp.send("field=username&username=" + document.myform.username.value);
-		}
-
-			<% curEvents = DatabaseQuery.searchEvents(search_string);%>
+			xhttp.send();
 		}
 		function getInterested(){
 			<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
+			reloadData();
 		}
 		function getAttending(){
 			<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
+			reloadData();
 		}
 		function getNotAttending(){
 			<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
+			reloadData();
+		}
+		function reloadData(){
+			document.getElementById("event-all").innerHTML = 
+				"<% if (numCurEvents > 0) { %>
+					<table>
+				<tr>
+					<th>
+						<div class="solo-table">
+						<%for(Event e : curEvents){ %>
+							<span class="breaker"></span>
+							<table>
+								<tr>
+									<th><%= e.getName() %></th>
+									<th>Host Rating<%for (int i=0;i<5;i++){ %>
+										<span class="glyphicon glyphicon-star"></span>
+										<%} %>
+									</th>
+									<th></th>
+								</tr>
+								<tr>
+									<th><%= e.getAffiliation() %></th>
+									<th>Attending: <%= e.getNumAttending() %></th>
+								</tr>
+								<tr>
+									<th><%= e.getLocation() %></th>
+									<th>Interested: <%= e.getNumInterested() %></th>
+									<th>
+										<button type="button"
+											class="btn btn-default btn-lg expand">
+											<span class="glyphicon glyphicon-expand"></span>
+										</button>
+									</th>
+								</tr>
+								<tr>
+									<th><%= e.getDate() %></th>
+									<th>Not Attending: <%= e.getNumNotInterested() %></th>
+								</tr>
+								<tr>
+									<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+									<th>Tags:  <%= e.getTags() %></th>
+
+								</tr>
+									<%} %>
+							</table>
+						</div>
+					</th>
+				</tr>
+			</table>
+			<% } else { %>
+			<div class="noEvents">
+				No events to display
+			</div>
+			<% } %>"
 		}
 	</script>
 	<link href="https://fonts.googleapis.com/css?family=Poppins"
@@ -144,7 +201,7 @@
 				</div>
 				<div class=row2>
 					<div class="container">
-						<div class="events-all">
+						<div id="events-all" class="events-all">
 							<% if (numCurEvents > 0) { %>
 							<table>
 								<tr>
