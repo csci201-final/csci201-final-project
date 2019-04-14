@@ -2,6 +2,7 @@ package EventPackage;
 import java.util.Vector;
 
 public class Event {
+	private int eventID;
 	private int hostID;
 	private String date;
 	private String beginTime;
@@ -16,8 +17,9 @@ public class Event {
 	private Vector<Integer> notAttending;
 	
 	
-	public Event(int hostID, String date, String beginTime, String endTime, String eventName, String location,
+	public Event(int eventID, int hostID, String date, String beginTime, String endTime, String eventName, String location,
 				String tags, String affiliation, String details, Vector<Integer> attending, Vector<Integer> interested, Vector<Integer> notAttending) {
+		this.eventID = eventID;
 		this.hostID = hostID;
 		this.date = date;
 		this.beginTime = beginTime;

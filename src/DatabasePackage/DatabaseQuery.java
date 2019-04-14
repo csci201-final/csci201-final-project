@@ -172,6 +172,13 @@ public class DatabaseQuery {
 		return notAttending;
 	}
 	
+	public static Vector<Event> getInterested(String username){
+		Vector<Event> events = new Vector<Event>();
+		int user_ID = getUserID(username);
+		
+		return events;
+	}
+	
 	public static Vector<Event> getCurrentEvents() {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -204,7 +211,7 @@ public class DatabaseQuery {
 					Vector<Integer> attending = getAttending(eventID);
 					Vector<Integer> notAttending = getNotAttending(eventID);
 					
-					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 					currentEvents.add(e);
 				}
 			} 
@@ -254,7 +261,7 @@ public class DatabaseQuery {
 					Vector<Integer> notAttending = getNotAttending(eventID);
 					
 					
-					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 					if(beginTime.contains(search_string))
 						currentEvents.add(e);
 					else if(endTime.contains(search_string))
@@ -319,7 +326,7 @@ public class DatabaseQuery {
 				Vector<Integer> attending = getAttending(eventID);
 				Vector<Integer> notAttending = getNotAttending(eventID);
 				
-				Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+				Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 				userEvents.add(e);
 			} 
 		} catch (SQLException sqle) {
@@ -369,7 +376,7 @@ public class DatabaseQuery {
 					Vector<Integer> interested = getInterested(eventID);
 					Vector<Integer> attending = getAttending(eventID);
 					Vector<Integer> notAttending = getNotAttending(eventID);
-					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 					userInterested.add(e);
 				}
 			} 
@@ -420,7 +427,7 @@ public class DatabaseQuery {
 					Vector<Integer> interested = getInterested(eventID);
 					Vector<Integer> attending = getAttending(eventID);
 					Vector<Integer> notAttending = getNotAttending(eventID);
-					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 					userAttending.add(e);
 				}
 			} 
@@ -471,7 +478,7 @@ public class DatabaseQuery {
 					Vector<Integer> interested = getInterested(eventID);
 					Vector<Integer> attending = getAttending(eventID);
 					Vector<Integer> notAttending = getNotAttending(eventID);
-					Event e = new Event(hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
 					userNotAttending.add(e);
 				}
 			} 
