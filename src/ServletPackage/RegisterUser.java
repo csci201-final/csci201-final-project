@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 import DatabasePackage.DatabaseInsert;
-import DatabasePackage.DatabaseUpdate;
 
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 1024 * 1024 * 5, maxRequestSize = 102 * 1024 * 5 * 5)
 @WebServlet("/RegisterUser")

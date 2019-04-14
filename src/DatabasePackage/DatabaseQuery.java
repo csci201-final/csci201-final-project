@@ -12,15 +12,15 @@ import EventPackage.Event;
 public class DatabaseQuery {
 	
 	
-	public static int validateUser(String username, String password) {
+	public static int validateUser(String email, String password) {
 		int success = -1; // user not found
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			conn = DatabaseConn.getConnection("PartyPeople");
-			ps = conn.prepareStatement("SELECT * FROM User WHERE username=?");
-			ps.setString(1, username);
+			ps = conn.prepareStatement("SELECT * FROM User WHERE email=?");
+			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
 				if (rs.getString("password").equals(password)) {
@@ -40,6 +40,32 @@ public class DatabaseQuery {
 			}
 		}
 		return success;
+	}
+	
+	public static String getUsernameFromEmail(String email) {
+		String username = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT username FROM User WHERE email=?");
+			ps.setString(1, email);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				username = rs.getString("username");
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return username;
 	}
 	
 	public static int getUserID(String username) {

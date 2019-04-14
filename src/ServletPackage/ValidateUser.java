@@ -17,18 +17,18 @@ public class ValidateUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
       
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-		String nextPage = "/login.jsp";
+		String nextPage = "/Login.jsp";
 		
-		int result = DatabaseQuery.validateUser(username, password);
+		int result = DatabaseQuery.validateUser(email, password);
 		if (result == -1) {
 			request.getSession(true).setAttribute("login_err","This user does not exist");
 		} else if (result == -2) {
 			request.getSession(true).setAttribute("login_err", "Incorrect password");
 		} else {
 			request.getSession(true).setAttribute("loggedin", true);
-			request.getSession(true).setAttribute("username", username);
+			request.getSession(true).setAttribute("username", DatabaseQuery.getUsernameFromEmail(email));
 			nextPage = "/home.jsp";
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(nextPage);

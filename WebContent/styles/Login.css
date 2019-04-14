@@ -15,7 +15,7 @@ h3 {
 	margin-left: 25px;
 	margin-top: 10px;
 }
-input[type="password"], input[type="text"]{
+input[type="password"], input[type="email"]{
 	width: 75%	!important;
 	margin-top:3%;
 	margin-left: 35px;

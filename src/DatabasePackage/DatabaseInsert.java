@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 public class DatabaseInsert {
 		public static boolean registerUser(String username, String password, String email, String bio, String picPath) {
 			// inserts user into database if user does not already exist
-			if (DatabaseQuery.getUserID(username) == -1) {
+			if (DatabaseQuery.getUserID(username) != -1) {
 				return false;
 			}
 			insertUser(username,password,email,bio,picPath);

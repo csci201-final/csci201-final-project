@@ -38,9 +38,9 @@
 		<div class="card rounded">
 			<form>
 				<h3>Sign in</h3>
-				<label for="username" class="sr-only">Username</label> <input
-					type="text" id="username" class="form-control"
-					placeholder="Username"> <label for="password"
+				<label for="email" class="sr-only">Email</label> <input
+					type="email" id="email" class="form-control"
+					placeholder="Email"> <label for="password"
 					class="sr-only">Password</label> <input type="password"
 					id="password" class="form-control" placeholder="Password">
 				<div class="checkbox">
