@@ -36,13 +36,13 @@
 	</form>
 	<div class="container">
 		<div class="card rounded">
-			<form>
+			<form action="ValidateUser" method="POST">
 				<h3>Sign in</h3>
 				<label for="email" class="sr-only">Email</label> <input
 					type="email" id="email" class="form-control"
-					placeholder="Email"> <label for="password"
+					placeholder="Email" name="email"> <label for="password"
 					class="sr-only">Password</label> <input type="password"
-					id="password" class="form-control" placeholder="Password">
+					id="password" class="form-control" placeholder="Password" name="password">
 				<div class="checkbox">
 					<label id="remember">
 					<input type="checkbox" name="remember">

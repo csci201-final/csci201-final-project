@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event, javax.servlet.http.HttpSession" %>
+	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event" %>
 <!DOCTYPE html>
 <html>
 
@@ -8,11 +8,11 @@
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
 	}
-	if (session.getAttribute("username") == null){
-		session.setAttribute("loggedin", false);
-	}
 	if (session.getAttribute("currentEvents") == null) {
 		session.setAttribute("currentEvents", DatabaseQuery.getCurrentEvents());
+	}
+	if (session.getAttribute("username") == null){
+		session.setAttribute("loggedin", false);
 	}
 	@SuppressWarnings("unchecked")
 	Vector<Event> curEvents = (Vector<Event>) session.getAttribute("currentEvents");
@@ -21,103 +21,64 @@
 
 
 <head>
-	<script> 
-		function search(search_string){
-			var xhttp = new XMLHttpRequest();
-			xhttp.open("POST", "Validate", true);
-			xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/search=" + search_string);
-			
-			xhttp.onreadystatechange = function() {
-				console.log("Working");
-				reloadData();
-			}
-			xhttp.send();
-		}
-		function getInterested(){
-			<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
-			reloadData();
-		}
-		function getAttending(){
-			<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
-			reloadData();
-		}
-		function getNotAttending(){
-			<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
-			reloadData();
-		}
-		function reloadData(){
-			document.getElementById("event-all").innerHTML = 
-				<% if (numCurEvents > 0) { %>
-					<table>
-				<tr>
-					<th>
-						<div class="solo-table">
-						<%for(Event e : curEvents){ %>
-							<span class="breaker"></span>
-							<table>
-								<tr>
-									<th><%= e.getName() %></th>
-									<th>Host Rating<%for (int i=0;i<5;i++){ %>
-										<span class="glyphicon glyphicon-star"></span>
-										<%} %>
-									</th>
-									<th></th>
-								</tr>
-								<tr>
-									<th><%= e.getAffiliation() %></th>
-									<th>Attending: <%= e.getNumAttending() %></th>
-								</tr>
-								<tr>
-									<th><%= e.getLocation() %></th>
-									<th>Interested: <%= e.getNumInterested() %></th>
-									<th>
-										<button type="button"
-											class="btn btn-default btn-lg expand">
-											<span class="glyphicon glyphicon-expand"></span>
-										</button>
-									</th>
-								</tr>
-								<tr>
-									<th><%= e.getDate() %></th>
-									<th>Not Attending: <%= e.getNumNotInterested() %></th>
-								</tr>
-								<tr>
-									<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
-									<th>Tags:  <%= e.getTags() %></th>
-
-								</tr>
-									<%} %>
-							</table>
-						</div>
-					</th>
-				</tr>
-			</table>
-			<% } else { %>
-			<div class="noEvents">
-				No events to display
-			</div>
-			<% } %>"
-		}
-	</script>
-	<link href="https://fonts.googleapis.com/css?family=Poppins"
-		rel="stylesheet">
-	<link
-		href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-		rel="stylesheet" id="bootstrap-css">
-	<script
-		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+ 	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	
 	<meta charset="UTF-8">
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
 	<meta charset="UTF-8">
+	
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
+	
+	<script> 
+	function search(){
+		var search_string = document.getElementById('search')
+		console.log("Search")
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "Validate", true);
+		xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/search=" + search_string);
+		
+		xhttp.onreadystatechange = function() {
+			console.log("Working");
+			reloadData();
+		}
+		xhttp.send();
+		console.log("Reloaded")
+	}
+	function getInterested(){
+		console.log("Interested")
+		<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
+		//reloadData();
+		console.log("Realoded")
+	}
+	function getAttending(){
+		console.log("Attending")
+		<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
+		//reloadData();
+		console.log("Reloaded")
+	}
+	function getNotAttending(){
+		console.log("Not Attending")
+		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
+		//reloadData();
+		console.log("Reloaded")
+	}
+	
+	
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -173,13 +134,6 @@
 					<input type="text" class="form-control" id="search"
 							aria-describedby="search"
 							placeholder="Search Event by Name or Tags">
-					<button type="button" class="btn btn-default btn-lg searchglass">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
-				</div>
-					<input type="text" class="form-control" id="search"
-							aria-describedby="search"
-							placeholder="Search Event by Name or Tags">
 					<button type="button" class="btn btn-default btn-lg searchglass" onclick="search()">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
@@ -210,7 +164,7 @@
 				</div>
 				<div class=row2>
 					<div class="container">
-						<div id="events-all" class="events-all">
+						<div class="events-all">
 							<% if (numCurEvents > 0) { %>
 							<table>
 								<tr>
@@ -278,7 +232,7 @@
 					</div>
 					<div class="backgroundcat"></div>
 					<%
-					if ((boolean)session.getAttribute("loggedin")) {	
+					if ((boolean)session.getAttribute("loggedin")) {
 					%>
 					<div class="notificationbg">
 						<div class="notifications">

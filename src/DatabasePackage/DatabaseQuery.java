@@ -19,7 +19,7 @@ public class DatabaseQuery {
 		ResultSet rs = null;
 		try {
 			conn = DatabaseConn.getConnection("PartyPeople");
-			ps = conn.prepareStatement("SELECT * FROM User WHERE email=?");
+			ps = conn.prepareStatement("SELECT password FROM User WHERE email=?");
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {

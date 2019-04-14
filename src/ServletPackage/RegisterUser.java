@@ -47,7 +47,8 @@ public class RegisterUser extends HttpServlet {
 		} else if (!DatabaseInsert.registerUser(username, password, email, bio, picPath)) {
 			request.getSession(true).setAttribute("reg_err", "Username already exists");
 		} else {
-			String uploadPath = getServletContext().getRealPath("") + "images/profile-pics/";
+			String uploadPath = getServletContext().getRealPath("");
+			uploadPath = uploadPath.substring(0, uploadPath.lastIndexOf(".metadata")) + "CSCI201-Final-PartyPeople/WebContent/images/profile-pics/";
 			for (Part part : request.getParts()) {
 				part.write(uploadPath + picPath);
 			}

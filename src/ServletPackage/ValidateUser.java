@@ -29,7 +29,7 @@ public class ValidateUser extends HttpServlet {
 		} else {
 			request.getSession(true).setAttribute("loggedin", true);
 			request.getSession(true).setAttribute("username", DatabaseQuery.getUsernameFromEmail(email));
-			nextPage = "/home.jsp";
+			nextPage = "/HomePage.jsp";
 		}
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher(nextPage);
 		dispatch.forward(request, response);
