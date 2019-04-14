@@ -11,6 +11,9 @@
 	if (session.getAttribute("currentEvents") == null) {
 		session.setAttribute("currentEvents", DatabaseQuery.getCurrentEvents());
 	}
+	if (session.getAttribute("username") == null){
+		session.setAttribute("loggedin", false);
+	}
 	@SuppressWarnings("unchecked")
 	Vector<Event> curEvents = (Vector<Event>) session.getAttribute("currentEvents");
 	int numCurEvents = curEvents.size();
@@ -18,25 +21,64 @@
 
 
 <head>
-	<link href="https://fonts.googleapis.com/css?family=Poppins"
-		rel="stylesheet">
-	<link
-		href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
-		rel="stylesheet" id="bootstrap-css">
-	<script
-		src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+ 	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
+	
+	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	
 	<meta charset="UTF-8">
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	
 	<meta charset="UTF-8">
+	
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
+	
+	<script> 
+	function search(){
+		var search_string = document.getElementById('search')
+		console.log("Search")
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "Validate", true);
+		xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/search=" + search_string);
+		
+		xhttp.onreadystatechange = function() {
+			console.log("Working");
+			reloadData();
+		}
+		xhttp.send();
+		console.log("Reloaded")
+	}
+	function getInterested(){
+		console.log("Interested")
+		<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
+		//reloadData();
+		console.log("Realoded")
+	}
+	function getAttending(){
+		console.log("Attending")
+		<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
+		//reloadData();
+		console.log("Reloaded")
+	}
+	function getNotAttending(){
+		console.log("Not Attending")
+		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
+		//reloadData();
+		console.log("Reloaded")
+	}
+	
+	
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -92,7 +134,7 @@
 					<input type="text" class="form-control" id="search"
 							aria-describedby="search"
 							placeholder="Search Event by Name or Tags">
-					<button type="button" class="btn btn-default btn-lg searchglass">
+					<button type="button" class="btn btn-default btn-lg searchglass" onclick="search()">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
 				</div>
@@ -178,13 +220,13 @@
 
 					<div class="sortbycat">Filters</div>
 					<div class="cat">
-						<button type="button" class="btn btn-default btn-lg interestedbutton">
+						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="getInterested()">
 						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
 						</button><br> 
-						<button type="button" class="btn btn-default btn-lg attendingbutton">
+						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="getAttending()">
 							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
 						</button> <br> 
-						<button type="button" class="btn btn-default btn-lg notattendingbutton">
+						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="getNotAttending()">
 							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
 						</button>
 					</div>
