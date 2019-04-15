@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="DatabasePackage.*, EventPackage.Event, java.util.Vector" %>
+	pageEncoding="UTF-8" import="DatabasePackage.*, EventPackage.*, java.util.Vector" %>
 <!DOCTYPE html>
 <html>
 
@@ -20,7 +20,20 @@
 	}
 	@SuppressWarnings("unchecked")
 	Vector<Event> userEvents = (Vector<Event>) session.getAttribute("userEvents");
+	Vector<Event> pastEvents = SortEvents.getPastEvents(userEvents);
+	Vector<Event> futureEvents = SortEvents.getFutureEvents(userEvents);
 	int numEvents = userEvents.size();
+	String username = (String) session.getAttribute("username");
+	String picPath = "images/profile-pics/" + DatabaseQuery.getPicPath(username);
+	String profileTitle = numEvents > 0 ? "HOST" : "PARTYGOER";
+	Double rating = DatabaseQuery.getUserRating(username);
+	String ratingString = null;
+	if (rating == null) {
+		ratingString = "None yet!";
+	}
+	else {
+		ratingString = rating + " out of 5";
+	}
 %>
 <head>
 	<link href="https://fonts.googleapis.com/css?family=Poppins"
@@ -91,14 +104,24 @@
 
 	<div class="container-fluid">
 
-		<div class="row">
+		<div class="row" id="header">
+			<form action="HomePage.jsp" class="headerforms" id="homebutton">
+				<button type="submit" class="btn btn-default btn-lg homebutton">
+					<span class="glyphicon glyphicon-home"></span> Home
+				</button>
+			</form>
+			<form action="Logout.jsp" class="headerforms" id="outbutton">
+				<button type="submit" class="btn btn-default btn-lg logoutbutton">
+					<span class="glyphicon glyphicon-log-out"></span> Log Out
+				</button>
+			</form>
 			<div class="col-md-12">
-				<h2>Party Planning People</h2>
+				<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
 				<div class="banner"></div>
-
 			</div>
-
+			
 		</div>
+		
 		<div class="row">
 			<div class="sideprofile">
 				<div class="col-md-4">
@@ -107,16 +130,10 @@
 							<img src="jeffrey_miller.jpg">
 						</div>
 						<div class="userinfo">
-							<div class="profilename">Jeffrey Miller</div>
-							<div class="profiletitle">Host</div>
+							<div class="profilename"><%= username %></div>
+							<div class="profiletitle"><%= profileTitle %></div>
 							<div class="ratings">
-								My Rating:
-								<%
-								for (int i = 0; i < 4; i++) {
-							%><span class="glyphicon glyphicon-star"></span>
-								<%
-									}
-								%>
+								My Rating: <%= ratingString %>
 							</div>
 						</div>
 
@@ -150,68 +167,84 @@
 			</div>
 
 			<div class="container">
-				<table class="events-all">
-					<tr>
-						<th>Summer Splash</th>
-						<th>Event Rating</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>USC Scope</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>935 W. 30th St</th>
-					</tr>
-					<tr>
-						<th>April 9, 2019</th>
-					</tr>
-					<tr>
-						<th>8:00 pm to 2:00 am</th>
-					</tr>
-				</table>
-				<table class="events-past">
-					<tr>
-						<th>Past Splash</th>
-						<th>Event Rating</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>USC Scope</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>935 W. 30th St</th>
-					</tr>
-					<tr>
-						<th>April 9, 2019</th>
-					</tr>
-					<tr>
-						<th>8:00 pm to 2:00 am</th>
-					</tr>
-				</table>
-				<table class="events-future">
-					<tr>
-						<th>Future Splash</th>
-						<th>Event Rating</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>USC Scope</th>
-						<th></th>
-					</tr>
-					<tr>
-						<th>935 W. 30th St</th>
-					</tr>
-					<tr>
-						<th>April 9, 2019</th>
-					</tr>
-					<tr>
-						<th>8:00 pm to 2:00 am</th>
-					</tr>
-				</table>
+				<div class="events-all">
+					<% if (userEvents.size() > 0) { %>
+					<table>
+						<% for (Event e : userEvents) { %>
+						<tr>
+							<th><%= e.getEventName() %></th>
+							<th>Tags: <%= e.getTags() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getAffiliation() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getLocation() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getDate() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+						</tr>
+						<% } %>
+					</table>
+					<% } else { %>
+					<div class="noEvents">No events to display</div>
+					<% } %>
+				</div>
+				<div class="events-past">
+					<% if (pastEvents.size() > 0) { %>
+					<table>
+						<% for (Event e : pastEvents) { %>
+						<tr>
+							<th><%= e.getEventName() %></th>
+							<th>Tags: <%= e.getTags() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getAffiliation() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getLocation() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getDate() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+						</tr>
+						<% } %>
+					</table>
+					<% } else { %>
+					<div class="noEvents">No events to display</div>
+					<% } %>
+				<div class="events-future">
+					<% if (futureEvents.size() > 0) { %>
+					<table>
+						<% for (Event e : futureEvents) { %>
+						<tr>
+							<th><%= e.getEventName() %></th>
+							<th>Tags: <%= e.getTags() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getAffiliation() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getLocation() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getDate() %></th>
+						</tr>
+						<tr>
+							<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+						</tr>
+						<% } %>
+					</table>
+					<% } else { %>
+					<div class="noEvents">No events to display</div>
+					<% } %>
+				</div>
 			</div>
-
 		</div>
 		<div class="ratingspage">
 			<h1 class="titler">My Ratings</h1>
@@ -258,15 +291,5 @@
 			</form>
 		</div>
 	</div>
-	<p>
-		<button type="button" class="btn btn-default btn-lg homebutton">
-			<span class="glyphicon glyphicon-home"></span> Home
-		</button>
-	</p>
-	<p>
-		<button type="button" class="btn btn-default btn-lg logoutbutton">
-			<span class="glyphicon glyphicon-log-out"></span> Log Out
-		</button>
-	</p>
 </body>
 </html>

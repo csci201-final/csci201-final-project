@@ -51,7 +51,7 @@ public class DatabaseManager {
 							"email VARCHAR(45) NOT NULL, " +
 							"bio VARCHAR(5000) NOT NULL, " +
 							"picPath VARCHAR(200) NOT NULL, " +
-							"hostRating FLOAT(3,2), " +
+							"hostRating DOUBLE(3,2), " +
 							"pastEvents VARCHAR(1000), " +
 							"interestedEvents VARCHAR(1000));";
 		
@@ -72,8 +72,6 @@ public class DatabaseManager {
 		String attendTable = "CREATE TABLE Attending(" +
 							"eventID INT(11) NOT NULL, " +
 							"userID INT(11) NOT NULL, " +
-							"rating INT(1), " +
-							"comments VARCHAR(1000), " +
 							"FOREIGN KEY fk2(eventID) REFERENCES Event(eventID), " +
 							"FOREIGN KEY fk3(userID) REFERENCES User(userID));";
 		
@@ -84,10 +82,20 @@ public class DatabaseManager {
 							"FOREIGN KEY fk5(userID) REFERENCES User(userID));";
 		
 		String notAttendTable = "CREATE TABLE NotAttending(" +
-				"eventID INT(11) NOT NULL, " +
-				"userID INT(11) NOT NULL, " +
-				"FOREIGN KEY fk4(eventID) REFERENCES Event(eventID), " +
-				"FOREIGN KEY fk5(userID) REFERENCES User(userID));";
+							"eventID INT(11) NOT NULL, " +
+							"userID INT(11) NOT NULL, " +
+							"FOREIGN KEY fk6(eventID) REFERENCES Event(eventID), " +
+							"FOREIGN KEY fk7(userID) REFERENCES User(userID));";
+		
+		String ratingTable = "CREATE TABLE Rating(" +
+							"userID INT(11) NOT NULL, " +
+							"eventID INT(11) NOT NULL, " +
+							"rating INT(1) NOT NULL, " +
+							"comments VARCHAR(1000) NOT NULL, " +
+							"FOREIGN KEY fk8(eventID) REFERENCES Event(eventID), " +
+							"FOREIGN KEY fk9(userID) REFERENCES User(userID));";
+		
+		
 		try {
 			conn = DatabaseConn.getConnection("");
 			ps = conn.prepareStatement(createDB);
@@ -103,6 +111,8 @@ public class DatabaseManager {
 			ps = conn.prepareStatement(interestTable);
 			ps.executeUpdate();
 			ps = conn.prepareStatement(notAttendTable);
+			ps.executeUpdate();
+			ps = conn.prepareStatement(ratingTable);
 			ps.executeUpdate();
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());

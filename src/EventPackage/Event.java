@@ -25,6 +25,7 @@ public class Event {
 		this.beginTime = beginTime;
 		this.endTime = endTime;
 		this.location = location;
+		this.eventName = eventName;
 		this.tags = tags;
 		this.affiliation = affiliation;
 		this.attending = attending;
