@@ -48,6 +48,7 @@ public class EventServlet extends HttpServlet {
 		String tags = (String)request.getAttribute("tags");
 		
 		DatabaseInsert.insertEvent((String)request.getSession().getAttribute("username"), name, location, timeBegin, timeEnd, details, affiliation, tags);
+		System.out.println("Success");
 		
 	}
 

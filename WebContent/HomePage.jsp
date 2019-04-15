@@ -48,7 +48,7 @@
 		var search_string = document.getElementById('search')
 		console.log("Search")
 		var xhttp = new XMLHttpRequest();
-		xhttp.open("POST", "Validate", true);
+		xhttp.open("GET", "Validate", true);
 		xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/search=" + search_string);
 		
 		xhttp.onreadystatechange = function() {
@@ -87,6 +87,45 @@
 		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
 		//reloadData();
 		console.log("Reloaded")
+	}
+	function reloadData(){
+		var table = document.getElementById("event-table")
+		table.innerHTML = ""
+		<% if(curEvents.size() == 0) {%>
+		table.innerHTML += '<div class="noEvents"> \n No events to display \n </div> \n'
+		<%}
+		else{%>
+			table.innerHTML += 	'<tr>\n	<th> \n <div class="solo-table">'
+			<% for(Event e: curEvents){%>
+				table.innerHTML += '<span class="breaker"></span>'
+				table.innerHTML += '<table>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getName() %></th>'
+				table.innerHTML += '<th>Host Rating' 
+					<%for(int i=0;i<5;i++){%>
+						table.innerHTML += '<span class="glyphicon glyphicon-star"></span>'
+					<%}%>
+				table.innerHTML += '</th>\n<th>\n</th>\n</tr>\n<tr>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getAffiliation() %></th>'
+				table.innerHTML += '<th>Attending: <%= e.getNumAttending() %></th>'
+				table.innerHTML += '</tr>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getLocation() %></th>'
+				table.innerHTML += '<th>Interested: <%= e.getNumInterested() %></th>'
+				table.innerHTML += '<th>'
+				table.innerHTML += '<button type="button" class="btn btn-default btn-lg expand">'
+				table.innerHTML += '<span class="glyphicon glyphicon-expand"></span>'
+				table.innerHTML += '</button>\n</th>\n</tr>\n<tr>'
+				table.innerHTML += '<th><%= e.getDate() %></th>'
+				table.innerHTML += '<th>Not Attending: <%= e.getNumNotInterested() %></th>'
+				table.innerHTML += '</tr>\n<tr>'
+				table.innerHTML += '<th><%= e.getBegin() %> to <%= e.getEnd() %></th>'
+				table.innerHTML += '<th>Tags:  <%= e.getTags() %></th>'
+				table.innerHTML += '</tr>'
+			<%} %>
+			table.innerHTML += '</table>'
+		<%}%>
 	}
 	
 	
@@ -175,7 +214,7 @@
 				<div class=row2>
 					<div class="container">
 						<div class="events-all">
-							<table>
+							<table id="event-table">
 							<% if (numCurEvents > 0) { %>
 								<tr>
 									<th>
