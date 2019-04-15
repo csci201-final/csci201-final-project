@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event" %>
+	pageEncoding="UTF-8" import="DatabasePackage.*,java.util.Vector,EventPackage.Event, ServletPackage.SearchServlet" %>
 <!DOCTYPE html>
 <html>
 
@@ -45,12 +45,11 @@
 	
 	<script> 
 	function search(){
-		var search_string = document.getElementById('search')
+		var search_string = document.getElementById('search').value
 		console.log("Search")
 		var xhttp = new XMLHttpRequest();
-		xhttp.open("GET", "Validate", true);
-		xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/search=" + search_string);
-		
+		xhttp.open("GET", "SearchServlet?search="+search_string, true);
+			
 		xhttp.onreadystatechange = function() {
 			console.log("Working");
 			reloadData();
@@ -65,7 +64,7 @@
 			
 		console.log("Interested")
 		<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
-		//reloadData();
+		reloadData();
 		console.log("Realoded")
 	}
 	function getAttending(){
@@ -75,7 +74,7 @@
 		
 		console.log("Attending")
 		<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
-		//reloadData();
+		reloadData();
 		console.log("Reloaded")
 	}
 	function getNotAttending(){
@@ -85,7 +84,7 @@
 		
 		console.log("Not Attending")
 		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
-		//reloadData();
+		reloadData();
 		console.log("Reloaded")
 	}
 	function reloadData(){

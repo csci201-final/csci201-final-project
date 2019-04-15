@@ -6,9 +6,9 @@
 	<meta charset="ISO-8859-1">
 	<title>New Event</title>
 	<script>
-		//if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
-			//window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
-		//}
+		if(<%=(Boolean)request.getSession().getAttribute("loggedin")%>){
+			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
+		}
 	</script>
 </head>
 <body>

@@ -8,12 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import DatabasePackage.DatabaseManager;
 import DatabasePackage.DatabaseQuery;
 
 /**
  * Servlet implementation class NavigationServlet
  */
-@WebServlet("/NavigationServlet")
+@WebServlet("/SearchServlet")
 public class SearchServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -29,6 +30,8 @@ public class SearchServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DatabaseManager.checkDatabase();
+		System.out.println("ASDFASDF");
 		String search = (String) request.getAttribute("search");
 		HttpSession session = request.getSession();
 		session.setAttribute("currentEvents", DatabaseQuery.searchEvents(search));
