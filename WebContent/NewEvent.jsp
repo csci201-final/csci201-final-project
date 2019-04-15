@@ -39,7 +39,7 @@
 				<div class="card bg-secondary mb-3">
 					<div class="card-body">
 						<h3>Create Event</h3>
-						<form method="post" action="RegisterUser" enctype="multipart/form-data">
+						<form method="post" action="EventServlet">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">

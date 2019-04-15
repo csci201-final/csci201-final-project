@@ -95,7 +95,7 @@ public class DatabaseQuery {
 	}
 	
 	public static Double getUserRating(String username) {
-		Double rating = null;
+		Double rating = -1.0;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;

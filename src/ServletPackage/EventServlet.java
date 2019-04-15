@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -19,24 +20,26 @@ import DatabasePackage.DatabaseManager;
  */
 @WebServlet("/EventServlet")
 public class EventServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DatabaseManager.checkDatabase();
+		String name = (String)request.getParameter("name");
+		String location = (String)request.getParameter("location");
+		String date = (String)request.getParameter("date");
+		String timeBegin = (String)request.getParameter("start_time");
+		String timeEnd = (String)request.getParameter("end_time");
+		String details = (String)request.getParameter("details");
+		String affiliation = (String)request.getParameter("affiliation");
+		String tags = (String)request.getParameter("tags");
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+		Timestamp begin = Timestamp.valueOf(date + " " + timeBegin + ":00");
+		Timestamp end = Timestamp.valueOf(date + " " + timeEnd + ":00");
 		
-		String name = (String)request.getAttribute("name");
-		String location = (String)request.getAttribute("location");
-		Date date = (Date)request.getAttribute("date");
-		Timestamp timeBegin = (Timestamp)request.getAttribute("start_time");
-		Timestamp timeEnd = (Timestamp)request.getAttribute("end_time");
-		String details = (String)request.getAttribute("details");
-		String affiliation = (String)request.getAttribute("affiliation");
-		String tags = (String)request.getAttribute("tags");
-		
-		DatabaseInsert.insertEvent((String)request.getSession().getAttribute("username"), name, location, timeBegin, timeEnd, details, affiliation, tags);
+		DatabaseInsert.insertEvent((String)request.getSession(true).getAttribute("username"), name, location, begin, end, details, affiliation, tags);
 		System.out.println("Success");
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/ProfilePage.jsp");
+		dispatch.forward(request, response);
 		
 	}
 

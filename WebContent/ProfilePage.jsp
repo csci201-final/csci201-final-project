@@ -20,11 +20,11 @@
 	Vector<Event> futureEvents = SortEvents.getFutureEvents(userEvents);
 	int numEvents = userEvents.size();
 	String username = (String) session.getAttribute("username");
-	String picPath = "images/profile-pics/" + DatabaseQuery.getPicPath(username);
+	String picPath = DatabaseQuery.getPicPath(username);
 	String profileTitle = numEvents > 0 ? "HOST" : "PARTYGOER";
 	Double rating = DatabaseQuery.getUserRating(username);
 	String ratingString = null;
-	if (rating == null) {
+	if (rating == -1.0) {
 		ratingString = "None yet!";
 	}
 	else {
@@ -95,6 +95,9 @@
 	    $(".events-past").hide();
 	    $(".events-future").hide();
 	});
+	function newEvent() {
+		window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/NewEvent.jsp");
+	}
 </script>
 <body>
 
@@ -123,7 +126,7 @@
 				<div class="col-md-4">
 					<div class="sider">
 						<div class="profilePic">
-							<img src="jeffrey_miller.jpg">
+							<img src=<%= picPath %>>
 						</div>
 						<div class="userinfo">
 							<div class="profilename"><%= username %></div>
@@ -150,9 +153,9 @@
 			</div>
 		</div>
 		<h1 id="myeventstitle">My Events</h1>
-		<button class="plus" style="border: none;" onclick="goEvent()">
+		<button class="plus" style="border: none;" onclick="newEvent()">
 				<span class="glyphicon glyphicon-plus-sign" style="font-size: 30px;"></span>
-			</button>
+		</button>
 		<div id="eventdisplay">
 			<div class="menbar">
 				<ul>

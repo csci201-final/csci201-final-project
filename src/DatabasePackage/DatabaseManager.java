@@ -63,10 +63,8 @@ public class DatabaseManager {
 							"timeEnd DATETIME NOT NULL, " +
 							"host INT(11) NOT NULL, " +
 							"details VARCHAR(5000) NOT NULL, " +
-							"affiliation VARCHAR(100), " + 
-							"eventRating FLOAT(3,2), " +
-							"attendees VARCHAR(1000), " +
-							"tags VARCHAR(1000), " +
+							"affiliation VARCHAR(100) NOT NULL, " +
+							"tags VARCHAR(1000) NOT NULL, " +
 							"FOREIGN KEY fk1(host) REFERENCES User(userID));";
 		
 		String attendTable = "CREATE TABLE Attending(" +

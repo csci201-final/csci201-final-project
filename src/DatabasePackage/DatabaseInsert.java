@@ -49,36 +49,9 @@ public class DatabaseInsert {
 				ps.setString(2, place);
 				ps.setTimestamp(3, timeBegin);
 				ps.setTimestamp(4, timeEnd);
-				ps.setInt(4, DatabaseQuery.getUserID(username));
-				ps.setString(5, details);
-				ps.setString(6, affiliation);
-				ps.setString(7, tags);
-				ps.execute();
-			} catch (SQLException sqle) {
-				System.out.println("sqle: " + sqle.getMessage());
-			} finally {
-				try {
-					DatabaseConn.closeConnection(conn);
-					DatabaseManager.closeUtil(ps);
-				} catch (SQLException sqle) {
-					System.out.println("sqle: " + sqle.getMessage());
-				}
-			}
-		}
-		
-		public static void insertEvent(String username, String eventname, String place, Timestamp timeBegin, Timestamp timeEnd, String details, String tags) {
-			Connection conn = null;
-			PreparedStatement ps = null;
-			try {
-				conn = DatabaseConn.getConnection("PartyPeople");
-				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation,tags) VALUES(?,?,?,?,?,?,?,?)");
-				ps.setString(1, eventname);
-				ps.setString(2, place);
-				ps.setTimestamp(3, timeBegin);
-				ps.setTimestamp(4, timeEnd);
 				ps.setInt(5, DatabaseQuery.getUserID(username));
 				ps.setString(6, details);
-				ps.setString(7, username);
+				ps.setString(7, affiliation);
 				ps.setString(8, tags);
 				ps.execute();
 			} catch (SQLException sqle) {
@@ -92,33 +65,7 @@ public class DatabaseInsert {
 				}
 			}
 		}
-		
-		public static void insertEvent(String username, String eventname, String place, Timestamp timeBegin, Timestamp timeEnd, String details) {
-			Connection conn = null;
-			PreparedStatement ps = null;
-			try {
-				conn = DatabaseConn.getConnection("PartyPeople");
-				ps = conn.prepareStatement("INSERT INTO Event (name,place,timeBegin,timeEnd,host,details,affiliation) VALUES(?,?,?,?,?,?,?)");
-				ps.setString(1, eventname);
-				ps.setString(2, place);
-				ps.setTimestamp(3, timeBegin);
-				ps.setTimestamp(4, timeEnd);
-				ps.setInt(5, DatabaseQuery.getUserID(username));
-				ps.setString(6, details);
-				ps.setString(7, username);
-				ps.execute();
-			} catch (SQLException sqle) {
-				System.out.println("sqle: " + sqle.getMessage());
-			} finally {
-				try {
-					DatabaseConn.closeConnection(conn);
-					DatabaseManager.closeUtil(ps);
-				} catch (SQLException sqle) {
-					System.out.println("sqle: " + sqle.getMessage());
-				}
-			}
-		}
-		
+	
 		public static void insertAttended(String username, String eventname, int rating, String comments) {
 			Connection conn = null;
 			PreparedStatement ps = null;
