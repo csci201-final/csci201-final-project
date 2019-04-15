@@ -59,18 +59,30 @@
 		console.log("Reloaded")
 	}
 	function getInterested(){
+		if(<%=(Boolean)request.getAttribute("loggedin")==false%>){
+			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
+		}
+			
 		console.log("Interested")
 		<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
 		//reloadData();
 		console.log("Realoded")
 	}
 	function getAttending(){
+		if(<%=(Boolean)request.getAttribute("loggedin")==false%>){
+			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
+		}
+		
 		console.log("Attending")
 		<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
 		//reloadData();
 		console.log("Reloaded")
 	}
 	function getNotAttending(){
+		if(<%=(Boolean)request.getAttribute("loggedin")==false%>){
+			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
+		}
+		
 		console.log("Not Attending")
 		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
 		//reloadData();
