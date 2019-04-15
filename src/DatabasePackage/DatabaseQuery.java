@@ -94,6 +94,32 @@ public class DatabaseQuery {
 		return id;
 	}
 	
+	public static Double getUserRating(String username) {
+		Double rating = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT hostRating FROM User WHERE username=?");
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				rating = rs.getDouble("hostRating");
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return rating;
+	}
+	
 	public static int getEventID(String eventname) {
 		int id = -1;
 		Connection conn = null;
@@ -169,7 +195,7 @@ public class DatabaseQuery {
 				System.out.println("sqle: " + sqle.getMessage());
 			}
 		}
-		return path;
+		return "images/profile-pics/" + path;
 	}
 	
 	public static Vector<Integer> getAttending(int eventID) {

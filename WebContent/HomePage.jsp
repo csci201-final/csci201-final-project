@@ -116,14 +116,12 @@
 			</div>
 			<div class="row">
 				<div class="col-md-7">
-					<% if ((boolean)session.getAttribute("loggedin")) {
-							String username = (String) session.getAttribute("username");
-							String picPath = "images/profile-pics/" + DatabaseQuery.getPicPath(username);%>
+					<% if ((boolean)session.getAttribute("loggedin")) {%>
 					<div class="profilePic">
-						<img src=<%= picPath %>>
+						<img src=<%= DatabaseQuery.getPicPath((String)session.getAttribute("username")) %>>
 					</div>
 					<div class="userinfo">
-						<div class="profilename"><%= username %></div>
+						<div class="profilename"><%= (String)session.getAttribute("username")  %></div>
 					</div>
 					<% } else { %>
 					<div class="filler"></div>
@@ -165,8 +163,8 @@
 				<div class=row2>
 					<div class="container">
 						<div class="events-all">
-							<% if (numCurEvents > 0) { %>
 							<table>
+							<% if (numCurEvents > 0) { %>
 								<tr>
 									<th>
 										<div class="solo-table">
@@ -209,12 +207,12 @@
 										</div>
 									</th>
 								</tr>
-							</table>
-							<% } else { %>
+								<% } else { %>
 							<div class="noEvents">
 								No events to display
 							</div>
 							<% } %>
+							</table>
 						</div>
 					</div>
 
