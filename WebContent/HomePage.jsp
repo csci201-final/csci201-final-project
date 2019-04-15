@@ -59,7 +59,7 @@
 		console.log("Reloaded")
 	}
 	function getInterested(){
-		if(<%=(Boolean)request.getAttribute("loggedin")==false%>){
+		if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
 			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
 		}
 			
@@ -69,7 +69,7 @@
 		console.log("Realoded")
 	}
 	function getAttending(){
-		if(<%=(Boolean)request.getAttribute("loggedin")==false%>){
+		if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
 			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
 		}
 		
@@ -79,7 +79,7 @@
 		console.log("Reloaded")
 	}
 	function getNotAttending(){
-		if(<%=(Boolean)request.getAttribute("loggedin")==false%>){
+		if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
 			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
 		}
 		
