@@ -126,6 +126,14 @@
 			table.innerHTML += '</table>'
 		<%}%>
 	}
+	//---------------NEWLY ADDED----------------
+	function to_EventDetails(event_name) {
+		var this_event = event_name; 
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("POST", "Validate", true);
+		xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/this_event=" + this_event);
+		xhttp.send(); 
+	}
 	
 	
 	</script>
@@ -222,7 +230,7 @@
 											<span class="breaker"></span>
 											<table>
 												<tr>
-													<th><%= e.getName() %></th>
+													<th onclick="to_EventDetails(<%=e.getName()%>);"><%= e.getName() %></th>
 													<th>Host Rating<%for (int i=0;i<5;i++){ %>
 														<span class="glyphicon glyphicon-star"></span>
 														<%} %>

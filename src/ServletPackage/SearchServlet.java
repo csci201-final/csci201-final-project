@@ -33,8 +33,15 @@ public class SearchServlet extends HttpServlet {
 		DatabaseManager.checkDatabase();
 		System.out.println("ASDFASDF");
 		String search = (String) request.getAttribute("search");
+		String this_event = (String)request.getAttribute("this_event"); 
 		HttpSession session = request.getSession();
 		session.setAttribute("currentEvents", DatabaseQuery.searchEvents(search));
+		session.setAttribute("this_event", this_event);
+		if(this_event != null && this_event.trim().length() > 0) {
+			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/event.jsp");
+			dispatch.forward(request, response);
+		}
+
 	}
 
 	/**
