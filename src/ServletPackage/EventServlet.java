@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DatabasePackage.DatabaseInsert;
+import DatabasePackage.DatabaseManager;
 
 /**
  * Servlet implementation class EventServlet
@@ -32,6 +33,8 @@ public class EventServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		DatabaseManager.checkDatabase();
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 		
