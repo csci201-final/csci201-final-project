@@ -1,51 +1,112 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+    pageEncoding="ISO-8859-1" import="DatabasePackage.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="ISO-8859-1">
 	<title>New Event</title>
-	<script>
-		if(<%=(Boolean)request.getSession().getAttribute("loggedin")%>){
-			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
-		}
-	</script>
+	<% DatabaseManager.checkDatabase();
+	if (session.getAttribute("loggedin") == null){
+		session.setAttribute("loggedin",false);
+	}
+	if (!((Boolean)session.getAttribute("loggedin"))) {
+		%> <jsp:forward page="Login.jsp" /> <%
+	} %>
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="styles/NewEvent.css">
 </head>
 <body>
-
-	<h1> Create an New Event</h1>
-	<br>
-	<form name="event_form" action="EventServlet" method="GET">
-		<span> Name </span>
-		<input type="text" name="name"> 
-		<br>
-		<span> Location </span>
-		<input type="text" name="location"> 
-		<br>
-		<span> Start Date </span>
-		<input type="date" name="date"> 
-		<br>
-		<span> Start Time </span>
-		<input type="time" name="start_time"> 
-		<br>
-		<span> End Time </span>
-		<input type="time" name="end_time"> 
-		<br>
-		<span> Details </span>
-		<textarea form="event_form" type="text" name="details"> 
-		</textarea>
-		<br>
-		<span> Affiliation </span>
-		<input type="text" name="affiliation"> 
-		<br>
-		<span> Tags </span>
-		<textarea form="event_form" type="text" name="tags"> 
-		</textarea>
-		<br>
-		<input type="submit">
-	</form>
-
-
-
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
+			<div class="banner"></div>
+		</div>
+		<form action="HomePage.jsp" class="headerforms">
+			<button type="submit" class="btn btn-default btn-lg homebutton">
+				<span class="glyphicon glyphicon-home"></span> Home
+			</button>
+		</form>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-md-6">
+				<div class="card bg-secondary mb-3">
+					<div class="card-body">
+						<h3>Create Event</h3>
+						<form method="post" action="RegisterUser" enctype="multipart/form-data">
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="fname">Event Name</label> <input type="text"
+											class="form-control" name="name" id="name" aria-describedby="name"
+											placeholder="Enter Name">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="location">Location</label> <input type="text"
+											class="form-control" name="location" id="location" aria-describedby="location"
+											placeholder="Enter Event Address">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="affiliation">Affiliation</label> <input type="text"
+											class="form-control" id="affiliation" name="affiliation" aria-describedby="affiliation"
+											placeholder="Enter Affiliation (Username used if left blank)">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="date">Date</label> <input
+											type="date" class="form-control" id="date"
+											aria-describedby="date" name="date" placeholder="Enter Date of Event">
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="start_time">Start Time</label> <input type="time"
+											class="form-control" id="start_time" name="start_time" aria-describedby="start_time"
+											placeholder="Enter Start Time">
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="end_date">End Time</label> <input
+											type="time" class="form-control" id="end_time"
+											aria-describedby="end_time" name="end_time" placeholder="Enter End Time">
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="tags">Tags</label> <input type="text"
+									class="form-control" id="tags" name="tags" aria-describedby="tags"
+									placeholder="Enter Event Hashtags">
+							</div>
+							<div class="form-group">
+								<label for="bio">Event Details</label> <textarea rows="3"
+									class="form-control" id="details" name="details" aria-describedby="details"
+									placeholder="Enter Event Details"></textarea>
+							</div>
+							<div class="form-group ">
+								<button type="submit"
+									class="btn btn-primary btn-lg btn-block login-button">Create</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

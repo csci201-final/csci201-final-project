@@ -4,10 +4,6 @@
 <html>
 
 <%
-	// remove this line once registration and login pages are linked
-	session.setAttribute("username", "ethan");
-
-
 	DatabaseManager.checkDatabase();
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);

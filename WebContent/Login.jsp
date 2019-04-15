@@ -48,7 +48,7 @@
 					<input type="checkbox" name="remember">
 					Remember me</label>
 				</div>
-				<div id="reg">Don't Have an Account? <a href="register.jsp"><u>Create Account</u></a></div>
+				<div id="reg">Don't Have an Account? <a href="Register.jsp"><u>Create Account</u></a></div>
 				<input type="submit" class="btn btn-default submitbutton">
 			</form>
 		</div>
