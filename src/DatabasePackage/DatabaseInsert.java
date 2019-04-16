@@ -130,4 +130,27 @@ public class DatabaseInsert {
 				}
 			}
 		}
+		
+		public static void insertRating(String username, String eventname, int rating, String comments) {
+			Connection conn = null;
+			PreparedStatement ps = null;
+			try {
+				conn = DatabaseConn.getConnection("PartyPeople");
+				ps = conn.prepareStatement("INSERT INTO Rating (userID,eventID,rating,comments) VALUES(?,?,?,?)");
+				ps.setInt(1, DatabaseQuery.getUserID(username));
+				ps.setInt(2, DatabaseQuery.getEventID(eventname));
+				ps.setInt(3, rating);
+				ps.setString(4, comments);
+				ps.execute();
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			} finally {
+				try {
+					DatabaseConn.closeConnection(conn);
+					DatabaseManager.closeUtil(ps);
+				} catch (SQLException sqle) {
+					System.out.println("sqle: " + sqle.getMessage());
+				}
+			}
+		}
 }

@@ -17,6 +17,7 @@
 	@SuppressWarnings("unchecked")
 	Vector<Event> curEvents = (Vector<Event>) session.getAttribute("currentEvents");
 	int numCurEvents = curEvents.size();
+	System.out.println(numCurEvents);
 %>
 
 
@@ -226,24 +227,24 @@
 								<tr>
 									<th>
 										<div class="solo-table">
-										<%for(Event e : curEvents){ %>
+										<%for(int i = 0; i < numCurEvents; i++){ %>
 											<span class="breaker"></span>
 											<table>
 												<tr>
-													<th onclick="to_EventDetails(<%=e.getName()%>);"><%= e.getName() %></th>
-													<th>Host Rating<%for (int i=0;i<5;i++){ %>
+													<th><%= curEvents.get(i).getName() %></th>
+													<th>Host Rating<%for (int j=0;j<5;j++){ %>
 														<span class="glyphicon glyphicon-star"></span>
 														<%} %>
 													</th>
 													<th></th>
 												</tr>
 												<tr>
-													<th><%= e.getAffiliation() %></th>
-													<th>Attending: <%= e.getNumAttending() %></th>
+													<th><%= curEvents.get(i).getAffiliation() %></th>
+													<th>Attending: <%= curEvents.get(i).getNumAttending() %></th>
 												</tr>
 												<tr>
-													<th><%= e.getLocation() %></th>
-													<th>Interested: <%= e.getNumInterested() %></th>
+													<th><%= curEvents.get(i).getLocation() %></th>
+													<th>Interested: <%= curEvents.get(i).getNumInterested() %></th>
 													<th>
 														<button type="button"
 															class="btn btn-default btn-lg expand">
@@ -252,12 +253,12 @@
 													</th>
 												</tr>
 												<tr>
-													<th><%= e.getDate() %></th>
-													<th>Not Attending: <%= e.getNumNotInterested() %></th>
+													<th><%= curEvents.get(i).getDate() %></th>
+													<th>Not Attending: <%= curEvents.get(i).getNumNotInterested() %></th>
 												</tr>
 												<tr>
-													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
-													<th>Tags:  <%= e.getTags() %></th>
+													<th><%= curEvents.get(i).getBegin() %> to <%= curEvents.get(i).getEnd() %></th>
+													<th>Tags:  <%= curEvents.get(i).getTags() %></th>
 
 												</tr>
 											</table>
