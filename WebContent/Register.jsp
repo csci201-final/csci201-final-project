@@ -31,9 +31,7 @@
 
 </head>
 <body>
-	<%
-		DatabaseManager.checkDatabase();
-	%>
+	<%	DatabaseManager.checkDatabase(); %>
 	<div class="container-fluid">
 
 		<div class="row">
@@ -73,7 +71,7 @@
 							<div class="form-group">
 								<label for="email">Your Email</label> 
 								<input type="email" class="form-control" id="email" name="email" aria-describedby="email" placeholder="Enter Email" value="">
-								<span id="email_error"> The email is already registered</span> 
+								<span id="email_error" display="none"> The email is already registered</span> 
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -85,7 +83,7 @@
 									<div class="form-group">
 										<label for="Cpassword">Confirm Password</label> 
 										<input type="password" class="form-control" id="Cpassword" aria-describedby="Cpassword" name="Cpassword" placeholder="Confirm Password">
-										<span id="password_error"> The passwords don't match</span> 
+										<span id="password_error" display="none"> The passwords don't match</span> 
 									</div>
 								</div>
 							</div>
@@ -143,9 +141,11 @@
 											  }
 										 function reloadPage(){
 											 <% if((Boolean)session.getAttribute("username_error")){ %>
-											 document.getElementById("email_error").
+												document.getElementById("email_error").style.display = 'block'
 											 <%}%>
-											 
+											 <% if((Boolean)session.getAttribute("password_error")){ %>
+												document.getElementById("password_error").style.display = 'block'
+											 <%}%>									 
 										 }
 										 function validateInput(){
 											 var email = document.getElementById("email").value
@@ -160,9 +160,11 @@
 											}
 											
 											if(<%=(session.getAttribute("username_error") != null)%>){
+												 <%session.setAttribute("username_error", null);%>
 												return false;
 											}
 											if(<%=(session.getAttribute("password_error") != null)%>){
+												 <%session.setAttribute("password_error", null);%>
 												return false;
 											}
 											return true;

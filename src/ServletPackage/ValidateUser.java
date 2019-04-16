@@ -23,9 +23,9 @@ public class ValidateUser extends HttpServlet {
 		
 		int result = DatabaseQuery.validateUser(email, password);
 		if (result == -1) {
-			request.getSession(true).setAttribute("login_err","This user does not exist");
+			request.getSession(true).setAttribute("username_error","This user does not exist");
 		} else if (result == -2) {
-			request.getSession(true).setAttribute("login_err", "Incorrect password");
+			request.getSession(true).setAttribute("password_error", "Incorrect password");
 		} else {
 			request.getSession(true).setAttribute("loggedin", true);
 			request.getSession(true).setAttribute("username", DatabaseQuery.getUsernameFromEmail(email));

@@ -25,7 +25,7 @@ public class RegisterUser extends HttpServlet {
 		String email = request.getParameter("email");
 		String bio = request.getParameter("bio");
 		String nextPage = "/Register.jsp";
-		
+			
 		String picPath = "";
 		for (Part part : request.getParts()) {
 			for (String content : part.getHeader("content-disposition").split(";")) {
@@ -43,9 +43,9 @@ public class RegisterUser extends HttpServlet {
 		}
 		
 		if (!password.equals(confirm)) {
-			request.getSession(true).setAttribute("reg_err", "Passwords do not match");
+			request.getSession(true).setAttribute("password_error", true);
 		} else if (!DatabaseInsert.registerUser(username, password, email, bio, picPath)) {
-			request.getSession(true).setAttribute("reg_err", "Username already exists");
+			request.getSession(true).setAttribute("username_error", true);
 		} else {
 			String uploadPath = getServletContext().getRealPath("");
 			uploadPath = uploadPath.substring(0, uploadPath.lastIndexOf(".metadata")) + "CSCI201-Final-PartyPeople/WebContent/images/profile-pics/";
