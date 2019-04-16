@@ -89,3 +89,9 @@ body {
 			font-family: 'Poppins', sans-serif;
 	
 }
+#username_error{
+	display:none;
+}
+#password_error{
+	display:none;
+}
