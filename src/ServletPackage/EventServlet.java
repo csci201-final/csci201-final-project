@@ -37,7 +37,6 @@ public class EventServlet extends HttpServlet {
 		Timestamp end = Timestamp.valueOf(date + " " + timeEnd + ":00");
 		
 		DatabaseInsert.insertEvent((String)request.getSession(true).getAttribute("username"), name, location, begin, end, details, affiliation, tags);
-		System.out.println("Success");
 		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/ProfilePage.jsp");
 		dispatch.forward(request, response);
 		

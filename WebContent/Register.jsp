@@ -53,14 +53,12 @@
 				<div class="card bg-secondary mb-3">
 					<div class="card-body">
 						<h3>Sign Up</h3>
-						<form method="post" action="RegisterUser"
-							enctype="multipart/form-data">
+						<form method="post" action="RegisterUser" enctype="multipart/form-data">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="fname">Your First Name</label> <input type="text"
-											class="form-control" name="fname" id="fname"
-											aria-describedby="fname" placeholder="Enter First Name">
+										<label for="fname">Your First Name</label> 
+										<input type="text" class="form-control" name="fname" id="fname" aria-describedby="fname" placeholder="Enter First Name">
 									</div>
 								</div>
 
@@ -73,37 +71,31 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="email">Your Email</label> <input type="email"
-									class="form-control" id="email" name="email" 
-									aria-describedby="email" placeholder="Enter Email" value="">
+								<label for="email">Your Email</label> 
+								<input type="email" class="form-control" id="email" name="email" aria-describedby="email" placeholder="Enter Email" value="">
+								<span id="email_error"> The email is already registered</span> 
 							</div>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="password">Password</label> <input type="password"
-											class="form-control" id="password" name="password"
-											aria-describedby="password" placeholder="Enter Password">
+										<label for="password">Password</label> <input type="password" class="form-control" id="password" name="password" aria-describedby="password" placeholder="Enter Password">
 									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
-										<label for="Cpassword">Confirm Password</label> <input
-											type="password" class="form-control" id="Cpassword"
-											aria-describedby="Cpassword" name="Cpassword"
-											placeholder="Confirm Password">
+										<label for="Cpassword">Confirm Password</label> 
+										<input type="password" class="form-control" id="Cpassword" aria-describedby="Cpassword" name="Cpassword" placeholder="Confirm Password">
+										<span id="password_error"> The passwords don't match</span> 
 									</div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="bio">Your Short Bio</label>
-								<textarea rows="3" class="form-control" id="bio" name="bio"
-									aria-describedby="bio" placeholder="Enter Bio"></textarea>
+								<textarea rows="3" class="form-control" id="bio" name="bio" aria-describedby="bio" placeholder="Enter Bio"></textarea>
 							</div>
 							<div class="form-group">
-								<label for="profilePic">Upload Profile Picture</label> <input
-									type="file" class="form-control" id="profilePic"
-									name="profilePic" aria-describedby="profilePic"
-									accept="image/*">
+								<label for="profilePic">Upload Profile Picture</label> 
+								<input type="file" class="form-control" id="profilePic" name="profilePic" aria-describedby="profilePic"	accept="image/*">
 							</div>
 							<div class="row">
 								<div class="col-md-6">
@@ -149,14 +141,39 @@
 											      console.log('User signed out already.');
 											    });
 											  }
+										 function reloadPage(){
+											 <% if((Boolean)session.getAttribute("username_error")){ %>
+											 document.getElementById("email_error").
+											 <%}%>
+											 
+										 }
+										 function validateInput(){
+											 var email = document.getElementById("email").value
+											 var password = document.getElementById("password").value
+											 var c_password = document.getElementById("Cpassword").value
+											 
+											 var xhttp = new XMLHttpRequest();
+											xhttp.open("GET", "RegisterUser?email="+email+"&password="+password+"&cpassword"+c_password, true);
+													
+											xhttp.onreadystatechange = function() {
+												reloadPage()
+											}
+											
+											if(<%=(session.getAttribute("username_error") != null)%>){
+												return false;
+											}
+											if(<%=(session.getAttribute("password_error") != null)%>){
+												return false;
+											}
+											return true;
+										 }
 									</script>
 
 								</div>
 								
 							</div>
 							<div class="form-group ">
-								<button type="submit"
-									class="btn btn-primary btn-lg btn-block login-button">Register</button>
+								<button type="submit" onclick="return validateInput()" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 							</div>
 						</form>
 					</div>

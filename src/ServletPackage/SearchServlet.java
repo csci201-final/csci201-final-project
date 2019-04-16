@@ -1,6 +1,8 @@
 package ServletPackage;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,15 +33,19 @@ public class SearchServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		DatabaseManager.checkDatabase();
-		System.out.println("ASDFASDF");
 		String search = (String) request.getAttribute("search");
 		String this_event = (String)request.getAttribute("this_event"); 
 		HttpSession session = request.getSession();
-		session.setAttribute("currentEvents", DatabaseQuery.searchEvents(search));
-		session.setAttribute("this_event", this_event);
+		if(search != null && search.trim().length() != 0) {
+			session.setAttribute("currentEvents", DatabaseQuery.searchEvents(search));
+			return;
+		}
+		
 		if(this_event != null && this_event.trim().length() > 0) {
+			session.setAttribute("this_event", this_event);
 			RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/event.jsp");
 			dispatch.forward(request, response);
+			return;
 		}
 
 	}

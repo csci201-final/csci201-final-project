@@ -51,7 +51,6 @@
 		xhttp.open("GET", "SearchServlet?search="+search_string, true);
 			
 		xhttp.onreadystatechange = function() {
-			console.log("Working");
 			reloadData();
 		}
 		xhttp.send();
@@ -89,7 +88,7 @@
 	}
 	function reloadData(){
 		var table = document.getElementById("event-table")
-		table.innerHTML = ""
+		table.innerHTML = " "
 		<% if(curEvents.size() == 0) {%>
 		table.innerHTML += '<div class="noEvents"> \n No events to display \n </div> \n'
 		<%}
@@ -258,8 +257,8 @@
 													<th>Tags:  <%= e.getTags() %></th>
 
 												</tr>
-													<%} %>
 											</table>
+										<%} %>
 										</div>
 									</th>
 								</tr>
