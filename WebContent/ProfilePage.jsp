@@ -98,6 +98,12 @@
 	function newEvent() {
 		window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/NewEvent.jsp");
 	}
+	function to_EventDetails(event_name) {
+		var this_event = event_name; 
+		var xhttp = new XMLHttpRequest();
+		xhttp.open("GET", "SearchServlet?this_event=" + this_event, true);
+		xhttp.send(); 
+	}
 </script>
 <body>
 
@@ -171,7 +177,7 @@
 					<table>
 						<% for (Event e : userEvents) { %>
 						<tr>
-							<th><%= e.getEventName() %></th>
+							<th onclick="to_EventDetails(<%=e.getName()%>);"><%= e.getEventName() %></th>
 							<th>Tags: <%= e.getTags() %></th>
 						</tr>
 						<tr>
@@ -197,7 +203,7 @@
 					<table>
 						<% for (Event e : pastEvents) { %>
 						<tr>
-							<th><%= e.getEventName() %></th>
+							<th onclick="to_EventDetails(<%=e.getName()%>);"> <%= e.getEventName() %></th>
 							<th>Tags: <%= e.getTags() %></th>
 						</tr>
 						<tr>
@@ -222,7 +228,7 @@
 					<table>
 						<% for (Event e : futureEvents) { %>
 						<tr>
-							<th><%= e.getEventName() %></th>
+							<thonclick="to_EventDetails(<%=e.getName()%>);"><%= e.getEventName() %></th>
 							<th>Tags: <%= e.getTags() %></th>
 						</tr>
 						<tr>

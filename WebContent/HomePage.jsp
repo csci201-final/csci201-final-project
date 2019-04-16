@@ -130,11 +130,9 @@
 	function to_EventDetails(event_name) {
 		var this_event = event_name; 
 		var xhttp = new XMLHttpRequest();
-		xhttp.open("POST", "Validate", true);
-		xhttp.setRequestHeader("Content-Type", "http://localhost:8080/CSCI201-Final-PartyPeople/SearchServlet/this_event=" + this_event);
+		xhttp.open("GET", "SearchServlet?this_event=" + this_event, true);
 		xhttp.send(); 
 	}
-	
 	
 	</script>
 </head>
