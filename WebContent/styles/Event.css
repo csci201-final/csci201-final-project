@@ -1,0 +1,47 @@
+@charset "UTF-8";
+.col-md-6 {
+	background-color: rgb(51, 51, 51);
+	height: 80px;
+	margin-top:-1.4%;
+	width: 103em !important;
+	max-width: 100% !important;
+}
+body {
+	background-color: rgb(37, 62, 102) !important;
+	background-image: url("BlackVignette.png");
+}
+*{
+			font-family: 'Poppins', sans-serif;
+	
+}
+.homebutton{
+	position: absolute;
+	left: 77%;
+	top:0%;
+	background-color:transparent !important;
+	border:none	!important;
+	color: white !important; 
+    font-size: 13pt !important;
+    margin-top: 20px !important;
+}
+.glyphicon-home{
+	width:30%;
+}
+.btn-lg{
+	font-size:1.25rem;
+	margin-top:3%;
+	margin-left:1%;
+	color:#212529
+}
+#logo {
+	margin-left: 25px;
+	margin-top: 10px;
+}
+h1,h2{
+	color:white;
+	padding: 0px 15px;
+}
+.cattag {
+	font-family: 'Poppins' !important;
+	color: black !important;
+}
