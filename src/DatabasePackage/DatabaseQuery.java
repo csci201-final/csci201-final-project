@@ -302,7 +302,7 @@ public class DatabaseQuery {
 				if (begin.after(curTime)) {
 					int eventID = rs.getInt("eventID");
 					int hostID = rs.getInt("host");
-					SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
 					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 					Timestamp end = rs.getTimestamp("timeEnd");
 					String beginTime = time.format(begin);
@@ -351,7 +351,7 @@ public class DatabaseQuery {
 				if (begin.after(curTime)) {
 					int eventID = rs.getInt("eventID");
 					int hostID = rs.getInt("host");
-					SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+					SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
 					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 					Timestamp end = rs.getTimestamp("timeEnd");
 					String beginTime = time.format(begin);
@@ -409,14 +409,14 @@ public class DatabaseQuery {
 		Vector<Event> userEvents = new Vector<Event>();
 		try {
 			conn = DatabaseConn.getConnection("PartyPeople");
-			ps = conn.prepareStatement("SELECT * FROM Event WHERE userID=?");
+			ps = conn.prepareStatement("SELECT * FROM Event WHERE host=?");
 			ps.setInt(1, getUserID(username));
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
 				int eventID = rs.getInt("eventID");
 				int hostID = rs.getInt("host");
-				SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+				SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
 				SimpleDateFormat time = new SimpleDateFormat("HH:mm");
 				Timestamp begin = rs.getTimestamp("timeBegin");
 				Timestamp end = rs.getTimestamp("timeEnd");
@@ -446,6 +446,50 @@ public class DatabaseQuery {
 			}
 		}
 		return userEvents;
+	}
+	
+	public static Event getEvent(int eventID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Event e = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Event WHERE eventID=?");
+			ps.setInt(1, eventID);
+			rs = ps.executeQuery();
+			
+			if (rs.next()) {
+				int hostID = rs.getInt("host");
+				SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+				SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+				Timestamp begin = rs.getTimestamp("timeBegin");
+				Timestamp end = rs.getTimestamp("timeEnd");
+				String beginTime = time.format(begin);
+				String endTime = time.format(end);
+				String day = date.format(begin);
+				String name = rs.getString("name");
+				String place = rs.getString("place");
+				String details = rs.getString("details");
+				String affiliation = rs.getString("affiliation");
+				String tags = rs.getString("tags");
+				Vector<Integer> interested = getInterested(eventID);
+				Vector<Integer> attending = getAttending(eventID);
+				Vector<Integer> notAttending = getNotAttending(eventID);
+				
+				e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return e;
 	}
 	
 	@SuppressWarnings("resource")

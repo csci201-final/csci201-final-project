@@ -9,29 +9,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import DatabasePackage.DatabaseInsert;
-import DatabasePackage.DatabaseManager;
+import DatabasePackage.DatabaseQuery;
 import EventPackage.Event;
 
-@WebServlet("/RatingServlet")
-public class RatingServlet extends HttpServlet {
+
+@WebServlet("/GoEvent")
+public class GoEvent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-   
+  
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		DatabaseManager.checkDatabase();
-		String comments = request.getParameter("comments");
-		String rating = request.getParameter("rating");
-		String username = (String) request.getSession().getAttribute("username");
-		int eventID = ((Event)request.getSession().getAttribute("thisEvent")).getEventID();
-		
-		DatabaseInsert.insertRating(username, eventID, Integer.valueOf(rating), comments);
-		
-		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/ProfilePage.jsp");
+		String id = request.getParameter("eventID");
+		Event e = DatabaseQuery.getEvent(Integer.valueOf(id));
+		request.getSession().setAttribute("thisEvent", e);
+		RequestDispatcher dispatch = getServletContext().getRequestDispatcher("/event.jsp");
 		dispatch.forward(request, response);
 	}
 
-	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doGet(request, response);
 	}

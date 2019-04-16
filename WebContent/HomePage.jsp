@@ -8,16 +8,9 @@
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
 	}
-	if (session.getAttribute("currentEvents") == null) {
-		session.setAttribute("currentEvents", DatabaseQuery.getCurrentEvents());
-	}
 	if (session.getAttribute("username") == null){
 		session.setAttribute("loggedin", false);
 	}
-	@SuppressWarnings("unchecked")
-	Vector<Event> curEvents = (Vector<Event>) session.getAttribute("currentEvents");
-	int numCurEvents = curEvents.size();
-	System.out.println(numCurEvents);
 %>
 
 
@@ -43,7 +36,173 @@
 	
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
-	
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-6">
+				<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
+				<div class="banner"></div>
+			</div>
+			<div class="col-md-6" id="header">
+				<%
+				if ((boolean)session.getAttribute("loggedin")) {
+				%>
+				<form action="ProfilePage.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg userbutton">
+						<span class="glyphicon glyphicon-user"></span> My Account
+					</button>
+				</form>
+				<form action="Logout.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg logoutbutton">
+						<span class="glyphicon glyphicon-log-out"></span> Log Out
+					</button>
+				</form>
+				<% } else { %>
+				<form action="Login.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg loginbutton">
+						<span class="glyphicon glyphicon-log-in"></span> Sign In
+					</button>
+				</form>
+				<form action="Register.jsp" class="headerforms">
+					<button type="submit" class="btn btn-default btn-lg registerbutton">
+						<span class="glyphicon glyphicon-user"></span> Register
+					</button>
+				</form>
+				<% } %>
+			</div>
+			<div class="row">
+				<div class="col-md-7">
+					<% if ((boolean)session.getAttribute("loggedin")) {%>
+					<div class="profilePic">
+						<img src=<%= DatabaseQuery.getPicPath((String)session.getAttribute("username")) %>>
+					</div>
+					<div class="userinfo">
+						<div class="profilename"><%= (String)session.getAttribute("username")  %></div>
+					</div>
+					<% } else { %>
+					<div class="filler"></div>
+					<% } %>
+					<div class="col-md-5">
+						<h1>Upcoming Events</h1>
+					</div>
+					<input type="text" class="form-control" id="search"
+							aria-describedby="search"
+							placeholder="Search Event by Name or Tags">
+					<button type="button" class="btn btn-default btn-lg searchglass" onclick="search()">
+						<span class="glyphicon glyphicon-search"></span>
+					</button>
+				</div>
+				<div class="row1">
+					<div class="col-md-3">
+						<p>
+							<button type="button" class="btn btn-default btn-lg listview">
+								<span class="glyphicon glyphicon-th-list"></span>
+							</button>
+						</p>
+					</div>
+
+					<div class="col-md-3">
+						<p>
+							<button type="button" class="btn btn-default btn-lg calendarview">
+								<span class="glyphicon glyphicon-calendar"></span>
+							</button>
+						</p>
+					</div>
+					<div class="col-md-3">
+						<p>
+							<button type="button" class="btn btn-default btn-lg mapview">
+								<span class="glyphicon glyphicon-map-marker"></span>
+							</button>
+						</p>
+					</div>
+				</div>
+				<div class=row2>
+					<div class="container">
+						<div class="events-all">
+							<table id="event-table">
+							<% Vector<Event> curEvents = DatabaseQuery.getCurrentEvents();
+							if (curEvents.size() > 0) {%>
+								<tr>
+									<th>
+										<div class="solo-table">
+										<%for(Event e : curEvents){ %>
+											<span class="breaker"></span>
+											<table>
+												<tr>
+													<th><%= e.getName() %></th>
+													<th>Host Rating<%for (int j=0;j<5;j++){ %>
+														<span class="glyphicon glyphicon-star"></span>
+														<%} %>
+													</th>
+													<th></th>
+												</tr>
+												<tr>
+													<th><%= e.getAffiliation() %></th>
+													<th>Attending: <%= e.getNumAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getLocation() %></th>
+													<th>Interested: <%= e.getNumInterested() %></th>
+													<th>
+														<form action="GoEvent" method="post">
+															<button type="button"
+															class="btn btn-default btn-lg expand">
+																<span class="glyphicon glyphicon-expand"></span>
+															</button>
+															<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+														</form>
+													</th>
+												</tr>
+												<tr>
+													<th><%= e.getDate() %></th>
+													<th>Not Attending: <%= e.getNumNotInterested() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+													<th>Tags:  <%= e.getTags() %></th>
+
+												</tr>
+											</table>
+										<%} %>
+										</div>
+									</th>
+								</tr>
+								<% } else { %>
+							<div class="noEvents">
+								No events to display
+							</div>
+							<% } %>
+							</table>
+						</div>
+					</div>
+
+					<div class="sortbycat">Filters</div>
+					<div class="cat">
+						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="getInterested()">
+						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
+						</button><br> 
+						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="getAttending()">
+							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
+						</button> <br> 
+						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="getNotAttending()">
+							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
+						</button>
+					</div>
+					<div class="backgroundcat"></div>
+					<%
+					if ((boolean)session.getAttribute("loggedin")) {
+					%>
+					<div class="notificationbg">
+						<div class="notifications">
+							<div class="notifytitle">Notifications</div>
+						</div>
+					</div>
+					<% } %>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script> 
 	function search(){
 		var search_string = document.getElementById('search').value
@@ -138,168 +297,5 @@
 	}
 	
 	</script>
-</head>
-<body>
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-6">
-				<img src="images/partypeople-logo.png" id="logo" height="60" width="170" />
-				<div class="banner"></div>
-			</div>
-			<div class="col-md-6" id="header">
-				<%
-				if ((boolean)session.getAttribute("loggedin")) {
-				%>
-				<form action="ProfilePage.jsp" class="headerforms">
-					<button type="submit" class="btn btn-default btn-lg userbutton">
-						<span class="glyphicon glyphicon-user"></span> My Account
-					</button>
-				</form>
-				<form action="Logout.jsp" class="headerforms">
-					<button type="submit" class="btn btn-default btn-lg logoutbutton">
-						<span class="glyphicon glyphicon-log-out"></span> Log Out
-					</button>
-				</form>
-				<% } else { %>
-				<form action="Login.jsp" class="headerforms">
-					<button type="submit" class="btn btn-default btn-lg loginbutton">
-						<span class="glyphicon glyphicon-log-in"></span> Sign In
-					</button>
-				</form>
-				<form action="Register.jsp" class="headerforms">
-					<button type="submit" class="btn btn-default btn-lg registerbutton">
-						<span class="glyphicon glyphicon-user"></span> Register
-					</button>
-				</form>
-				<% } %>
-			</div>
-			<div class="row">
-				<div class="col-md-7">
-					<% if ((boolean)session.getAttribute("loggedin")) {%>
-					<div class="profilePic">
-						<img src=<%= DatabaseQuery.getPicPath((String)session.getAttribute("username")) %>>
-					</div>
-					<div class="userinfo">
-						<div class="profilename"><%= (String)session.getAttribute("username")  %></div>
-					</div>
-					<% } else { %>
-					<div class="filler"></div>
-					<% } %>
-					<div class="col-md-5">
-						<h1>Upcoming Events</h1>
-					</div>
-					<input type="text" class="form-control" id="search"
-							aria-describedby="search"
-							placeholder="Search Event by Name or Tags">
-					<button type="button" class="btn btn-default btn-lg searchglass" onclick="search()">
-						<span class="glyphicon glyphicon-search"></span>
-					</button>
-				</div>
-				<div class="row1">
-					<div class="col-md-3">
-						<p>
-							<button type="button" class="btn btn-default btn-lg listview">
-								<span class="glyphicon glyphicon-th-list"></span>
-							</button>
-						</p>
-					</div>
-
-					<div class="col-md-3">
-						<p>
-							<button type="button" class="btn btn-default btn-lg calendarview">
-								<span class="glyphicon glyphicon-calendar"></span>
-							</button>
-						</p>
-					</div>
-					<div class="col-md-3">
-						<p>
-							<button type="button" class="btn btn-default btn-lg mapview">
-								<span class="glyphicon glyphicon-map-marker"></span>
-							</button>
-						</p>
-					</div>
-				</div>
-				<div class=row2>
-					<div class="container">
-						<div class="events-all">
-							<table id="event-table">
-							<% if (numCurEvents > 0) { %>
-								<tr>
-									<th>
-										<div class="solo-table">
-										<%for(int i = 0; i < numCurEvents; i++){ %>
-											<span class="breaker"></span>
-											<table>
-												<tr>
-													<th><%= curEvents.get(i).getName() %></th>
-													<th>Host Rating<%for (int j=0;j<5;j++){ %>
-														<span class="glyphicon glyphicon-star"></span>
-														<%} %>
-													</th>
-													<th></th>
-												</tr>
-												<tr>
-													<th><%= curEvents.get(i).getAffiliation() %></th>
-													<th>Attending: <%= curEvents.get(i).getNumAttending() %></th>
-												</tr>
-												<tr>
-													<th><%= curEvents.get(i).getLocation() %></th>
-													<th>Interested: <%= curEvents.get(i).getNumInterested() %></th>
-													<th>
-														<button type="button"
-															class="btn btn-default btn-lg expand">
-															<span class="glyphicon glyphicon-expand"></span>
-														</button>
-													</th>
-												</tr>
-												<tr>
-													<th><%= curEvents.get(i).getDate() %></th>
-													<th>Not Attending: <%= curEvents.get(i).getNumNotInterested() %></th>
-												</tr>
-												<tr>
-													<th><%= curEvents.get(i).getBegin() %> to <%= curEvents.get(i).getEnd() %></th>
-													<th>Tags:  <%= curEvents.get(i).getTags() %></th>
-
-												</tr>
-											</table>
-										<%} %>
-										</div>
-									</th>
-								</tr>
-								<% } else { %>
-							<div class="noEvents">
-								No events to display
-							</div>
-							<% } %>
-							</table>
-						</div>
-					</div>
-
-					<div class="sortbycat">Filters</div>
-					<div class="cat">
-						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="getInterested()">
-						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
-						</button><br> 
-						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="getAttending()">
-							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
-						</button> <br> 
-						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="getNotAttending()">
-							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
-						</button>
-					</div>
-					<div class="backgroundcat"></div>
-					<%
-					if ((boolean)session.getAttribute("loggedin")) {
-					%>
-					<div class="notificationbg">
-						<div class="notifications">
-							<div class="notifytitle">Notifications</div>
-						</div>
-					</div>
-					<% } %>
-				</div>
-			</div>
-		</div>
-	</div>
 </body>
 </html>
