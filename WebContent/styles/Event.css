@@ -49,3 +49,11 @@ h1,h2{
 	font-family: 'Poppins' !important;
 	color: black !important;
 }
+#eventbackground{
+	background-color: rgb(53,156,216);
+	width:50%;
+	height:50%;
+	border-radius:10px;
+	margin-top:1%;
+	border: 2px solid white;
+} 

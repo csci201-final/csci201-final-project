@@ -19,6 +19,8 @@
 	
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	
+	<link rel="icon" href="images/favicon.png">
+	
 	<meta charset="UTF-8">
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -181,7 +183,7 @@
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
-          center: {lat: 34.0224, lng: -118.2851}
+          center: {lat: 34.021441, lng: -118.2897157}
         });
         geocoder = new google.maps.Geocoder();
         for( i=0;i<locations.length;i++){
@@ -213,9 +215,9 @@
         	      (function(marker, i) {
         	        return function() {
         	          infowindow.setContent(locations[i][1])
-        	          infowindow.open(map, marker)
+        	          infowindow.open(map, marker) };
         	        }
-        	      })(marker, i)
+        	      )(marker, i)
         	    )
       }
       
@@ -274,9 +276,9 @@
 					<form action="SearchServlet" method="POST">
 						<input type="text" class="form-control" id="search"
 							aria-describedby="search"
-							placeholder="Search Event by Name or Tags">
-						<input type="submit" class="btn btn-default btn-lg searchglass">
-						<span class="glyphicon glyphicon-search"></span>
+							placeholder="Search Event by Name or Tags" value="">
+						<button type="submit" class="btn btn-default btn-lg searchglass">
+						<span class="glyphicon glyphicon-search"></span></button>
 					</form>
 				</div>
 				<div class="row1">
@@ -517,6 +519,7 @@
 							<% } %>
 							</table>
 						</div>
+					<% if((boolean)session.getAttribute("loggedin")) { %>
 					<div class="sortbycat" id="reset">Filters</div>
 					<div class="cat">
 						<button type="button" id="interestB" class="btn btn-default btn-lg interestedbutton">
@@ -530,14 +533,6 @@
 						</button>
 					</div>
 					<div class="backgroundcat"></div>
-					<%
-					if ((boolean)session.getAttribute("loggedin")) {
-					%>
-					<div class="notificationbg">
-						<div class="notifications">
-							<div class="notifytitle">Notifications</div>
-						</div>
-					</div>
 					<% } %>
 				</div>
 			</div>

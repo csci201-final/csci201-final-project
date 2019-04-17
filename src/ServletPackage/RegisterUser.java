@@ -43,9 +43,9 @@ public class RegisterUser extends HttpServlet {
 		}
 		
 		if (!password.equals(confirm)) {
-			request.getSession(true).setAttribute("password_error", true);
+			request.getSession(true).setAttribute("reg_error", "The passwords do not match");
 		} else if (!DatabaseInsert.registerUser(username, password, email, bio, picPath)) {
-			request.getSession(true).setAttribute("username_error", true);
+			request.getSession(true).setAttribute("reg_error", "That email is already taken");
 		} else {
 			String uploadPath = getServletContext().getRealPath("");
 			uploadPath = uploadPath.substring(0, uploadPath.lastIndexOf(".metadata")) + "CSCI201-Final-PartyPeople/WebContent/images/profile-pics/";

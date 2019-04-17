@@ -10,7 +10,7 @@ public class SortEvents {
 		Vector<Event> pastEvents = new Vector<Event>();
 		for (Event e : allEvents) {
 			String date = e.getDate();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 			Timestamp curTime = new Timestamp(System.currentTimeMillis());
 			String curDate = sdf.format(curTime);
 			try {
@@ -28,7 +28,7 @@ public class SortEvents {
 		Vector<Event> futureEvents = new Vector<Event>();
 		for (Event e : allEvents) {
 			String date = e.getDate();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
 			Timestamp curTime = new Timestamp(System.currentTimeMillis());
 			String curDate = sdf.format(curTime);
 			try {

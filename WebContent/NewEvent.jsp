@@ -9,7 +9,7 @@
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
 	}
-	if (((Boolean)session.getAttribute("loggedin"))) {
+	if (!((Boolean)session.getAttribute("loggedin"))) {
 		%> <jsp:forward page="Login.jsp" /> <%
 	} %>
 	<link rel="stylesheet"
@@ -20,6 +20,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="styles/NewEvent.css">
+    <link rel="icon" href="images/favicon.png">
     <script>
 		var pushSocket = new WebSocket("ws://10.26.147.154/CSCI201-Final-PartyPeople/push/")
 		

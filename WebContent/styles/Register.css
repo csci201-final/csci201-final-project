@@ -79,9 +79,6 @@ h2 {
 	font-family: 'Poppins', sans-serif;
 
 }
-#username_error{
-	display:none;
-}
-#password_error{
-	display:none;
+#reg_error {
+	color: red;
 }

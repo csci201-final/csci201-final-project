@@ -83,12 +83,14 @@ public class DatabaseManager {
 							"FOREIGN KEY fk7(userID) REFERENCES User(userID));";
 		
 		String ratingTable = "CREATE TABLE Rating(" +
-							"userID INT(11) NOT NULL, " +
+							"raterID INT(11) NOT NULL, " +
+							"hostID INT(11) NOT NULL, " +
 							"eventID INT(11) NOT NULL, " +
 							"rating INT(1) NOT NULL, " +
 							"comments VARCHAR(1000) NOT NULL, " +
 							"FOREIGN KEY fk8(eventID) REFERENCES Event(eventID), " +
-							"FOREIGN KEY fk9(userID) REFERENCES User(userID));";
+							"FOREIGN KEY fk9(raterID) REFERENCES User(userID), " +
+							"FOREIGN KEY fk10(hostID) REFERENCES User(userID));";
 		
 		
 		try {

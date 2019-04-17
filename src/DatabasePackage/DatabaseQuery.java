@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 
 import EventPackage.Event;
+import EventPackage.Rating;
 
 public class DatabaseQuery {
 	
@@ -68,6 +69,32 @@ public class DatabaseQuery {
 		return username;
 	}
 	
+	public static String getUsernameFromID(int userID) {
+		String username = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT username FROM User WHERE userID=?");
+			ps.setInt(1, userID);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				username = rs.getString("username");
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return username;
+	}
+	
 	public static int getUserID(String username) {
 		int id = -1;
 		Connection conn = null;
@@ -93,19 +120,18 @@ public class DatabaseQuery {
 		}
 		return id;
 	}
-	
-	public static Double getUserRating(String username) {
-		Double rating = -1.0;
+	public static boolean checkEmailExists(String email) {
+		boolean emailExists = false;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
 		try {
 			conn = DatabaseConn.getConnection("PartyPeople");
-			ps = conn.prepareStatement("SELECT hostRating FROM Rating WHERE username=?");
-			ps.setString(1, username);
+			ps = conn.prepareStatement("SELECT email FROM User WHERE email=?");
+			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				rating = rs.getDouble("hostRating");
+				emailExists = true;
 			}
 		} catch (SQLException sqle) {
 			System.out.println("sqle: " + sqle.getMessage());
@@ -117,7 +143,77 @@ public class DatabaseQuery {
 				System.out.println("sqle: " + sqle.getMessage());
 			}
 		}
-		return rating;
+		return emailExists;
+	}
+	
+	public static Double getUserRating(int userID) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Integer> ratings = new Vector<Integer>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT rating FROM Rating WHERE hostID=?");
+			ps.setInt(1, userID);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int rating = rs.getInt("rating");
+				ratings.add(rating);
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		if (ratings.size() > 0) {
+			Double total = 0.0;
+			Double count = 0.0;
+			for (int rating : ratings) {
+				total += rating;
+				count += 1;
+			}
+			return total / count;
+		}
+		else {
+			return -1.0;
+		}
+	}
+	
+	public static Vector<Rating> getAllUserRatings(String username) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Rating> ratings = new Vector<Rating>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Rating WHERE hostID=?");
+			int hostID = getUserID(username);
+			ps.setInt(1, hostID);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				int raterID = rs.getInt("raterID");
+				int eventID = rs.getInt("eventID");
+				int rating = rs.getInt("rating");
+				String comments = rs.getString("comments");
+				Rating r = new Rating(getEventName(eventID),getUsernameFromID(raterID),comments,rating);
+				ratings.add(r);
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return ratings;
 	}
 	
 	public static int getEventID(String eventname) {
@@ -144,6 +240,58 @@ public class DatabaseQuery {
 			}
 		}
 		return id;
+	}
+	
+	public static String getEventName(int eventID) {
+		String name = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT name FROM Event WHERE eventID=?");
+			ps.setInt(1, eventID);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				name = rs.getString("name");
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return name;
+	}
+	
+	public static int getHostFromEventID(int eventID) {
+		Integer hostID = null;
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT host FROM Event WHERE eventID=?");
+			ps.setInt(1, eventID);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				hostID = rs.getInt("host");
+			}
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return hostID;
 	}
 	
 	public static Vector<Integer> getInterested(int eventID) {
@@ -329,6 +477,55 @@ public class DatabaseQuery {
 			}
 		}
 		return currentEvents;
+	}
+	
+	public static Vector<Event> getPastEvents() {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Vector<Event> pastEvents = new Vector<Event>();
+		try {
+			conn = DatabaseConn.getConnection("PartyPeople");
+			ps = conn.prepareStatement("SELECT * FROM Event");
+			rs = ps.executeQuery();
+			
+			Timestamp curTime = new Timestamp(System.currentTimeMillis());
+			
+			while (rs.next()) {
+				Timestamp begin = rs.getTimestamp("timeBegin");
+				if (begin.before(curTime)) {
+					int eventID = rs.getInt("eventID");
+					int hostID = rs.getInt("host");
+					SimpleDateFormat date = new SimpleDateFormat("MM/dd/yyyy");
+					SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+					Timestamp end = rs.getTimestamp("timeEnd");
+					String beginTime = time.format(begin);
+					String endTime = time.format(end);
+					String day = date.format(begin);
+					String name = rs.getString("name");
+					String place = rs.getString("place");
+					String details = rs.getString("details");
+					String affiliation = rs.getString("affiliation");
+					String tags = rs.getString("tags");
+					Vector<Integer> interested = getInterested(eventID);
+					Vector<Integer> attending = getAttending(eventID);
+					Vector<Integer> notAttending = getNotAttending(eventID);
+					
+					Event e = new Event(eventID, hostID, day, beginTime, endTime, name, place, tags, affiliation, details, attending, interested, notAttending);
+					pastEvents.add(e);
+				}
+			} 
+		} catch (SQLException sqle) {
+			System.out.println("sqle: " + sqle.getMessage());
+		} finally {
+			try {
+				DatabaseConn.closeConnection(conn);
+				DatabaseManager.closeUtil(ps,rs);
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			}
+		}
+		return pastEvents;
 	}
 	
 	public static Vector<Event> searchEvents(String search_string) {

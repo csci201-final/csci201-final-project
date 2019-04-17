@@ -108,6 +108,11 @@ fieldset {
 	margin-left: 10px !important;
 }
 
+#dropdown {
+	color: gray;
+	margin-bottom: 15px;
+}
+
 label {
   float: left;
   clear: none;

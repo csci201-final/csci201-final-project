@@ -6,8 +6,8 @@ import java.sql.Timestamp;
 
 public class DatabaseInsert {
 		public static boolean registerUser(String username, String password, String email, String bio, String picPath) {
-			// inserts user into database if user does not already exist
-			if (DatabaseQuery.getUserID(username) != -1) {
+			// inserts user into database if email does not already exist
+			if (DatabaseQuery.checkEmailExists(email)) {
 				return false;
 			}
 			insertUser(username,password,email,bio,picPath);
@@ -129,16 +129,17 @@ public class DatabaseInsert {
 			}
 		}
 		
-		public static void insertRating(String username, int eventID, int rating, String comments) {
+		public static void insertRating(String rater, int hostID, int eventID, int rating, String comments) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = DatabaseConn.getConnection("PartyPeople");
-				ps = conn.prepareStatement("INSERT INTO Rating (userID,eventID,rating,comments) VALUES(?,?,?,?)");
-				ps.setInt(1, DatabaseQuery.getUserID(username));
-				ps.setInt(2, eventID);
-				ps.setInt(3, rating);
-				ps.setString(4, comments);
+				ps = conn.prepareStatement("INSERT INTO Rating (raterID,hostID,eventID,rating,comments) VALUES(?,?,?,?,?)");
+				ps.setInt(1, DatabaseQuery.getUserID(rater));
+				ps.setInt(2, hostID);
+				ps.setInt(3, eventID);
+				ps.setInt(4, rating);
+				ps.setString(5, comments);
 				ps.execute();
 			} catch (SQLException sqle) {
 				System.out.println("sqle: " + sqle.getMessage());

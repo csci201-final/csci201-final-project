@@ -3,6 +3,13 @@
 	import="java.util.Vector"%>
 <%
 	Event e = (Event) session.getAttribute("thisEvent");
+	String arr[] = (e.getLocation()).split(" ");
+	
+	
+	String adder =arr[0];
+	for(int a=1;a<arr.length;a++){
+		adder+="+"+arr[a];
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -29,7 +36,7 @@
 <title>Event Details</title>
 <script type="text/javascript"></script>
 <link rel="stylesheet" type="text/css" href="styles/Event.css">
-
+<link rel="icon" href="images/favicon.png">
 </head>
 <style>
 #map {
@@ -60,28 +67,12 @@
 		<h2>Address: <%= e.getLocation() %></h2>
 		<h2>Time: <%= e.getBegin() %> PM to <%= e.getEnd() %> PM</h2>
 		<h2>Tags: <%= e.getTags() %></h2>
-		<h2>Going:</h2>
+		<h2>Interested: <%=e.getNumInterested()%> Attending: <%=e.getNumAttending()%> Not Attending: <%=e.getNumNotAttending() %></h2>
 	</div>
 	<div id="map"></div>
-	<script>
-		<%-- var address = "<%=e.getLocation()%>";
-		var loc = address.split(" ");
-		var searchup=loc[0];
-		console.log(loc);
-		for(var z=1;z<loc.length;z++){
-			searchup+="+"+loc[z];
-		} --%>
 		<%
-		String arr[] = (e.getLocation()).split(" ");
 		
-		
-		String adder =arr[0];
-		for(int a=1;a<arr.length;a++){
-			adder+="+"+arr[a];
-		}
-		System.out.println(adder);
 		%>
-	</script>
 	<script>
       var geocoder;
       var map;

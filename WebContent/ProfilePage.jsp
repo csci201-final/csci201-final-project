@@ -19,24 +19,20 @@
 	if (!((Boolean)session.getAttribute("loggedin"))) {
 		%> <jsp:forward page="Login.jsp" /> <%
 	}
-	if (session.getAttribute("userEvents") == null) {
-		session.setAttribute("userEvents", DatabaseQuery.getUserEvents((String)session.getAttribute("username")));
-	}
-	@SuppressWarnings("unchecked")
-	Vector<Event> userEvents = (Vector<Event>) session.getAttribute("userEvents");
+	String username = (String) session.getAttribute("username");
+	Vector<Event> userEvents = DatabaseQuery.getUserEvents(username);
 	Vector<Event> pastEvents = SortEvents.getPastEvents(userEvents);
 	Vector<Event> futureEvents = SortEvents.getFutureEvents(userEvents);
-	int numEvents = userEvents.size();
-	String username = (String) session.getAttribute("username");
+	Vector<Rating> allRatings = DatabaseQuery.getAllUserRatings(username);
 	String picPath = DatabaseQuery.getPicPath(username);
-	String profileTitle = numEvents > 0 ? "HOST" : "PARTYGOER";
-	Double rating = DatabaseQuery.getUserRating(username);
+	String profileTitle = userEvents.size() > 0 ? "HOST" : "PARTYGOER";
+	Double rating = DatabaseQuery.getUserRating(DatabaseQuery.getUserID(username));
 	String ratingString = null;
 	if (rating == -1.0) {
 		ratingString = "None yet!";
 	}
 	else {
-		ratingString = rating + " out of 5";
+		ratingString = String.format("%.2f",rating) + " out of 5";
 	}
 %>
 <head>
@@ -56,6 +52,7 @@
 		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script
 		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="icon" href="images/favicon.png">
 	<title>Profile Page</title>
 	<link rel="stylesheet" type="text/css" href="styles/ProfilePage.css">
 </head>
@@ -65,55 +62,55 @@
 			$(".ratingspage").show();
 			$(".settingspage").hide();
 			$("#eventdisplay").hide();
-			$("#myeventstitle").hide();
+			$(".myeventstitle").hide();
+			$(".ratingtitle").show();
 
 		});
 		$(".first").click(function() {
 			$("#eventdisplay").show();
 			$(".ratingspage").hide();
 			$(".settingspage").hide();
-			$("#myeventstitle").show();
+			$(".myeventstitle").show();
+			$(".ratingtitle").hide();
 
 		});
 		$(".mysettings").click(function() {
 			$(".settingspage").show();
 			$(".ratingspage").hide();
 			$("#eventdisplay").hide();
-			$("#myeventstitle").hide();
+			$(".myeventstitle").hide();
+			$(".ratingtitle").hide();
 		});
 		$("#seeAll").click(function() {
-			$(".events-all").show();
-			$(".events-past").hide();
-			$(".events-future").hide();
+			$("#events-all").show();
+			$("#events-past").hide();
+			$("#events-future").hide();
 		});
 		$("#seePast").click(function() {
-			$(".events-all").hide();
-			$(".events-past").show();
-			$(".events-future").hide();
+			$("#events-all").hide();
+			$("#events-past").show();
+			$("#events-future").hide();
 		});
 		$("#seeFuture").click(function() {
-			$(".events-all").hide();
-			$(".events-past").hide();
-			$(".events-future").show();
+			$("#events-all").hide();
+			$("#events-past").hide();
+			$("#events-future").show();
 		});
 	});
 	$(document).ready(function() {
 	    $(".ratingspage").hide();
+	    $(".ratingtitle").hide();
 	    $(".settingspage").hide();
-	    $(".events-past").hide();
-	    $(".events-future").hide();
+	    $("#events-past").hide();
+	    $("#events-future").hide();
 	});
 	function newEvent() {
 		window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/NewEvent.jsp");
 	}
-	function to_EventDetails(event_name) {
-		var this_event = event_name; 
-		var xhttp = new XMLHttpRequest();
-		xhttp.open("GET", "SearchServlet?this_event=" + this_event, true);
-		xhttp.send(); 
+	function rate() {
+		window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/RateEvent.jsp");
 	}
 </script>
-<body>
 
 	<div class="container-fluid">
 
@@ -160,108 +157,52 @@
 								<li class="mysettings" style="list-style-type: none;"><span
 									class="glyphicon glyphicon-user" style="outline: none;"></span>
 									Account Settings</li>
+								<li class="mysettings" style="list-style-type: none;" onclick="rate()"><span
+								class="glyphicon glyphicon-check" style="outline: none;"></span>
+								Rate a Past Event</li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<h1 id="myeventstitle">My Events</h1>
-		<button class="plus" style="border: none;" onclick="newEvent()">
-				<span class="glyphicon glyphicon-plus-sign" style="font-size: 30px;"></span>
-		</button>
-		<div id="eventdisplay">
-			<div class="menbar">
-				<ul>
-					<li><span id="seeAll">All</span></li>
-					<li><span id="seePast">Past</span></li>
-					<li><span id="seeFuture">Future</span></li>
-				</ul>
-			</div>
-
-			<div class="container">
-				<div class="events-all">
-					<% if (userEvents.size() > 0) { %>
-					<table>
-						<% for (Event e : userEvents) { %>
-						<tr>
-							<th onclick="to_EventDetails(<%=e.getName()%>);"><%= e.getEventName() %></th>
-							<th>Tags: <%= e.getTags() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getAffiliation() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getLocation() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getDate() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
-						</tr>
-						<% } %>
-					</table>
-					<% } else { %>
-					<div class="noEvents">No events to display</div>
-					<% } %>
-				</div>
-				<div class="events-past">
-					<% if (pastEvents.size() > 0) { %>
-					<table>
-						<% for (Event e : pastEvents) { %>
-						<tr>
-							<th onclick="to_EventDetails(<%=e.getName()%>);"> <%= e.getEventName() %></th>
-							<th>Tags: <%= e.getTags() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getAffiliation() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getLocation() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getDate() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
-						</tr>
-						<% } %>
-					</table>
-					<% } else { %>
-					<div class="noEvents">No events to display</div>
-					<% } %>
-				<div class="events-future">
-					<% if (futureEvents.size() > 0) { %>
-					<table>
-						<% for (Event e : futureEvents) { %>
-						<tr>
-							<thonclick="to_EventDetails(<%=e.getName()%>);"><%= e.getEventName() %></th>
-							<th>Tags: <%= e.getTags() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getAffiliation() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getLocation() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getDate() %></th>
-						</tr>
-						<tr>
-							<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
-						</tr>
-						<% } %>
-					</table>
-					<% } else { %>
-					<div class="noEvents">No events to display</div>
-					<% } %>
-				</div>
-			</div>
-		</div>
+		<h1 class="ratingtitle">My Ratings</h1>
 		<div class="ratingspage">
-			<h1 class="titler">My Ratings</h1>
-
+			<table id="rating-table">
+					<% 
+					if (allRatings.size() > 0) { %>
+						<tr>
+							<th>
+								<div class="solo-table">
+								<%for(Rating r : allRatings) { %>
+									<span class="breaker"></span>
+									<table>
+										<tr>
+											<th>Event: <%= r.getEventName() %></th>
+											<th></th>
+										</tr>
+										<tr>
+											<th>Rated By: <%= r.getRaterName() %></th>
+											<th></th>
+										</tr>
+										<tr>
+											<th>Rating: <% for(int i=0; i < r.getRating(); i++) {%><span class="glyphicon glyphicon-star"/></span><% } %></th>
+											<th></th>
+										</tr>
+										<tr>
+											<th>Comments: <%= r.getComments() %></th>
+										</tr>
+									</table>
+								<%} %>
+								</div>
+							</th>
+						</tr>
+						<% } else { %>
+					<div class="noEvents">
+						No ratings to display
+					</div>
+					<% } %>
+					</table>
 		</div>
 		<div class="settingspage">
 			<h1 class="settitle">My Account Info</h1>
@@ -291,8 +232,8 @@
 				<table class="changeEmail">
 					<tr>
 						<th>New Email</th>
-						<th><input type="email" class="form-control" id="Nemail"
-							aria-describedby="email" placeholder="Enter New Email"></th>
+						<th><th><input type="email" class="form-control" id="Nemail"
+							aria-describedby="email" placeholder="Enter New Email"></th></th>
 					</tr>
 					<tr>
 						<th>Confirm New Email</th>
@@ -303,6 +244,179 @@
 				</table>
 			</form>
 		</div>
+		<h1 class="myeventstitle">My Events</h1>
+		<div id="eventdisplay">
+			<button class="myeventstitle" id="plus" style="border: none;" onclick="newEvent()">
+					<span class="glyphicon glyphicon-plus-sign" style="font-size: 30px;"></span>
+			</button>
+			<div class="menbar">
+				<ul>
+					<li><span id="seeAll">All</span></li>
+					<li><span id="seePast">Past</span></li>
+					<li><span id="seeFuture">Future</span></li>
+				</ul>
+			</div>
+
+			<div class="container">
+				<div class="eventDiv" id="events-future">
+					<table id="event-table">
+					<% 
+					if (futureEvents.size() > 0) {%>
+						<tr>
+							<th>
+								<div class="solo-table">
+								<%for(Event e : futureEvents){ %>
+									<span class="breaker"></span>
+									<table>
+										<tr>
+											<th><%= e.getName() %></th>
+											<th></th>
+											<th></th>
+										</tr>
+										<tr>
+											<th><%= e.getAffiliation() %></th>
+											<th>Attending: <%= e.getNumAttending() %></th>
+										</tr>
+										<tr>
+											<th><%= e.getLocation() %></th>
+											<th>Interested: <%= e.getNumInterested() %></th>
+											<th>
+												<form action="GoEvent" method="post">
+													<button type="submit"
+													class="btn btn-default btn-lg expand">
+														<span class="glyphicon glyphicon-expand"></span>
+													</button>
+													<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+												</form>
+											</th>
+										</tr>
+										<tr>
+											<th><%= e.getDate() %></th>
+											<th>Not Attending: <%= e.getNumNotAttending() %></th>
+										</tr>
+										<tr>
+											<th><%= e.getBegin() %> PM to <%= e.getEnd() %> PM</th>
+											<th>Tags:  <%= e.getTags() %></th>
+
+										</tr>
+									</table>
+								<%} %>
+								</div>
+							</th>
+						</tr>
+						<% } else { %>
+					<div class="noEvents">
+						No events to display
+					</div>
+					<% } %>
+					</table>
+				</div>
+				<div class="eventDiv" id="events-all">
+					<table id="event-table">
+					<% 
+					if (userEvents.size() > 0) {%>
+						<tr>
+							<th>
+								<div class="solo-table">
+								<%for(Event e : userEvents){ %>
+									<span class="breaker"></span>
+									<table>
+										<tr>
+											<th><%= e.getName() %></th>
+											<th></th>
+											<th></th>
+										</tr>
+										<tr>
+											<th><%= e.getAffiliation() %></th>
+											<th>Attending: <%= e.getNumAttending() %></th>
+										</tr>
+										<tr>
+											<th><%= e.getLocation() %></th>
+											<th>Interested: <%= e.getNumInterested() %></th>
+											<th>
+												<form action="GoEvent" method="post">
+													<button type="submit"
+													class="btn btn-default btn-lg expand">
+														<span class="glyphicon glyphicon-expand"></span>
+													</button>
+													<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+												</form>
+											</th>
+										</tr>
+										<tr>
+											<th><%= e.getDate() %></th>
+											<th>Not Attending: <%= e.getNumNotAttending() %></th>
+										</tr>
+										<tr>
+											<th><%= e.getBegin() %> PM to <%= e.getEnd() %> PM</th>
+											<th>Tags:  <%= e.getTags() %></th>
+	
+										</tr>
+									</table>
+								<%} %>
+								</div>
+							</th>
+						</tr>
+						<% } else { %>
+					<div class="noEvents">
+						No events to display
+					</div>
+					<% } %>
+				</table>
+			</div>
+			<div class="eventDiv" id="events-past">
+				<table id="event-table">
+					<% 
+					if (pastEvents.size() > 0) {%>
+						<tr>
+							<th>
+								<div class="solo-table">
+								<%for(Event e : pastEvents){ %>
+									<span class="breaker"></span>
+									<table>
+										<tr>
+											<th><%= e.getName() %></th>
+											<th></th>
+											<th></th>
+										</tr>
+										<tr>
+											<th><%= e.getAffiliation() %></th>
+											<th>Attending: <%= e.getNumAttending() %></th>
+										</tr>
+										<tr>
+											<th><%= e.getLocation() %></th>
+											<th>Interested: <%= e.getNumInterested() %></th>
+											<th>
+												<form action="GoEvent" method="post">
+													<button type="submit"
+													class="btn btn-default btn-lg expand">
+														<span class="glyphicon glyphicon-expand"></span>
+													</button>
+													<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+												</form>
+											</th>
+										</tr>
+										<tr>
+											<th><%= e.getDate() %></th>
+											<th>Not Attending: <%= e.getNumNotAttending() %></th>
+										</tr>
+										<tr>
+											<th><%= e.getBegin() %> PM to <%= e.getEnd() %> PM</th>
+											<th>Tags:  <%= e.getTags() %></th>
+
+										</tr>
+									</table>
+								<%} %>
+								</div>
+							</th>
+						</tr>
+						<% } else { %>
+					<div class="noEvents">
+						No events to display
+					</div>
+					<% } %>
+					</table>
+				</div>
 	</div>
 </div>
 </body>
