@@ -3,7 +3,6 @@
 body {
 	background-color: rgb(37, 62, 102) !important;
 	font-family: 'Poppins', sans-serif;
-	background-image: url("BlackVignette.png");
 }
 
 .col-md-6 {
@@ -35,7 +34,6 @@ h1 {
 	font-family: BebasNeue;
 	font-size: 44pt;
 }
-
 
 .userbutton,
 .logoutbutton,
@@ -207,16 +205,33 @@ h1 {
 }
 .searchglass{
 	position:absolute	!important;
+	width:8%;
 	top:47%	!important;
-	left:124%	!important;
+	left: 297.75%	!important;
 	height: 35px !important;
+	background-color:transparent;
 }
-
+.col-md-5{
+	margin-left:-41%;
+}
+.glyphicon-search{
+	position:absolute	!important;
+	top:47%	!important;
+	left: 300%	!important;
+	height: 35px !important;
+	background-color:transparent;
+	margin-top:2%;
+	font-size:1.25rem;
+}
+.searchglass:hover{
+	background-color:transparent;
+	border:none;
+}
 #search {
 	width: 225px;
 	height: 40px;
 	margin-top: 30px;
-	margin-left: 35px;
+	margin-left: 835px;
 }
 .glyphicon-remove,.glyphicon-check,.glyphicon-star-empty{
 	color:white	!important;

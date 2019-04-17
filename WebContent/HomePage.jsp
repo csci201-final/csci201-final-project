@@ -181,7 +181,7 @@
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 15,
-          center: {lat: 34.0224, lng: -118.2851}
+          center: {lat: 34.021441, lng: -118.2897157}
         });
         geocoder = new google.maps.Geocoder();
         for( i=0;i<locations.length;i++){
@@ -275,7 +275,7 @@
 						<input type="text" class="form-control" id="search"
 							aria-describedby="search"
 							placeholder="Search Event by Name or Tags">
-						<input type="submit" class="btn btn-default btn-lg searchglass">
+						<input type="submit" class="btn btn-default btn-lg searchglass" value="">
 						<span class="glyphicon glyphicon-search"></span>
 					</form>
 				</div>
@@ -517,6 +517,9 @@
 							<% } %>
 							</table>
 						</div>
+					<%
+				if ((boolean)session.getAttribute("loggedin")) {
+				%>
 					<div class="sortbycat" id="reset">Filters</div>
 					<div class="cat">
 						<button type="button" id="interestB" class="btn btn-default btn-lg interestedbutton">
@@ -530,6 +533,7 @@
 						</button>
 					</div>
 					<div class="backgroundcat"></div>
+					<%} %>
 					<%
 					if ((boolean)session.getAttribute("loggedin")) {
 					%>
