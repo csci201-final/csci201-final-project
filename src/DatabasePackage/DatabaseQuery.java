@@ -101,7 +101,7 @@ public class DatabaseQuery {
 		ResultSet rs = null;
 		try {
 			conn = DatabaseConn.getConnection("PartyPeople");
-			ps = conn.prepareStatement("SELECT hostRating FROM User WHERE username=?");
+			ps = conn.prepareStatement("SELECT hostRating FROM Rating WHERE username=?");
 			ps.setString(1, username);
 			rs = ps.executeQuery();
 			if (rs.next()) {

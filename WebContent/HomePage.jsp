@@ -146,7 +146,7 @@
 													<th>Interested: <%= e.getNumInterested() %></th>
 													<th>
 														<form action="GoEvent" method="post">
-															<button type="button"
+															<button type="submit"
 															class="btn btn-default btn-lg expand">
 																<span class="glyphicon glyphicon-expand"></span>
 															</button>
@@ -156,7 +156,7 @@
 												</tr>
 												<tr>
 													<th><%= e.getDate() %></th>
-													<th>Not Attending: <%= e.getNumNotInterested() %></th>
+													<th>Not Attending: <%= e.getNumNotAttending() %></th>
 												</tr>
 												<tr>
 													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
@@ -279,7 +279,7 @@
 				table.innerHTML += '<span class="glyphicon glyphicon-expand"></span>'
 				table.innerHTML += '</button>\n</th>\n</tr>\n<tr>'
 				table.innerHTML += '<th><%= e.getDate() %></th>'
-				table.innerHTML += '<th>Not Attending: <%= e.getNumNotInterested() %></th>'
+				table.innerHTML += '<th>Not Attending: <%= e.getNumNotAttending() %></th>'
 				table.innerHTML += '</tr>\n<tr>'
 				table.innerHTML += '<th><%= e.getBegin() %> to <%= e.getEnd() %></th>'
 				table.innerHTML += '<th>Tags:  <%= e.getTags() %></th>'
@@ -288,14 +288,6 @@
 			table.innerHTML += '</table>'
 		<%}%>
 	}
-	//---------------NEWLY ADDED----------------
-	function to_EventDetails(event_name) {
-		var this_event = event_name; 
-		var xhttp = new XMLHttpRequest();
-		xhttp.open("GET", "SearchServlet?this_event=" + this_event, true);
-		xhttp.send(); 
-	}
-	
 	</script>
 </body>
 </html>

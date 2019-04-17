@@ -118,11 +118,23 @@ public class Event {
 	}
 	
 	public String getBegin() {
-		return beginTime;
+		String hour = beginTime.substring(0,2);
+		String minute = beginTime.substring(2);
+		if (Integer.valueOf(hour) > 12) {
+			int newHour = Integer.valueOf(hour) - 12;
+			hour = Integer.toString(newHour);
+		}
+		return hour + minute;
 	}
 	
 	public String getEnd() {
-		return endTime;
+		String hour = endTime.substring(0,2);
+		String minute = endTime.substring(2);
+		if (Integer.valueOf(hour) > 12) {
+			int newHour = Integer.valueOf(hour) - 12;
+			hour = Integer.toString(newHour);
+		}
+		return hour + minute;
 	}
 	
 	public String getLocation() {
@@ -157,7 +169,7 @@ public class Event {
 		return notAttending;
 	}
 	
-	public int getNumNotInterested() {
+	public int getNumNotAttending() {
 		return notAttending.size();
 	}
 }

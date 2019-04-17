@@ -14,6 +14,10 @@ body {
 			font-family: 'Poppins', sans-serif;
 	
 }
+.forms {
+	display: inline !important;
+}
+
 .homebutton{
 	position: absolute;
 	left: 77%;

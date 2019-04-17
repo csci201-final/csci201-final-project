@@ -66,36 +66,13 @@ public class DatabaseInsert {
 			}
 		}
 	
-		public static void insertAttended(String username, String eventname, int rating, String comments) {
+		public static void insertAttending(String username, int eventID) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = DatabaseConn.getConnection("PartyPeople");
-				ps = conn.prepareStatement("INSERT INTO Attended (eventID,userID,rating,comments) VALUES(?,?,?,?)");
-				ps.setInt(1, DatabaseQuery.getEventID(eventname));
-				ps.setInt(2, DatabaseQuery.getUserID(username));
-				ps.setInt(3, rating);
-				ps.setString(4, comments);
-				ps.execute();
-			} catch (SQLException sqle) {
-				System.out.println("sqle: " + sqle.getMessage());
-			} finally {
-				try {
-					DatabaseConn.closeConnection(conn);
-					DatabaseManager.closeUtil(ps);
-				} catch (SQLException sqle) {
-					System.out.println("sqle: " + sqle.getMessage());
-				}
-			}
-		}
-		
-		public static void insertInterested(String username, String eventname) {
-			Connection conn = null;
-			PreparedStatement ps = null;
-			try {
-				conn = DatabaseConn.getConnection("PartyPeople");
-				ps = conn.prepareStatement("INSERT INTO Interested (eventID,userID) VALUES(?,?)");
-				ps.setInt(1, DatabaseQuery.getEventID(eventname));
+				ps = conn.prepareStatement("INSERT INTO Attending (eventID,userID) VALUES(?,?)");
+				ps.setInt(1, eventID);
 				ps.setInt(2, DatabaseQuery.getUserID(username));
 				ps.execute();
 			} catch (SQLException sqle) {
@@ -110,13 +87,34 @@ public class DatabaseInsert {
 			}
 		}
 		
-		public static void insertNotInterested(String username, String eventname) {
+		public static void insertInterested(String username, int eventID) {
 			Connection conn = null;
 			PreparedStatement ps = null;
 			try {
 				conn = DatabaseConn.getConnection("PartyPeople");
 				ps = conn.prepareStatement("INSERT INTO Interested (eventID,userID) VALUES(?,?)");
-				ps.setInt(1, DatabaseQuery.getEventID(eventname));
+				ps.setInt(1, eventID);
+				ps.setInt(2, DatabaseQuery.getUserID(username));
+				ps.execute();
+			} catch (SQLException sqle) {
+				System.out.println("sqle: " + sqle.getMessage());
+			} finally {
+				try {
+					DatabaseConn.closeConnection(conn);
+					DatabaseManager.closeUtil(ps);
+				} catch (SQLException sqle) {
+					System.out.println("sqle: " + sqle.getMessage());
+				}
+			}
+		}
+		
+		public static void insertNotAttending(String username, int eventID) {
+			Connection conn = null;
+			PreparedStatement ps = null;
+			try {
+				conn = DatabaseConn.getConnection("PartyPeople");
+				ps = conn.prepareStatement("INSERT INTO NotAttending (eventID,userID) VALUES(?,?)");
+				ps.setInt(1, eventID);
 				ps.setInt(2, DatabaseQuery.getUserID(username));
 				ps.execute();
 			} catch (SQLException sqle) {

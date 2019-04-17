@@ -2,17 +2,7 @@
 	pageEncoding="UTF-8" import="EventPackage.Event"
 	import="java.util.Vector"%>
 <%
-/*	
-//Event this_event = vector.getEvent(); 
-	Vector<Event> all_events = (Vector<Event>)session.getAttribute("currentEvents"); 
-	//Get the event that is click from the home_page 
-	String this_event = (String)session.getAttribute("this_event"); 
-	Event e = null; 
-	for(int i = 0; i < all_events.size(); i++) {
-		if(all_events.get(i).getName().contentEquals(this_event)) {
-			 e = all_events.get(i); 
-		}
-	} */
+	Event e = (Event) session.getAttribute("thisEvent");
 %>
 <!DOCTYPE html>
 <html>
@@ -64,18 +54,12 @@
 			<span class="glyphicon glyphicon-home"></span> Home
 		</button>
 	</form>
-	<%-- <h1><%= e.getName() %></h1>
+	<div id="eventbackground">
+		<h1><%= e.getName() %></h1>
 		<h2>Host: <%= e.getAffiliation() %></h2>
 		<h2>Address: <%= e.getLocation() %></h2>
-		<h2>Time: <%= e.getBegin() %> to <%=e.getEnd()%></h2>
-		<h2>	tags: <%=e.getTags()%> </h2>
-		<h2>	going:  </h2> --%>
-	<div id="eventbackground">
-		<h1>Summer Splash</h1>
-		<h2>Host: USC Scope</h2>
-		<h2>Address: 3201 S. Hoover St. Los Angeles, CA 90089</h2>
-		<h2>Time: 2pm to 8pm</h2>
-		<h2>Tags: #summer #pay #fun</h2>
+		<h2>Time: <%= e.getBegin() %> to <%= e.getEnd() %></h2>
+		<h2>Tags: <%= e.getTags() %></h2>
 		<h2>Going:</h2>
 	</div>
 	<div id="map"></div>
@@ -138,22 +122,33 @@
 		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyWDKKQJ4mIn-THGNgj7DWVdR2fTz-Weg&callback=initMap">
     </script>
 	<div class="cat">
-		<button type="button" class="btn btn-default btn-lg interestedbutton"
-			onclick="getInterested()">
-			<span class="glyphicon glyphicon-star-empty"></span><span
-				class="cattag"> Interested</span>
-		</button>
-		<button type="button" class="btn btn-default btn-lg attendingbutton"
-			onclick="getAttending()">
-			<span class="glyphicon glyphicon-check"></span><span class="cattag">
+		<form action="EventDescision" class="forms" method="post">
+			<button type="submit"
+			class="btn btn-default btn-lg interestedbutton">
+				<span class="glyphicon glyphicon-star-empty"></span><span class="cattag">
+				Interested</span>
+			</button>
+			<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+			<input type="hidden" name="type" value="interested">
+		</form>
+		<form action="EventDescision" class="forms" method="post">
+			<button type="submit"
+			class="btn btn-default btn-lg attendingbutton">
+				<span class="glyphicon glyphicon-check"></span><span class="cattag">
 				Attending</span>
-		</button>
-		<button type="button"
-			class="btn btn-default btn-lg notattendingbutton"
-			onclick="getNotAttending()">
-			<span class="glyphicon glyphicon-remove"></span><span class="cattag">
+			</button>
+			<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+			<input type="hidden" name="type" value="attending">
+		</form>
+		<form action="EventDescision" class="forms" method="post">
+			<button type="submit"
+			class="btn btn-default btn-lg notattendingbutton">
+				<span class="glyphicon glyphicon-remove"></span><span class="cattag">
 				Not Attending</span>
-		</button>
+			</button>
+			<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+			<input type="hidden" name="type" value="notAttending">
+		</form>
 	</div>
 </body>
 </html>
