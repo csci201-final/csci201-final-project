@@ -131,10 +131,7 @@
 											<table>
 												<tr>
 													<th><%= e.getName() %></th>
-													<th>Host Rating<%for (int j=0;j<5;j++){ %>
-														<span class="glyphicon glyphicon-star"></span>
-														<%} %>
-													</th>
+													<th>Host Rating: 3.20 out of 5</th>
 													<th></th>
 												</tr>
 												<tr>
@@ -223,8 +220,9 @@
 		}
 			
 		console.log("Interested")
-		<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
-		reloadData();
+		<% Vector<Event> e1 = DatabaseQuery.getInterested_User((String)session.getAttribute("username"), DatabaseQuery.getCurrentEvents());
+		session.setAttribute("interestEvents", e1);%>
+		reloadInterested();
 		console.log("Realoded")
 	}
 	function getAttending(){
@@ -234,8 +232,9 @@
 		}
 		
 		console.log("Attending")
-		<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
-		reloadData();
+		<% Vector<Event> e2 = DatabaseQuery.getAttending_User((String)session.getAttribute("username"), DatabaseQuery.getCurrentEvents());
+		session.setAttribute("attendingEvents", e2);%>
+		reloadAttending();
 		console.log("Reloaded")
 	}
 	function getNotAttending(){
@@ -245,19 +244,93 @@
 		}
 		
 		console.log("Not Attending")
-		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
-		reloadData();
+		<% Vector<Event> e3 = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"), DatabaseQuery.getCurrentEvents());
+		session.setAttribute("notAttendingEvents", e3);%>
+		reloadNotAttending();
 		console.log("Reloaded")
 	}
-	function reloadData(){
+	function reloadInterested(){
 		var table = document.getElementById("event-table")
-		table.innerHTML = " "
-		<% if(curEvents.size() == 0) {%>
+		table.innerHTML = ""
+		<% if(((Vector<Event>) session.getAttribute("interestEvents")).size() == 0) {%>
 		table.innerHTML += '<div class="noEvents"> \n No events to display \n </div> \n'
 		<%}
 		else{%>
 			table.innerHTML += 	'<tr>\n	<th> \n <div class="solo-table">'
-			<% for(Event e: curEvents){%>
+			<% for(Event e: (Vector<Event>) session.getAttribute("interestEvents")){%>
+				table.innerHTML += '<span class="breaker"></span>'
+				table.innerHTML += '<table>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getName() %></th>'
+				table.innerHTML += '<th>Host Rating'
+				table.innerHTML += '</th>\n<th>\n</th>\n</tr>\n<tr>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getAffiliation() %></th>'
+				table.innerHTML += '<th>Attending: <%= e.getNumAttending() %></th>'
+				table.innerHTML += '</tr>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getLocation() %></th>'
+				table.innerHTML += '<th>Interested: <%= e.getNumInterested() %></th>'
+				table.innerHTML += '<th>'
+				table.innerHTML += '<button type="button" class="btn btn-default btn-lg expand">'
+				table.innerHTML += '<span class="glyphicon glyphicon-expand"></span>'
+				table.innerHTML += '</button>\n</th>\n</tr>\n<tr>'
+				table.innerHTML += '<th><%= e.getDate() %></th>'
+				table.innerHTML += '<th>Not Attending: <%= e.getNumNotAttending() %></th>'
+				table.innerHTML += '</tr>\n<tr>'
+				table.innerHTML += '<th><%= e.getBegin() %> to <%= e.getEnd() %></th>'
+				table.innerHTML += '<th>Tags:  <%= e.getTags() %></th>'
+				table.innerHTML += '</tr>'
+			<%} %>
+			table.innerHTML += '</table>'
+		<%}%>
+	}
+	function reloadAttending(){
+		var table = document.getElementById("event-table")
+		table.innerHTML = " "
+		<% if(((Vector<Event>) session.getAttribute("attendingEvents")).size() == 0) {%>
+		table.innerHTML += '<div class="noEvents"> \n No events to display \n </div> \n'
+		<%}
+		else{%>
+			table.innerHTML += 	'<tr>\n	<th> \n <div class="solo-table">'
+			<% for(Event e: (Vector<Event>) session.getAttribute("attendingEvents")){%>
+				table.innerHTML += '<span class="breaker"></span>'
+				table.innerHTML += '<table>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getName() %></th>'
+				table.innerHTML += '<th>Host Rating'
+				table.innerHTML += '</th>\n<th>\n</th>\n</tr>\n<tr>'
+				table.innerHTML += '<th><%= e.getAffiliation() %></th>'
+				table.innerHTML += '<th>Attending: <%= e.getNumAttending() %></th>'
+				table.innerHTML += '</tr>'
+				table.innerHTML += '<tr>'
+				table.innerHTML += '<th><%= e.getLocation() %></th>'
+				table.innerHTML += '<th>Interested: <%= e.getNumInterested() %></th>'
+				table.innerHTML += '<th>'
+				table.innerHTML += '<form action="GoEvent" method="post">\n'
+				table.innerHTML += '<button type="submit" class="btn btn-default btn-lg expand">'
+				table.innerHTML += '<span class="glyphicon glyphicon-expand"></span>'
+				table.innerHTML += '</button>\n'
+				table.innerHTML += '<input type="hidden" name="eventID" value="<%= e.getEventID() %>">\n</form></th></tr><tr>'
+				table.innerHTML += '<th><%= e.getDate() %></th>'
+				table.innerHTML += '<th>Not Attending: <%= e.getNumNotAttending() %></th>'
+				table.innerHTML += '</tr>\n<tr>'
+				table.innerHTML += '<th><%= e.getBegin() %> to <%= e.getEnd() %></th>'
+				table.innerHTML += '<th>Tags:  <%= e.getTags() %></th>'
+				table.innerHTML += '</tr>'
+			<%} %>
+			table.innerHTML += '</table></div></th></tr>'
+		<%}%>
+	}
+	function reloadNotAttending(){
+		var table = document.getElementById("event-table")
+		table.innerHTML = " "
+		<% if(((Vector<Event>) session.getAttribute("notAttendingEvents")).size() == 0) {%>
+		table.innerHTML += '<div class="noEvents"> \n No events to display \n </div> \n'
+		<%}
+		else{%>
+			table.innerHTML += 	'<tr>\n	<th> \n <div class="solo-table">'
+			<% for(Event e: (Vector<Event>) session.getAttribute("notAttendingEvents")){%>
 				table.innerHTML += '<span class="breaker"></span>'
 				table.innerHTML += '<table>'
 				table.innerHTML += '<tr>'

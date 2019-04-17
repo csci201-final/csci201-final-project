@@ -50,10 +50,7 @@ public class DatabaseManager {
 							"password VARCHAR(45) NOT NULL, " +
 							"email VARCHAR(45) NOT NULL, " +
 							"bio VARCHAR(5000) NOT NULL, " +
-							"picPath VARCHAR(200) NOT NULL, " +
-							"hostRating DOUBLE(3,2), " +
-							"pastEvents VARCHAR(1000), " +
-							"interestedEvents VARCHAR(1000));";
+							"picPath VARCHAR(200) NOT NULL)";
 		
 		String eventTable = "CREATE TABLE Event(" +
 							"eventID INT(11) PRIMARY KEY AUTO_INCREMENT, " +
