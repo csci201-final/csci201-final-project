@@ -21,8 +21,11 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="styles/NewEvent.css">
     <script>
+		var pushSocket = new WebSocket("ws://10.26.147.154/CSCI201-Final-PartyPeople/push/")
+		
 	    function new_event() {
 			var event_name = document.getElementById("name").value;
+			console.log("ASDFASDF");
 			pushSocket.send("A new event, " + event_name + ", has been created!"); 
 		}
     </script>

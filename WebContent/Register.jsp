@@ -175,7 +175,7 @@
 								
 							</div>
 							<div class="form-group ">
-								<button type="submit" onclick="return validateInput()" class="btn btn-primary btn-lg btn-block login-button">Register</button>
+								<button type="submit" onclick="validateInput()" class="btn btn-primary btn-lg btn-block login-button">Register</button>
 							</div>
 						</form>
 					</div>
