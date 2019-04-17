@@ -58,17 +58,36 @@
 		<h1><%= e.getName() %></h1>
 		<h2>Host: <%= e.getAffiliation() %></h2>
 		<h2>Address: <%= e.getLocation() %></h2>
-		<h2>Time: <%= e.getBegin() %> to <%= e.getEnd() %></h2>
+		<h2>Time: <%= e.getBegin() %> PM to <%= e.getEnd() %> PM</h2>
 		<h2>Tags: <%= e.getTags() %></h2>
 		<h2>Going:</h2>
 	</div>
 	<div id="map"></div>
 	<script>
+		<%-- var address = "<%=e.getLocation()%>";
+		var loc = address.split(" ");
+		var searchup=loc[0];
+		console.log(loc);
+		for(var z=1;z<loc.length;z++){
+			searchup+="+"+loc[z];
+		} --%>
+		<%
+		String arr[] = (e.getLocation()).split(" ");
+		
+		
+		String adder =arr[0];
+		for(int a=1;a<arr.length;a++){
+			adder+="+"+arr[a];
+		}
+		System.out.println(adder);
+		%>
+	</script>
+	<script>
       var geocoder;
       var map;
-     var event=['<%= e.getLocation() %>','<%= e.getName() %><br>\
+     var event=['<%= e.getLocation()%>','<%= e.getName() %><br>\
 	    	<%= e.getLocation() %><br>\
-	    	<a href="https://www.google.com/maps/dir/University+of+Southern+California,+Los+Angeles,+CA+90007/3201+S+Hoover+St,+Los+Angeles,+CA+90007">More Details</a>']
+	    	<a href="https://www.google.com/maps/dir/?api=1&origin=University+of+Southern+California&destination=<%=adder%>">Get Directions</a>']
       var i;
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {

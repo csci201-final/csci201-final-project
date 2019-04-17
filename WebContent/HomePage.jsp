@@ -12,16 +12,6 @@
 
 
 <head>
-	<script> 
-		var pushSocket = new WebSocket("ws://10.26.147.154/CSCI201-Final-PartyPeople/push/")
-		
-		pushSocket.onmessage = function (event) {
-			alert(event.data); 
-		
-		  console.log(event.data);
-		  //do ui update here
-		};
-	</script>
  	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	
@@ -125,6 +115,7 @@
     	{
           title: '<%=e.getName()%>',
          start:'<%=e.getDate()%> <%=e.getBegin()%> PM',
+         url: 'GoEvent?eventID=<%=e.getEventID()%>'
         },
         <%}}%>
       ]
@@ -178,7 +169,7 @@
 		     	var adder =  '<strong><%=e.getName()%></strong><br>\
         	    	<%=e.getAffiliation()%><br>\
         	    	<%=e.getLocation()%><br>\
-        	    	<a href="https://goo.gl/maps/jKNEDz4SyyH2">More Details</a>';
+        	    	<a href="GoEvent?eventID=<%=e.getEventID()%>">More Details</a>';
 				var event1 = ["<%=e.getLocation()%>",adder];
 		    		
 		  
@@ -351,7 +342,7 @@
 													<th>Not Attending: <%= e.getNumNotAttending() %></th>
 												</tr>
 												<tr>
-													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+													<th><%= e.getBegin() %> PM to <%= e.getEnd() %> PM</th>
 													<th>Tags:  <%= e.getTags() %></th>
 
 												</tr>
