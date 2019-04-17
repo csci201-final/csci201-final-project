@@ -30,7 +30,15 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	
 	<meta charset="UTF-8">
-	
+	<!-- Calendar API scripts -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="js/script.js"></script>
+	<link href='fullcalendar-3.10.0/fullcalendar.min.css' rel='stylesheet' />
+	<link href='fullcalendar-3.10.0/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+	<script src='fullcalendar-3.10.0/lib/jquery.min.js'></script>
+	<script src='fullcalendar-3.10.0/lib/moment.min.js'></script>
+	<script src='fullcalendar-3.10.0/fullcalendar.min.js'></script>
+	<!-- End of Calendar Tags -->
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
 	<script>
@@ -66,9 +74,154 @@
 		    $("#all").show();
 		});
 	});
+	function seeCalendar(){
+		$("#calcover").toggle();
+	}
+	function seeMap(){
+		$("#map").toggle();
+	}
+	$(document).ready(function() {
+	    $("#calcover").hide();
+	    $("#map").hide();
+	    
+	});
+	$( document ).on( 'keydown', function ( e ) {
+	    if ( e.keyCode === 27 ) { // ESC
+	        $( "#calcover" ).hide();
+	    	$("#map").hide();
+	    }
+	});
 	</script>
+	<!-- Full Calendar API Insertion -->
+	<script>
+	<%Vector<Event> curEvents = DatabaseQuery.getCurrentEvents();%>
+  $(document).ready(function() {
+
+    $('#calendar').fullCalendar({
+      header: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'month,basicWeek,basicDay'
+      },
+      contentHeight: 600,
+      defaultDate: '2019-04-18',
+      navLinks: true, // can click day/week names to navigate views
+      editable: true,
+      eventLimit: true, // allow "more" link when too many events
+      events: [
+    	<%if (curEvents.size() > 0) {
+  			for(Event e : curEvents){ 
+  			%>
+    	{
+          title: '<%=e.getName()%>',
+         start:'<%=e.getDate()%> <%=e.getBegin()%> PM',
+        },
+        <%}}%>
+      ]
+    });
+
+  });
+
+</script>
+	<style>
+#map {
+	display:none;
+	position: fixed	!important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index:99;
+    background-color:gray;
+}
+  #calcover {
+    margin: 40px 10px;
+    padding: 0;
+    font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+    font-size: 14px;
+  }
+
+ #calendar {
+    position:fixed;
+    left:0;
+    top:0;
+    max-width: 1500px;
+    min-height:100%;
+    margin: 0 auto;
+    background-color:white;
+    z-index:100;
+  }
+</style>
 </head>
 <body>
+<div id="map"></div>
+ <div id="calcover">
+  <div id='calendar'></div>
+ </div>
+    <script>
+      var geocoder;
+      var map;
+      var locations=[];
+      <%if (curEvents.size() > 0) {
+			for(Event e : curEvents){ 
+			%>
+		     	var adder =  '<strong><%=e.getName()%></strong><br>\
+        	    	<%=e.getAffiliation()%><br>\
+        	    	<%=e.getLocation()%><br>\
+        	    	<a href="https://goo.gl/maps/jKNEDz4SyyH2">More Details</a>';
+				var event1 = ["<%=e.getLocation()%>",adder];
+		    		
+		  
+      
+				locations.push(event1);
+     <%}
+			}%>
+      var i;
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 15,
+          center: {lat: 34.0224, lng: -118.2851}
+        });
+        geocoder = new google.maps.Geocoder();
+        for( i=0;i<locations.length;i++){
+            codeAddress(geocoder, map,i);
+
+        }
+      
+      }
+
+      function codeAddress(geocoder, map,i) {
+        geocoder.geocode({'address': locations[i][0]}, function(results, status) {
+          if (status === 'OK') {
+            map.setCenter(results[0].geometry.location);
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+            addInfoWindow(i,marker);
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+      }
+      function addInfoWindow(i,marker){
+    	  var infowindow = new google.maps.InfoWindow({})
+    	  google.maps.event.addListener(
+        	      marker,
+        	      'click',
+        	      (function(marker, i) {
+        	        return function() {
+        	          infowindow.setContent(locations[i][1])
+        	          infowindow.open(map, marker)
+        	        }
+        	      })(marker, i)
+        	    )
+      }
+      
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAyWDKKQJ4mIn-THGNgj7DWVdR2fTz-Weg&callback=initMap">
+    </script>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-md-6">
@@ -136,14 +289,14 @@
 
 					<div class="col-md-3">
 						<p>
-							<button type="button" class="btn btn-default btn-lg calendarview">
+							<button type="button" class="btn btn-default btn-lg calendarview"onclick="seeCalendar()">
 								<span class="glyphicon glyphicon-calendar"></span>
 							</button>
 						</p>
 					</div>
 					<div class="col-md-3">
 						<p>
-							<button type="button" class="btn btn-default btn-lg mapview">
+							<button type="button" class="btn btn-default btn-lg mapview"onclick="seeMap()">
 								<span class="glyphicon glyphicon-map-marker"></span>
 							</button>
 						</p>
@@ -153,7 +306,7 @@
 					<div class="container">
 						<div class="events-all" id="all">
 							<table id="event-table">
-							<% Vector<Event> curEvents = DatabaseQuery.getCurrentEvents();
+							<% 
 							if (curEvents.size() > 0) {%>
 								<tr>
 									<th>
