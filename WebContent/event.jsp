@@ -66,10 +66,17 @@
 		<h2>Host: <%= e.getAffiliation() %></h2>
 		<h2>Address: <%= e.getLocation() %></h2>
 		<h2>Time: <%= e.getBegin() %> PM to <%= e.getEnd() %> PM</h2>
+		<%if (e.getDetails()!=null){ %>
+		<h2>Details: <%=e.getDetails() %></h2>
+		<%} %>
 		<h2>Tags: <%= e.getTags() %></h2>
 		<h2>Interested: <%=e.getNumInterested()%> Attending: <%=e.getNumAttending()%> Not Attending: <%=e.getNumNotAttending() %></h2>
 	</div>
 	<div id="map"></div>
+<<<<<<< HEAD
+=======
+	<script>
+>>>>>>> 8db34552c7c6b25407ac68b373a6166e651fb041
 		<%
 		
 		%>

@@ -276,9 +276,15 @@
 					<form action="SearchServlet" method="POST">
 						<input type="text" class="form-control" id="search"
 							aria-describedby="search"
+<<<<<<< HEAD
 							placeholder="Search Event by Name or Tags" value="">
 						<button type="submit" class="btn btn-default btn-lg searchglass">
 						<span class="glyphicon glyphicon-search"></span></button>
+=======
+							placeholder="Search Event by Name or Tags">
+						<input type="submit" class="btn btn-default btn-lg searchglass" value="">
+						<span class="glyphicon glyphicon-search"></span>
+>>>>>>> 8db34552c7c6b25407ac68b373a6166e651fb041
 					</form>
 				</div>
 				<div class="row1">
@@ -519,7 +525,13 @@
 							<% } %>
 							</table>
 						</div>
+<<<<<<< HEAD
 					<% if((boolean)session.getAttribute("loggedin")) { %>
+=======
+					<%
+				if ((boolean)session.getAttribute("loggedin")) {
+				%>
+>>>>>>> 8db34552c7c6b25407ac68b373a6166e651fb041
 					<div class="sortbycat" id="reset">Filters</div>
 					<div class="cat">
 						<button type="button" id="interestB" class="btn btn-default btn-lg interestedbutton">
@@ -533,6 +545,18 @@
 						</button>
 					</div>
 					<div class="backgroundcat"></div>
+<<<<<<< HEAD
+=======
+					<%} %>
+					<%
+					if ((boolean)session.getAttribute("loggedin")) {
+					%>
+					<div class="notificationbg">
+						<div class="notifications">
+							<div class="notifytitle">Notifications</div>
+						</div>
+					</div>
+>>>>>>> 8db34552c7c6b25407ac68b373a6166e651fb041
 					<% } %>
 				</div>
 			</div>
