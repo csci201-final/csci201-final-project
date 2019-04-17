@@ -250,10 +250,9 @@ public class DatabaseQuery {
 		return notAttending;
 	}
 	
-	public static Vector<Event> getInterested_User(String username){
+	public static Vector<Event> getInterested_User(String username, Vector<Event> allEvents){
 		Vector<Event> events = new Vector<Event>();
 		int user_ID = getUserID(username);
-		Vector<Event> allEvents = getCurrentEvents();
 		for(Event e: allEvents) {
 			Vector<Integer> interested = getInterested(e.getEventID());
 			if(interested.contains(user_ID))
@@ -262,10 +261,9 @@ public class DatabaseQuery {
 		return events;
 	}
 	
-	public static Vector<Event> getAttending_User(String username){
+	public static Vector<Event> getAttending_User(String username, Vector<Event> allEvents){
 		Vector<Event> events = new Vector<Event>();
 		int user_ID = getUserID(username);
-		Vector<Event> allEvents = getCurrentEvents();
 		for(Event e: allEvents) {
 			Vector<Integer> interested = getAttending(e.getEventID());
 			if(interested.contains(user_ID))
@@ -273,10 +271,9 @@ public class DatabaseQuery {
 		}
 		return events;
 	}
-	public static Vector<Event> getNotAttending_User(String username){
+	public static Vector<Event> getNotAttending_User(String username, Vector<Event> allEvents){
 		Vector<Event> events = new Vector<Event>();
 		int user_ID = getUserID(username);
-		Vector<Event> allEvents = getCurrentEvents();
 		for(Event e: allEvents) {
 			Vector<Integer> interested = getNotAttending(e.getEventID());
 			if(interested.contains(user_ID))

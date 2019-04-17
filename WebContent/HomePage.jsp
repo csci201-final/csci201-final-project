@@ -5,11 +5,8 @@
 
 <%
 	DatabaseManager.checkDatabase();
-	if (session.getAttribute("loggedin") == null){
+	if (session.getAttribute("loggedin") == null || session.getAttribute("username") == null){
 		session.setAttribute("loggedin",false);
-	}
-	if (session.getAttribute("username") == null){
-		session.setAttribute("loggedin", false);
 	}
 %>
 
@@ -36,6 +33,40 @@
 	
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
+	<script>
+	$(document).ready(function() {
+		$(document).ready(function() {
+		    $("#attending").hide();
+		    $("#interested").hide();
+		    $("#notattending").hide();
+		    $("#all").show();
+		});
+		$("#interestB").click(function() {
+			$("#all").hide();
+			$("#attending").hide();
+		    $("#notattending").hide();
+			$("#interested").show();
+		});
+		$("#attendingB").click(function() {
+			$("#all").hide();
+		    $("#notattending").hide();
+			$("#interested").hide();
+			$("#attending").show();
+		});
+		$("#notattendingB").click(function() {
+			$("#all").hide();
+		    $("#attending").hide();
+			$("#interested").hide();
+			$("#notattending").show();
+		});
+		$("#reset").click(function() {
+			$("#attending").hide();
+		    $("#interested").hide();
+		    $("#notattending").hide();
+		    $("#all").show();
+		});
+	});
+	</script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -86,12 +117,13 @@
 					<div class="col-md-5">
 						<h1>Upcoming Events</h1>
 					</div>
-					<input type="text" class="form-control" id="search"
+					<form action="SearchServlet" method="POST">
+						<input type="text" class="form-control" id="search"
 							aria-describedby="search"
 							placeholder="Search Event by Name or Tags">
-					<button type="button" class="btn btn-default btn-lg searchglass" onclick="search()">
+						<input type="submit" class="btn btn-default btn-lg searchglass">
 						<span class="glyphicon glyphicon-search"></span>
-					</button>
+					</form>
 				</div>
 				<div class="row1">
 					<div class="col-md-3">
@@ -119,7 +151,7 @@
 				</div>
 				<div class=row2>
 					<div class="container">
-						<div class="events-all">
+						<div class="events-all" id="all">
 							<table id="event-table">
 							<% Vector<Event> curEvents = DatabaseQuery.getCurrentEvents();
 							if (curEvents.size() > 0) {%>
@@ -131,10 +163,7 @@
 											<table>
 												<tr>
 													<th><%= e.getName() %></th>
-													<th>Host Rating<%for (int j=0;j<5;j++){ %>
-														<span class="glyphicon glyphicon-star"></span>
-														<%} %>
-													</th>
+													<th>Host Rating: 3.20 out of 5</th>
 													<th></th>
 												</tr>
 												<tr>
@@ -175,17 +204,174 @@
 							<% } %>
 							</table>
 						</div>
-					</div>
+						<div class="events-all" id="interested">
+							<table id="event-table">
+							<% Vector<Event> interestedEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"), curEvents);
+							if (interestedEvents.size() > 0) {%>
+								<tr>
+									<th>
+										<div class="solo-table">
+										<%for(Event e : interestedEvents){ %>
+											<span class="breaker"></span>
+											<table>
+												<tr>
+													<th><%= e.getName() %></th>
+													<th>Host Rating: 3.20 out of 5</th>
+													<th></th>
+												</tr>
+												<tr>
+													<th><%= e.getAffiliation() %></th>
+													<th>Attending: <%= e.getNumAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getLocation() %></th>
+													<th>Interested: <%= e.getNumInterested() %></th>
+													<th>
+														<form action="GoEvent" method="post">
+															<button type="submit"
+															class="btn btn-default btn-lg expand">
+																<span class="glyphicon glyphicon-expand"></span>
+															</button>
+															<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+														</form>
+													</th>
+												</tr>
+												<tr>
+													<th><%= e.getDate() %></th>
+													<th>Not Attending: <%= e.getNumNotAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+													<th>Tags:  <%= e.getTags() %></th>
 
-					<div class="sortbycat">Filters</div>
+												</tr>
+											</table>
+										<%} %>
+										</div>
+									</th>
+								</tr>
+								<% } else { %>
+							<div class="noEvents">
+								No events to display
+							</div>
+							<% } %>
+							</table>
+						</div>
+						<div class="events-all" id="attending">
+							<table id="event-table">
+							<% Vector<Event> attendingEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"), curEvents);
+							if (attendingEvents.size() > 0) {%>
+								<tr>
+									<th>
+										<div class="solo-table">
+										<%for(Event e : attendingEvents){ %>
+											<span class="breaker"></span>
+											<table>
+												<tr>
+													<th><%= e.getName() %></th>
+													<th>Host Rating: 3.20 out of 5</th>
+													<th></th>
+												</tr>
+												<tr>
+													<th><%= e.getAffiliation() %></th>
+													<th>Attending: <%= e.getNumAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getLocation() %></th>
+													<th>Interested: <%= e.getNumInterested() %></th>
+													<th>
+														<form action="GoEvent" method="post">
+															<button type="submit"
+															class="btn btn-default btn-lg expand">
+																<span class="glyphicon glyphicon-expand"></span>
+															</button>
+															<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+														</form>
+													</th>
+												</tr>
+												<tr>
+													<th><%= e.getDate() %></th>
+													<th>Not Attending: <%= e.getNumNotAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+													<th>Tags:  <%= e.getTags() %></th>
+
+												</tr>
+											</table>
+										<%} %>
+										</div>
+									</th>
+								</tr>
+								<% } else { %>
+							<div class="noEvents">
+								No events to display
+							</div>
+							<% } %>
+							</table>
+						</div>
+						<div class="events-all" id="notattending">
+							<table id="event-table">
+							<% Vector<Event> notAttendingEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"), curEvents);
+							if (notAttendingEvents.size() > 0) {%>
+								<tr>
+									<th>
+										<div class="solo-table">
+										<%for(Event e : notAttendingEvents){ %>
+											<span class="breaker"></span>
+											<table>
+												<tr>
+													<th><%= e.getName() %></th>
+													<th>Host Rating: 3.20 out of 5</th>
+													<th></th>
+												</tr>
+												<tr>
+													<th><%= e.getAffiliation() %></th>
+													<th>Attending: <%= e.getNumAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getLocation() %></th>
+													<th>Interested: <%= e.getNumInterested() %></th>
+													<th>
+														<form action="GoEvent" method="post">
+															<button type="submit"
+															class="btn btn-default btn-lg expand">
+																<span class="glyphicon glyphicon-expand"></span>
+															</button>
+															<input type="hidden" name="eventID" value="<%= e.getEventID() %>">
+														</form>
+													</th>
+												</tr>
+												<tr>
+													<th><%= e.getDate() %></th>
+													<th>Not Attending: <%= e.getNumNotAttending() %></th>
+												</tr>
+												<tr>
+													<th><%= e.getBegin() %> to <%= e.getEnd() %></th>
+													<th>Tags:  <%= e.getTags() %></th>
+
+												</tr>
+											</table>
+										<%} %>
+										</div>
+									</th>
+								</tr>
+								<% } else { %>
+							<div class="noEvents">
+								No events to display
+							</div>
+							<% } %>
+							</table>
+						</div>
+					<div class="sortbycat" id="reset">Filters</div>
 					<div class="cat">
-						<button type="button" class="btn btn-default btn-lg interestedbutton" onclick="getInterested()">
+						<button type="button" id="interestB" class="btn btn-default btn-lg interestedbutton">
 						<span class="glyphicon glyphicon-star-empty"></span><span class="cattag"> Interested</span>
 						</button><br> 
-						<button type="button" class="btn btn-default btn-lg attendingbutton" onclick="getAttending()">
+						<button type="button" id="attendingB" class="btn btn-default btn-lg attendingbutton">
 							<span class="glyphicon glyphicon-check"></span><span class="cattag"> Attending</span>
 						</button> <br> 
-						<button type="button" class="btn btn-default btn-lg notattendingbutton" onclick="getNotAttending()">
+						<button type="button" id="notattendingB" class="btn btn-default btn-lg notattendingbutton">
 							<span class="glyphicon glyphicon-remove"></span><span class="cattag"> Not Attending</span>
 						</button>
 					</div>
@@ -203,91 +389,8 @@
 			</div>
 		</div>
 	</div>
-	<script> 
-	function search(){
-		var search_string = document.getElementById('search').value
-		console.log("Search")
-		var xhttp = new XMLHttpRequest();
-		xhttp.open("GET", "SearchServlet?search="+search_string, true);
-			
-		xhttp.onreadystatechange = function() {
-			reloadData();
-		}
-		xhttp.send();
-		console.log("Reloaded")
-	}
-	function getInterested(){
-		if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
-			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
-			return;
-		}
-			
-		console.log("Interested")
-		<% curEvents = DatabaseQuery.getInterested_User((String)session.getAttribute("username"));%>
-		reloadData();
-		console.log("Realoded")
-	}
-	function getAttending(){
-		if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
-			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
-			return;
-		}
-		
-		console.log("Attending")
-		<% curEvents = DatabaseQuery.getAttending_User((String)session.getAttribute("username"));%>
-		reloadData();
-		console.log("Reloaded")
-	}
-	function getNotAttending(){
-		if(<%=(Boolean)request.getSession().getAttribute("loggedin")==false%>){
-			window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/Login.jsp")
-			return;
-		}
-		
-		console.log("Not Attending")
-		<% curEvents = DatabaseQuery.getNotAttending_User((String)session.getAttribute("username"));%>
-		reloadData();
-		console.log("Reloaded")
-	}
-	function reloadData(){
-		var table = document.getElementById("event-table")
-		table.innerHTML = " "
-		<% if(curEvents.size() == 0) {%>
-		table.innerHTML += '<div class="noEvents"> \n No events to display \n </div> \n'
-		<%}
-		else{%>
-			table.innerHTML += 	'<tr>\n	<th> \n <div class="solo-table">'
-			<% for(Event e: curEvents){%>
-				table.innerHTML += '<span class="breaker"></span>'
-				table.innerHTML += '<table>'
-				table.innerHTML += '<tr>'
-				table.innerHTML += '<th><%= e.getName() %></th>'
-				table.innerHTML += '<th>Host Rating' 
-					<%for(int i=0;i<5;i++){%>
-						table.innerHTML += '<span class="glyphicon glyphicon-star"></span>'
-					<%}%>
-				table.innerHTML += '</th>\n<th>\n</th>\n</tr>\n<tr>'
-				table.innerHTML += '<tr>'
-				table.innerHTML += '<th><%= e.getAffiliation() %></th>'
-				table.innerHTML += '<th>Attending: <%= e.getNumAttending() %></th>'
-				table.innerHTML += '</tr>'
-				table.innerHTML += '<tr>'
-				table.innerHTML += '<th><%= e.getLocation() %></th>'
-				table.innerHTML += '<th>Interested: <%= e.getNumInterested() %></th>'
-				table.innerHTML += '<th>'
-				table.innerHTML += '<button type="button" class="btn btn-default btn-lg expand">'
-				table.innerHTML += '<span class="glyphicon glyphicon-expand"></span>'
-				table.innerHTML += '</button>\n</th>\n</tr>\n<tr>'
-				table.innerHTML += '<th><%= e.getDate() %></th>'
-				table.innerHTML += '<th>Not Attending: <%= e.getNumNotAttending() %></th>'
-				table.innerHTML += '</tr>\n<tr>'
-				table.innerHTML += '<th><%= e.getBegin() %> to <%= e.getEnd() %></th>'
-				table.innerHTML += '<th>Tags:  <%= e.getTags() %></th>'
-				table.innerHTML += '</tr>'
-			<%} %>
-			table.innerHTML += '</table>'
-		<%}%>
-	}
+	</div>
+	<script>
 	</script>
 </body>
 </html>

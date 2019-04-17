@@ -66,15 +66,8 @@
 	<script>
       var geocoder;
       var map;
-      var event1 = {
-    		  address:"3201 S. Hoover St. Los Angeles CA",
-    		  info:
-        	      'Summer Splash<br>\
-        	    	3201 S. Hoover St. Los Angeles CA<br>\
-        	    	<a href="https://goo.gl/maps/jKNEDz4SyyH2">More Details</a>',
-      }
-     var event=['3201 S. Hoover St. Los Angeles CA','Summer Splash<br>\
-	    	3201 S. Hoover St. Los Angeles CA<br>\
+     var event=['<%= e.getLocation() %>','<%= e.getName() %><br>\
+	    	<%= e.getLocation() %><br>\
 	    	<a href="https://www.google.com/maps/dir/University+of+Southern+California,+Los+Angeles,+CA+90007/3201+S+Hoover+St,+Los+Angeles,+CA+90007">More Details</a>']
       var i;
       function initMap() {
