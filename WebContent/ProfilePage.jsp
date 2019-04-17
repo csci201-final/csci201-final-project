@@ -2,7 +2,15 @@
 	pageEncoding="UTF-8" import="DatabasePackage.*, EventPackage.*, java.util.Vector" %>
 <!DOCTYPE html>
 <html>
-
+	<script> 
+		var pushSocket = new WebSocket("ws://10.26.5.186:8080/cs201_final/push/")
+		
+		pushSocket.onmessage = function (event) {
+			alert(event.data); 
+		
+		  console.log(event.data);
+		};
+	</script>
 <%
 	DatabaseManager.checkDatabase();
 	if (session.getAttribute("loggedin") == null){

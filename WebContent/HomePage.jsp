@@ -12,6 +12,16 @@
 
 
 <head>
+	<script> 
+		var pushSocket = new WebSocket("ws://10.26.5.186:8080/cs201_final/push/")
+		
+		pushSocket.onmessage = function (event) {
+			alert(event.data); 
+		
+		  console.log(event.data);
+		  //do ui update here
+		};
+	</script>
  	 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	

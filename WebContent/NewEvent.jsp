@@ -9,7 +9,7 @@
 	if (session.getAttribute("loggedin") == null){
 		session.setAttribute("loggedin",false);
 	}
-	if (!((Boolean)session.getAttribute("loggedin"))) {
+	if (((Boolean)session.getAttribute("loggedin"))) {
 		%> <jsp:forward page="Login.jsp" /> <%
 	} %>
 	<link rel="stylesheet"
@@ -20,6 +20,12 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="styles/NewEvent.css">
+    <script>
+	    function new_event() {
+			var event_name = document.getElementById("name").value;
+			pushSocket.send("A new event, " + event_name + ", has been created!"); 
+		}
+    </script>
 </head>
 <body>
 	<div class="container-fluid">
@@ -99,7 +105,7 @@
 									placeholder="Enter Event Details"></textarea>
 							</div>
 							<div class="form-group ">
-								<button type="submit"
+								<button onclick="new_event()" type="submit"
 									class="btn btn-primary btn-lg btn-block login-button">Create</button>
 							</div>
 						</form>

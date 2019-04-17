@@ -72,10 +72,10 @@ function validateInput(){
 				<h3>Sign in</h3>
 				<label for="email" class="sr-only">Email</label>
 				<input type="email" id="email" class="form-control" placeholder="Email" name="email">
-				<span id="username_error" display="none"> The email is not registered</span> 
+				<span id="username_error" style="display:none"> The email is not registered</span> 
 				<label for="password" class="sr-only">Password</label> 
 				<input type="password" id="password" class="form-control" placeholder="Password" name="password">
-				<span id="passowrd_error" display="none"> The email does not match password</span> 
+				<span id="passowrd_error" style="display:none"> The email does not match password</span> 
 				<div class="checkbox">
 					<label id="remember">
 					<input type="checkbox" name="remember">
