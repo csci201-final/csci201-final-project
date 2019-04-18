@@ -25,6 +25,12 @@ body {
 	color: white;
 	background-color: transparent;
 }
+.ratebutton {
+	position: absolute !important;
+	color: #93a3b5 !important;
+	font-size: 15px !important;
+	left: 13px !important;
+}
 .homebutton,
 .logoutbutton {
     color: white !important; 

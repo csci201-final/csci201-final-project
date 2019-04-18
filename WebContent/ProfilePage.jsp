@@ -104,11 +104,8 @@
 	    $("#events-past").hide();
 	    $("#events-future").hide();
 	});
-	function newEvent() {
-		window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/NewEvent.jsp");
-	}
 	function rate() {
-		window.location.replace("http://localhost:8080/CSCI201-Final-PartyPeople/RateEvent.jsp");
+		window.location.replace("10.26.250.81:8080/CSCI201-Final-PartyPeople/RateEvent.jsp");
 	}
 </script>
 
@@ -157,9 +154,13 @@
 								<li class="mysettings" style="list-style-type: none;"><span
 									class="glyphicon glyphicon-user" style="outline: none;"></span>
 									Account Settings</li>
-								<li class="mysettings" style="list-style-type: none;" onclick="rate()"><span
-								class="glyphicon glyphicon-check" style="outline: none;"></span>
-								Rate a Past Event</li>
+								<li class="mysettings" style="list-style-type: none;"">
+									<form action="RateEvent.jsp">
+										<button type="submit" class="btn btn-default btn-lg ratebutton">
+										<span class="glyphicon glyphicon-check" style="outline: none;"></span>
+									Rate a Past Event</button></form></li>
+									
+								
 							</ul>
 						</div>
 					</div>
@@ -239,16 +240,17 @@
 						<th>Confirm New Email</th>
 						<th><th><input type="email" class="form-control" id="CNemail"
 							aria-describedby="email" placeholder="Confirm New Email"></th></th>
-
 					</tr>
 				</table>
 			</form>
 		</div>
 		<h1 class="myeventstitle">My Events</h1>
 		<div id="eventdisplay">
-			<button class="myeventstitle" id="plus" style="border: none;" onclick="newEvent()">
-					<span class="glyphicon glyphicon-plus-sign" style="font-size: 30px;"></span>
-			</button>
+			<form action="NewEvent.jsp">
+				<button type="submit" class="myeventstitle" id="plus" style="border: none;">
+						<span class="glyphicon glyphicon-plus-sign" style="font-size: 30px;"></span>
+				</button>
+			</form>
 			<div class="menbar">
 				<ul>
 					<li><span id="seeAll">All</span></li>
