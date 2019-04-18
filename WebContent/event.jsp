@@ -73,13 +73,6 @@
 		<h2>Interested: <%=e.getNumInterested()%> Attending: <%=e.getNumAttending()%> Not Attending: <%=e.getNumNotAttending() %></h2>
 	</div>
 	<div id="map"></div>
-<<<<<<< HEAD
-=======
-	<script>
->>>>>>> 8db34552c7c6b25407ac68b373a6166e651fb041
-		<%
-		
-		%>
 	<script>
       var geocoder;
       var map;
