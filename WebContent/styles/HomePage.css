@@ -3,7 +3,6 @@
 body {
 	background-color: rgb(37, 62, 102) !important;
 	font-family: 'Poppins', sans-serif;
-	background-image: url("BlackVignette.png");
 }
 
 .col-md-6 {
@@ -35,7 +34,6 @@ h1 {
 	font-family: BebasNeue;
 	font-size: 44pt;
 }
-
 
 .userbutton,
 .logoutbutton,
@@ -173,12 +171,30 @@ h1 {
 	left:3.5%;
 	z-index:-1;
 }
+.notificationbg {
+	position:absolute;
+	top:37%;
+	background-color:gray;
+	width:250px;
+	height:382px;
+	border-radius:10px;
+	left:80%;
+	z-index:-1;
+}
 .noEvents {
 	font-family: 'Lato-100';
 	font-size: 26pt;
 	top: 10px;
 	margin-left: 31.5%;
 	color: white;
+}
+.notifytitle {
+	position: absolute;
+	color: white;
+	font-size:22pt;
+	font-family: 'BebasNeue';
+	left: 23%;
+	top: 3%;
 }
 .form-control{
 	position:absolute	!important;
@@ -189,16 +205,33 @@ h1 {
 }
 .searchglass{
 	position:absolute	!important;
+	width:8%;
 	top:47%	!important;
-	left:124%	!important;
+	left: 317%	!important;
 	height: 35px !important;
+	background-color:transparent;
 }
-
+.col-md-5{
+	margin-left:-41%;
+}
+.glyphicon-search{
+	position:absolute	!important;
+	top:47%	!important;
+	left: 318%	!important;
+	height: 35px !important;
+	background-color:transparent;
+	margin-top:2%;
+	font-size:1.25rem;
+}
+.searchglass:hover{
+	background-color:transparent;
+	border:none;
+}
 #search {
 	width: 225px;
 	height: 40px;
 	margin-top: 30px;
-	margin-left: 35px;
+	margin-left: 900px;
 }
 .glyphicon-remove,.glyphicon-check,.glyphicon-star-empty{
 	color:white	!important;

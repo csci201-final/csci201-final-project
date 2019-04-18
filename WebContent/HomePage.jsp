@@ -19,8 +19,6 @@
 	
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	
-	<link rel="icon" href="images/favicon.png">
-	
 	<meta charset="UTF-8">
 	
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -215,9 +213,9 @@
         	      (function(marker, i) {
         	        return function() {
         	          infowindow.setContent(locations[i][1])
-        	          infowindow.open(map, marker) };
+        	          infowindow.open(map, marker)
         	        }
-        	      )(marker, i)
+        	      })(marker, i)
         	    )
       }
       
@@ -275,9 +273,8 @@
 					</div>
 					<form action="SearchServlet" method="POST">
 						<input type="text" class="form-control" id="search"
-							aria-describedby="search" placeholder="Search Event by Name or Tags" value="">
-						<button type="submit" class="btn btn-default btn-lg searchglass">
-						<span class="glyphicon glyphicon-search"></span></button>
+							aria-describedby="search"
+							placeholder="Search Event by Name or Tags">
 						<input type="submit" class="btn btn-default btn-lg searchglass" value="">
 						<span class="glyphicon glyphicon-search"></span>
 					</form>
@@ -520,7 +517,7 @@
 							<% } %>
 							</table>
 						</div>
-						<%
+					<%
 				if ((boolean)session.getAttribute("loggedin")) {
 				%>
 					<div class="sortbycat" id="reset">Filters</div>
@@ -537,6 +534,15 @@
 					</div>
 					<div class="backgroundcat"></div>
 					<%} %>
+					<%
+					if ((boolean)session.getAttribute("loggedin")) {
+					%>
+					<div class="notificationbg">
+						<div class="notifications">
+							<div class="notifytitle">Notifications</div>
+						</div>
+					</div>
+					<% } %>
 				</div>
 			</div>
 		</div>
