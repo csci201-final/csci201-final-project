@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<script> 
-		var pushSocket = new WebSocket("ws://10.26.147.154/CSCI201-Final-PartyPeople/push/")
+		var pushSocket = new WebSocket("ws://10.26.250.81/CSCI201-Final-PartyPeople/push/")
 		
 		pushSocket.onmessage = function (event) {
 			alert(event.data); 

@@ -41,6 +41,15 @@
 	<!-- End of Calendar Tags -->
 	<title>Home</title>
 	<link rel="stylesheet" type="text/css" href="styles/HomePage.css">
+	<script> 
+		var pushSocket = new WebSocket("ws://10.26.250.81/CSCI201-Final-PartyPeople/push/")
+		
+		pushSocket.onmessage = function (event) {
+			alert(event.data); 
+		
+		  console.log(event.data);
+		};
+	</script>
 	<script>
 	$(document).ready(function() {
 		$(document).ready(function() {

@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="styles/NewEvent.css">
     <link rel="icon" href="images/favicon.png">
     <script>
-		var pushSocket = new WebSocket("ws://10.26.147.154/CSCI201-Final-PartyPeople/push/")
+		var pushSocket = new WebSocket("ws://10.26.250.81/CSCI201-Final-PartyPeople/push/")
 		
 	    function new_event() {
 			var event_name = document.getElementById("name").value;
